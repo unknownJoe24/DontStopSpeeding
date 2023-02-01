@@ -275,7 +275,9 @@ namespace VehicleBehaviour {
                 // Boost
                 boosting = (GetInput(boostInput) > 0.5f);
                 // Turn
+                
                 steering = turnInputCurve.Evaluate(GetInput(turnInput)) * steerAngle;
+                
                 // Dirft
                 drift = GetInput(driftInput) > 0 && rb.velocity.sqrMagnitude > 100;
                 // Jump
