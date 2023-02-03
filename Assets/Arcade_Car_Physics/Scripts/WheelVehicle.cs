@@ -95,7 +95,7 @@ namespace VehicleBehaviour {
         }
 
         // The value used in the steering Lerp, 1 is instant (Strong power steering), and 0 is not turning at all
-        [Range(0.001f, 1.0f)]
+        [Range(0.001f, 5.0f)]
         [SerializeField] float steerSpeed = 0.2f;
         public float SteerSpeed { get => steerSpeed;
             set => steerSpeed = Mathf.Clamp(value, 0.001f, 1.0f);
@@ -244,6 +244,10 @@ namespace VehicleBehaviour {
             }
         }
 
+        [Header("Speed Settings")]
+        [SerializeField] internal float[] maxSpeeds = new float[] { 50.0f, 60.0f, 70.0f };
+        int currentSpeedIndex = 0;
+
         // Visual feedbacks and boost regen
         void Update()
         {
@@ -258,8 +262,37 @@ namespace VehicleBehaviour {
                 boost += Time.deltaTime * boostRegen;
                 if (boost > maxBoost) { boost = maxBoost; }
             }
+            float desiredSpeed = maxSpeeds[currentSpeedIndex];
+
+            float speed = rb.velocity.magnitude * 3.6f;
+
+            // Check if speed is above desired speed, then apply brakes
+            if (speed > desiredSpeed)
+            {
+                float brakeTorque = brakeForce * (speed - desiredSpeed);
+                rb.AddForce(-rb.velocity.normalized * brakeTorque * Time.deltaTime, ForceMode.Force);
+            }
+            else
+            {
+                // Check if speed is below desired speed, then apply throttle
+                float throttle = motorTorque.Evaluate(speed) / driveWheel.Length * (desiredSpeed - speed) / 3.6f;
+                rb.AddForce(rb.transform.forward * throttle * Time.deltaTime, ForceMode.Force);
+            }
+
+            // Check if gear needs to be changed
+            if (speed >= maxSpeeds[currentSpeedIndex])
+            {
+                if (currentSpeedIndex < maxSpeeds.Length - 1)
+                {
+                    currentSpeedIndex++;
+                }
+            }
+            else if (speed <= maxSpeeds[currentSpeedIndex] - 5.0f && currentSpeedIndex > 0)
+            {
+                currentSpeedIndex--;
+            }
         }
-        
+
         // Update everything
         void FixedUpdate () {
             // Mesure current speed
