@@ -1506,6 +1506,22 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: motorTorque.m_Curve.Array.data[0].time
+      value: 1.3219389
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: motorTorque.m_Curve.Array.data[1].time
+      value: 99.45493
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: motorTorque.m_Curve.Array.data[0].value
+      value: 1001.02466
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: motorTorque.m_Curve.Array.data[1].value
+      value: 815.5262
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: turnInputCurve.m_Curve.Array.data[0].time
       value: -1
       objectReference: {fileID: 0}
