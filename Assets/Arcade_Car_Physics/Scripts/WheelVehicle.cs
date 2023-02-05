@@ -7,19 +7,12 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-#if MULTIOSCONTROLS
-    using MOSC;
-#endif
-
 [assembly: InternalsVisibleTo("VehicleBehaviour.Dots")]
 namespace VehicleBehaviour {
     [RequireComponent(typeof(Rigidbody))]
     public class WheelVehicle : MonoBehaviour {
         
         [Header("Inputs")]
-    #if MULTIOSCONTROLS
-        [SerializeField] PlayerNumber playerId;
-    #endif
         // If isPlayer is false inputs are ignored
         [SerializeField] bool isPlayer = true;
         public bool IsPlayer { get => isPlayer;
@@ -215,11 +208,22 @@ namespace VehicleBehaviour {
         Rigidbody rb = default;
         internal WheelCollider[] wheels = new WheelCollider[0];
 
+        [Header("State Checks")]
+        public bool gearChange = false;
+        public bool defuseBomb = false;
+        public bool repairCar = false;
+        public bool gas = false;
+        public bool upgradeOne = false;
+        public bool upgradeTwo = false;
+        public bool upgradeThree = false;
+
+        [Header("Car Settings")]
+        public float speedIncrement = 10f;
+        public float maxSpeed = 50f;
+
         // Init rigidbody, center of mass, wheels and more
         void Start() {
-#if MULTIOSCONTROLS
-            Debug.Log("[ACP] Using MultiOSControls");
-#endif
+
             if (boostClip != null) {
                 boostSource.clip = boostClip;
             }
@@ -247,6 +251,15 @@ namespace VehicleBehaviour {
         // Visual feedbacks and boost regen
         void Update()
         {
+
+            gearChange = Input.GetButtonDown("Change Gear");
+            defuseBomb = Input.GetButtonDown("Defuse Bomb");
+            repairCar = Input.GetButtonDown("Repair Car");
+            gas = Input.GetButtonDown("Fuel Car");
+            upgradeOne = Input.GetButtonDown("Upgrade One");
+            upgradeTwo = Input.GetButtonDown("Upgrade Two");
+            upgradeThree = Input.GetButtonDown("Upgrade Three");
+
             foreach (ParticleSystem gasParticle in gasParticles)
             {
                 gasParticle.Play();
@@ -259,6 +272,50 @@ namespace VehicleBehaviour {
                 if (boost > maxBoost) { boost = maxBoost; }
             }
 
+            if (gearChange)
+            {
+                float gearSetting = Input.GetAxis("Change Gear");
+
+                if (gearSetting > 0)
+                {
+                    GearUp();
+                }
+                else if (gearSetting < 0)
+                {
+                    GearDown();
+                }
+            }
+
+            if (defuseBomb)
+            {
+                Defuse();
+            }
+
+            if (repairCar)
+            {
+                Repair();
+            }
+
+            if (gas)
+            {
+                Gas();
+            }
+
+            if (upgradeOne)
+            {
+                PurchaseUpgradeOne();
+            }
+
+            if (upgradeTwo)
+            {
+                PurchaseUpgradeTwo();
+            }
+
+            if (upgradeThree)
+            {
+                PurchaseUpgradeThree();
+            }
+
         }
 
         // Update everything
@@ -268,6 +325,10 @@ namespace VehicleBehaviour {
 
             // Get all the inputs!
             if (isPlayer) {
+                if (speed < maxSpeed)
+                {
+                    rb.AddForce(transform.forward * 1000);
+                }
                 // Accelerate & brake
                 if (throttleInput != "" && throttleInput != null)
                 {
@@ -275,12 +336,13 @@ namespace VehicleBehaviour {
                 }
                 // Boost
                 boosting = (GetInput(boostInput) > 0.5f);
+
                 // Turn
-                
                 steering = turnInputCurve.Evaluate(GetInput(turnInput)) * steerAngle;
                 
                 // Dirft
                 drift = GetInput(driftInput) > 0 && rb.velocity.sqrMagnitude > 100;
+
                 // Jump
                 jumping = GetInput(jumpInput) != 0;
             }
@@ -391,18 +453,51 @@ namespace VehicleBehaviour {
             handbrake = h;
         }
 
-        // MULTIOSCONTROLS is another package I'm working on ignore it I don't know if it will get a release.
-#if MULTIOSCONTROLS
-        private static MultiOSControls _controls;
-#endif
-
         // Use this method if you want to use your own input manager
         private float GetInput(string input) {
-#if MULTIOSCONTROLS
-        return MultiOSControls.GetValue(input, playerId);
-#else
-        return Input.GetAxis(input);
-#endif
+
+            return Input.GetAxis(input);
+
         }
+
+        void GearUp()
+        {
+            maxSpeed += 20;
+        }
+
+        void GearDown()
+        {
+            maxSpeed -= 20;
+        }
+
+        void Defuse()
+        {
+            Debug.Log("Defused Bomb");
+        }
+
+        void Repair()
+        {
+            Debug.Log("Repaired Car");
+        }
+
+        void Gas()
+        {
+            Debug.Log("Purchased Gas");
+        }
+
+        void PurchaseUpgradeOne()
+        {
+            Debug.Log("Purchased Upgrade One");
+        }
+        void PurchaseUpgradeTwo()
+        {
+            Debug.Log("Purchased Upgrade Two");
+        }
+        void PurchaseUpgradeThree()
+        {
+            Debug.Log("Purchased Upgrade Three");
+        }
+
+
     }
 }
