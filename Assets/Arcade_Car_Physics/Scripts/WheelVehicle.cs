@@ -212,7 +212,7 @@ namespace VehicleBehaviour {
         public bool gearChange = false;
         public bool defuseBomb = false;
         public bool repairCar = false;
-        public bool gas = false;
+        
         public bool upgradeOne = false;
         public bool upgradeTwo = false;
         public bool upgradeThree = false;
@@ -255,7 +255,7 @@ namespace VehicleBehaviour {
             gearChange = Input.GetButtonDown("Change Gear");
             defuseBomb = Input.GetButtonDown("Defuse Bomb");
             repairCar = Input.GetButtonDown("Repair Car");
-            gas = Input.GetButtonDown("Fuel Car");
+            
             upgradeOne = Input.GetButtonDown("Upgrade One");
             upgradeTwo = Input.GetButtonDown("Upgrade Two");
             upgradeThree = Input.GetButtonDown("Upgrade Three");
@@ -294,12 +294,7 @@ namespace VehicleBehaviour {
             if (repairCar)
             {
                 Repair();
-            }
-
-            if (gas)
-            {
-                Gas();
-            }
+            }         
 
             if (upgradeOne)
             {
@@ -480,10 +475,6 @@ namespace VehicleBehaviour {
             Debug.Log("Repaired Car");
         }
 
-        void Gas()
-        {
-            Debug.Log("Purchased Gas");
-        }
 
         void PurchaseUpgradeOne()
         {
