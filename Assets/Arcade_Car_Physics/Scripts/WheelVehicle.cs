@@ -231,6 +231,7 @@ namespace VehicleBehaviour {
 		    boost = maxBoost;
 
             rb = GetComponent<Rigidbody>();
+            
             spawnPosition = transform.position;
             spawnRotation = transform.rotation;
 

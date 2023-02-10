@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using VehicleBehaviour;
 
 public class GasSystem : MonoBehaviour
 {
@@ -11,6 +12,12 @@ public class GasSystem : MonoBehaviour
     public bool inputDisabled = false;
     public Slider slider;
     public Image fillBar;
+    public VehicleBehaviour.WheelVehicle wheelVehicleObject;
+
+    public void Start()
+    {
+        wheelVehicleObject = GetComponent<WheelVehicle>();
+    }
     private void Update()
     {
         if (inputDisabled)
@@ -30,6 +37,7 @@ public class GasSystem : MonoBehaviour
                 SetGasValue(gasLevel);
                 inputDisabled = true;
                 Debug.Log("You lose");
+                wheelVehicleObject.Handbrake = true;
             }
         }
 

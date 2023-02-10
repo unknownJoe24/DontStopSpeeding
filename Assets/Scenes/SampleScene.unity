@@ -1377,6 +1377,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: gasSystem
+      value: 
+      objectReference: {fileID: 166750573}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: brakeForce
       value: 2000
       objectReference: {fileID: 0}
