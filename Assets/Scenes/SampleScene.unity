@@ -1490,7 +1490,11 @@ PrefabInstance:
       objectReference: {fileID: 1473458621}
     - target: {fileID: 630484822351609293, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: gasLevel
-      value: 20
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 630484822351609293, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: maxGasLevel
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 630484822351609293, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: decreaseRate

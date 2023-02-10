@@ -6,7 +6,7 @@ public class GasSystem : MonoBehaviour
 {
     public float gasLevel = 15.0f;
     public float decreaseRate = 20.0f; // 1 gallon per 20 seconds
-    public float maxGasLevel = 20.0f;
+    public float maxGasLevel = 15.0f;
     public float purchaseAmount = 5.0f;
     private float lastGasUpdateTime = 0.0f;
     public bool inputDisabled = false;
@@ -17,13 +17,16 @@ public class GasSystem : MonoBehaviour
     public void Start()
     {
         wheelVehicleObject = GetComponent<WheelVehicle>();
+        slider.maxValue = maxGasLevel;
     }
     private void Update()
     {
         if (inputDisabled)
         {
+            wheelVehicleObject.Handbrake = inputDisabled;
             return;
         }
+
 
         if (Time.time - lastGasUpdateTime >= decreaseRate)
         {
@@ -35,9 +38,8 @@ public class GasSystem : MonoBehaviour
             {
                 gasLevel = 0.0f;
                 SetGasValue(gasLevel);
-                inputDisabled = true;
+                inputDisabled = true;               
                 Debug.Log("You lose");
-                wheelVehicleObject.Handbrake = true;
             }
         }
 
@@ -60,10 +62,10 @@ public class GasSystem : MonoBehaviour
     {
         switch (value)
         {
-            case (> 5) when value <= 10:
+            case (> 3.75f) when value <= 7.5:
                 fillBar.color = new Color(255, 255, 0, 100);
                 break;
-            case (<= 5):
+            case (<= 3.75f):
                 fillBar.color = new Color(255, 0, 0, 100);
                 break;
             default:
