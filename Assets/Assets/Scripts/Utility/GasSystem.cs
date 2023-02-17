@@ -8,6 +8,8 @@ public class GasSystem : MonoBehaviour
     public float decreaseRate = 20.0f; // 1 gallon per 20 seconds
     public float maxGasLevel = 15.0f;
     public float purchaseAmount = 5.0f;
+    public float purchasePrice = 50.0f;
+    public GameObject currScoreHandler; //use private scoreSystem?
     private float lastGasUpdateTime = 0.0f;
     public bool inputDisabled = false;
     public Slider slider;
@@ -45,10 +47,13 @@ public class GasSystem : MonoBehaviour
 
         if (Input.GetButtonDown("Fuel Car"))
         {
-            gasLevel += purchaseAmount;
-            gasLevel = Mathf.Clamp(gasLevel, 0.0f, maxGasLevel);
-            SetGasValue(gasLevel);
-            Debug.Log("Purchased gas. Gas level: " + gasLevel);
+            if (currScoreHandler.GetComponent<ScoreSystem>().spendMoney(purchasePrice))
+            {
+                gasLevel += purchaseAmount;
+                gasLevel = Mathf.Clamp(gasLevel, 0.0f, maxGasLevel);
+                SetGasValue(gasLevel);
+                Debug.Log("Purchased gas. Gas level: " + gasLevel);
+            }
         }
     }
 
