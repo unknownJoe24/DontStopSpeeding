@@ -29,3 +29,4 @@ static public class PlayerPrefsHandler
 // Global References:
 // Various videos and websites
 // Other course materials such as CS3 slides
+// https://stackoverflow.com/questions/31254387/how-do-i-use-an-array-in-a-switch-statement-in-c

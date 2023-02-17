@@ -10,6 +10,7 @@ public class ScoreSystem : MonoBehaviour
     ulong score;                                       // How much score does the player currently have
     float moneySpent;                                  // How much money has the player spent
     float money;                                       // How much money does the player currently have (based off of moneySpent and score)
+    enum ranks {POOP, BRONZE, SILVER, GOLD};           // Enum of the ranks so the code is more organized
     string rank;                                       // How well is the player doing
 
     bool saved;                                        // Bool to tell if the player's score has been saved
@@ -93,34 +94,28 @@ public class ScoreSystem : MonoBehaviour
     }
 
     // Returns a speed multiplier determined by an average speed
-    int getSpeedMult(float _aSpeed)
+    float getSpeedMult(float _aSpeed)
     {
-        // prevent the player from getting a speed multiplier before the full 30 seconds -- can be removed
-        if (eTime <= 30f)
-            return 1;
+        if (_aSpeed > 100f && _aSpeed <= 1000f)
+        {
+            return (float)(1 + _aSpeed / 100f);
+        }
+        else if (_aSpeed > 1000f)
+        {
+            return (float)(1 + _aSpeed / 1000f);
+        }
+        
 
-        if (_aSpeed > 60f && _aSpeed <= 80f)
-        {
-            return 2;
-        }
-        else if (_aSpeed > 80f && _aSpeed <= 100f)
-        {
-            return 3;
-        }
-        else if (_aSpeed > 100f)
-        {
-            return 4;
-        }
-
-        // base case - aSpeed <= 60f
-        return 1;
+        // base case - aSpeed < 100f
+        return (float)(1 + _aSpeed / 10f);
     }
 
     // Calculates the score, rank, money (since money and rank are dervied from score), and the related information
     void calcScore()
     {
         // calculates the score, getSpeedMult(aSpeed) is only called if 30 seconds have passed
-        ulong tempScore = (ulong)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * (eTime >= 30f ? getSpeedMult(aSpeed) : 1f));
+        ulong tempScore = (ulong)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
+
         // only increase the score
         score = tempScore > score ? tempScore : score;
 
@@ -131,13 +126,13 @@ public class ScoreSystem : MonoBehaviour
     void calcRank()
     {
         if (score < 1000)
-            rank = "POOP";
+            rank = ranks.POOP.ToString();
         else if (score >= 1000 && score < 10000)
-            rank = "BRONZE";
+            rank = ranks.BRONZE.ToString();
         else if (score >= 10000 && score < 100000)
-            rank = "SILVER";
+            rank = ranks.SILVER.ToString();
         else if (score >= 100000)
-            rank = "GOLD";
+            rank = ranks.GOLD.ToString();
     }
 
 
@@ -149,25 +144,24 @@ public class ScoreSystem : MonoBehaviour
     {
         scoreText.text = "Score\n" + score.ToString();
         moneyText.text = "$" + money.ToString();
-
-        switch(rank)
+        
+        if(rank == ranks.POOP.ToString())
         {
-            case "POOP":
-                rankText.color = new Color(.7f, .35f, 0f);
-                break;
-            case "BRONZE":
-                rankText.color = new Color(.7f, .6f, 0f);
-                break;
-            case "SILVER":
-                rankText.color = Color.gray;
-                break;
-            case "GOLD":
-                rankText.color = Color.yellow;
-                break;
-            default:
-                break;
+            rankText.color = new Color(.7f, .35f, 0f);
         }
-
+        else if(rank == ranks.BRONZE.ToString())
+        {
+            rankText.color = new Color(.7f, .6f, 0f);
+        }
+        else if(rank == ranks.SILVER.ToString())
+        {
+            rankText.color = Color.gray;
+        }
+        else
+        {
+            rankText.color = Color.yellow;
+        }
+        
         rankText.text = "Rank\n" + rank;
     }
 
@@ -189,7 +183,8 @@ public class ScoreSystem : MonoBehaviour
     // Save the player's score and rank
     public void saveScore()
     {
-        PlayerPrefsHandler.saveScore(username, score, rank);
+        if((ulong)PlayerPrefs.GetInt(username + "Score") < score)
+            PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;
 
         // this works, but I think the car itself has issues with staying completely still
@@ -200,3 +195,5 @@ public class ScoreSystem : MonoBehaviour
         Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }
 }
+
+
