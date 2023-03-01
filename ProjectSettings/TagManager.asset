@@ -7,6 +7,7 @@ TagManager:
   - Score
   - Rank
   - Money
+  - Health
   layers:
   - Default
   - TransparentFX
