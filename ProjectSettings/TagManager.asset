@@ -7,6 +7,8 @@ TagManager:
   - Score
   - Rank
   - Money
+  - Spawner
+  - Destroyer
   layers:
   - Default
   - TransparentFX
