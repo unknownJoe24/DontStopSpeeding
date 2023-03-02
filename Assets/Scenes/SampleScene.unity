@@ -1529,7 +1529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 76.19
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2219,7 +2219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   laneWidth: 10
   moveSpeed: 5
-  laneChangeSpeed: 2
+  laneChangeSpeed: 100
+  snapThreshold: 0.01
 --- !u!224 &1956616268
 RectTransform:
   m_ObjectHideFlags: 0
