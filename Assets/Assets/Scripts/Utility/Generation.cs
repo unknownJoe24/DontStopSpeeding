@@ -82,16 +82,18 @@ public class Generation : MonoBehaviour
 
     private void Update()
     {
+        float timeSince = Time.time - startTime;
+
         // difficulty
-        if(Time.time - startTime > 60)
+        if(timeSince > 60 && timeSince <= 120)
         {
             minVal = 50;
             maxVal = 150;
         }
-        else if(Time.time - startTime > 120)
+        else if(timeSince > 120)
         {
             minVal = 0;
-            maxVal = 100;
+            maxVal = 300;
         }
     }
 
