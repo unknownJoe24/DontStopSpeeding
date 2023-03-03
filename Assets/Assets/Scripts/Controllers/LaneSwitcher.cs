@@ -23,9 +23,16 @@ public class LaneSwitcher : MonoBehaviour
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
-    // Use this to read the current car speed (you'll need this to make a speedometer)
-    [SerializeField] float speed = 0.0f;
+
+    [SerializeField] float speed = 0.0f;    // Use this to read the current car speed (you'll need this to make a speedometer)
     public float Speed => speed;
+
+    [SerializeField] bool disableMovement;
+    public bool DisableMovement
+    {
+        get => disableMovement;
+        set => disableMovement = value;
+    }
 
     void Start()
     {
@@ -52,18 +59,6 @@ public class LaneSwitcher : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.A) && currentLane > 0)
         {
             targetLane = currentLane - 1;
-        }
-
-        // Move the player visually to the target lane
-        Vector3 targetPosition = new Vector3(targetLane * laneWidth, transform.position.y, transform.position.z);
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * laneChangeSpeed);
-
-        // Check distance to target lane and snap if within threshold
-        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-        if (distanceToTarget < snapThreshold)
-        {
-            transform.position = targetPosition;
-            currentLane = targetLane;
         }
 
         if (gearChange)
@@ -109,11 +104,30 @@ public class LaneSwitcher : MonoBehaviour
     private void FixedUpdate()
     {
         speed = transform.InverseTransformDirection(rb.velocity).z;
-
-        if (speed < maxSpeed)
+        
+        if (speed < maxSpeed && !disableMovement)
         {
             rb.AddForce(transform.forward * 10000);
+        } 
+
+        if (disableMovement && speed > 0.0f)
+        {
+            rb.drag += 0.05f;
         }
+
+        // Move the player visually to the target lane
+        Vector3 targetPosition = new Vector3(targetLane * laneWidth, transform.position.y, transform.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * laneChangeSpeed);
+
+        // Check distance to target lane and snap if within threshold
+        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+        if (distanceToTarget < snapThreshold)
+        {
+            transform.position = targetPosition;
+            currentLane = targetLane;
+        }
+
+
     }
     void GearUp()
     {
