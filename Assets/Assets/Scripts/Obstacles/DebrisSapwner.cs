@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DebrisSapwner : MonoBehaviour
 {
-    [SerializeField] GameObject[] DebrisPrefab; 
-    [SerializeField] GameObject objectToSpawn;
+    [SerializeField] GameObject[] DebrisPrefab;
     [SerializeField] Transform minPosition;
     [SerializeField] Transform maxPosition;
     private int randIndex;
