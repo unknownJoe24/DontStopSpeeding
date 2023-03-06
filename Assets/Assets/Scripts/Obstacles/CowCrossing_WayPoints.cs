@@ -8,7 +8,7 @@ public class CowCrossing_WayPoints : MonoBehaviour
     [SerializeField] private Transform point1, point2;
 
     //public GameObject group; 
-    private float _speed = 1.0f;
+    //private float _speed = 1.0f;
     private bool _switch = false;
     public float speed = 1.0f; 
 

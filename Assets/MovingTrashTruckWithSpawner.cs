@@ -8,7 +8,7 @@ public class MovingTrashTruckWithSpawner : MonoBehaviour
     private Rigidbody _rigidbody;
     private bool collided; 
     [SerializeField] Transform spawner;
-    [SerializeField] GameObject trashPrefab; 
+    [SerializeField] GameObject[] trashPrefab; 
 
     public float _speed; 
 
@@ -17,18 +17,22 @@ public class MovingTrashTruckWithSpawner : MonoBehaviour
     {
         collided = false;
         _rigidbody = GetComponent<Rigidbody>();
-        InvokeRepeating("SpawnObject", 2.0f, 2.0f);
+        InvokeRepeating("SpawnObject", 0.75f, 2.0f);
         //_speed = 5.0f; 
     }
 
     void SpawnObject()
     {
+        int randIndex = Random.Range(0, trashPrefab.Length);
         if (!collided)
         {
-            for (int i = 0; i < 3; i++)
+
+            for (int i = 0; i < 5; i++)
             {
-                Instantiate(trashPrefab, spawner.position, Random.rotation);
+                Instantiate(trashPrefab[randIndex], spawner.position, Random.rotation);
+                randIndex = Random.Range(0, trashPrefab.Length);
             }
+            
         }
         else
         {

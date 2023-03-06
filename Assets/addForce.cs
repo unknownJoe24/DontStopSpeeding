@@ -5,12 +5,13 @@ using UnityEngine;
 public class addForce : MonoBehaviour
 {
 
-    public float force;
+    private float force;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        force = 5;
         GetComponent<Rigidbody>().AddForce(transform.forward * force, ForceMode.Impulse);
     }
 
