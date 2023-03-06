@@ -7,6 +7,7 @@ TagManager:
   - Score
   - Rank
   - Money
+  - ExplosionObjects
   layers:
   - Default
   - TransparentFX

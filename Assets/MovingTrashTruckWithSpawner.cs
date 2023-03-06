@@ -4,15 +4,54 @@ using UnityEngine;
 
 public class MovingTrashTruckWithSpawner : MonoBehaviour
 {
+
+    private Rigidbody _rigidbody;
+    private bool collided; 
+    [SerializeField] Transform spawner;
+    [SerializeField] GameObject trashPrefab; 
+
+    public float _speed; 
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        collided = false;
+        _rigidbody = GetComponent<Rigidbody>();
+        InvokeRepeating("SpawnObject", 2.0f, 2.0f);
+        //_speed = 5.0f; 
+    }
+
+    void SpawnObject()
+    {
+        if (!collided)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Instantiate(trashPrefab, spawner.position, Random.rotation);
+            }
+        }
+        else
+        {
+            return; 
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "ExplosionObjects")
+        {
+            collided = true;
+            print("Explosion!");
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if(!collided)
+        {
+            _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
+        }
         
     }
 }
