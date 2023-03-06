@@ -8,13 +8,15 @@ public class PlayerHealth : MonoBehaviour
 
     public float health;                                // current player health
     public bool defense = false;
+    public bool regen = false;
+    public float regenRate;
+
     float currentSpeed;                                 // current speed player is going
-    float regenRate;
+
     private float second;
     private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
     private Rigidbody playerRigidBody;
     private TMP_Text healthText;
-
 
     // Start is called before the first frame update
     void Start()
@@ -60,7 +62,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // recover 5 health every 10 seconds
         // get time and then check every 10 seconds
-        if(health < 100)
+        if(health < 100 && regen)
         {
             second += Time.deltaTime;
             if(second >= 5.0)
@@ -78,22 +80,34 @@ public class PlayerHealth : MonoBehaviour
     // Remove health from player when damage is dealt
     void takeDamage()
     {
-        if(defense)
-        {
-            float tmpDamage = currentSpeed / 10;
-            health -= tmpDamage / 2;
-            print("defense damage taken");
-        }
-        if(!defense)
-        {
-            //Current Speed before impact / 10 = damage dealt
-            health -= currentSpeed / 10;
-            print("taking damage");
+            if(currentSpeed > 0)
+            {
+            if(defense)
+            {
+                float tmpDamage = currentSpeed / 10;
+                health -= tmpDamage / 2;
+                print("defense damage taken");
+            }
+            if(!defense)
+            {
+                //Current Speed before impact / 10 = damage dealt
+                health -= currentSpeed / 10;
+                print("taking damage");
+            }
         }
     }
 
     void redisplayInfo()
     {
         healthText.text = "Health: " + health.ToString();
+    }
+
+    void OnTriggerEnter (Collider other)
+    {
+        if(other.tag == "testDamage")
+        {
+            takeDamage();
+            print("player collided with object");
+        }
     }
 }
