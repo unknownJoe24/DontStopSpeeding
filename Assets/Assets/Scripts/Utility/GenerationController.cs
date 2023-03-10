@@ -26,9 +26,6 @@ public class GenerationController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Spawner"))
         {
-            if (generatorScript.getInitial() > -1)
-                generatorScript.decrementInitial();
-
             other.gameObject.SetActive(false);
 
             generatorScript.generate();
