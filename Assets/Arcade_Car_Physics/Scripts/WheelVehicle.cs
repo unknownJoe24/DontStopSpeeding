@@ -490,6 +490,11 @@ namespace VehicleBehaviour {
             Debug.Log("Purchased Upgrade Three");
         }
 
-
+        public void disableInput()
+        {
+            IsPlayer = false;
+            Throttle = 0f;
+            rb.velocity = Vector3.zero;
+        }
     }
 }

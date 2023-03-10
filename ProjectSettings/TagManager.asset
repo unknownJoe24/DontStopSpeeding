@@ -7,6 +7,8 @@ TagManager:
   - Score
   - Rank
   - Money
+  - QuickTimes
+  - ScoreHandler
   layers:
   - Default
   - TransparentFX
