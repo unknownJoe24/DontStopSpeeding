@@ -187,11 +187,6 @@ public class ScoreSystem : MonoBehaviour
             PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;
 
-        // this works, but I think the car itself has issues with staying completely still
-        playerInfo.IsPlayer = false;
-        playerInfo.Throttle = 0f;
-        playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
-
         Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }
 }
