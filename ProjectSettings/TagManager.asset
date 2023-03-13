@@ -7,6 +7,10 @@ TagManager:
   - Score
   - Rank
   - Money
+  - ExplosionObjects
+  - Spawner
+  - QuickTimes
+  - ScoreHandler
   - Health
   - testDamage
   layers:
@@ -16,7 +20,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Post Processing
   - 
   - 
   - 
