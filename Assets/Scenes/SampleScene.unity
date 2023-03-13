@@ -1563,7 +1563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 76.19
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1621,6 +1621,10 @@ PrefabInstance:
       propertyPath: gasSystem
       value: 
       objectReference: {fileID: 166750573}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: brakeForce
       value: 2000
@@ -2230,6 +2234,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1901312051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+  m_PrefabInstance: {fileID: 1311305091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1901312052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901312051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9576441ca6f64a84391b1262d195b9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneWidth: 10
+  moveSpeed: 5
+  laneChangeSpeed: 100
+  snapThreshold: 0.01
 --- !u!224 &1956616268
 RectTransform:
   m_ObjectHideFlags: 0
