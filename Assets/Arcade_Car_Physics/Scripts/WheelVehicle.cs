@@ -449,6 +449,14 @@ namespace VehicleBehaviour {
             handbrake = h;
         }
 
+        public void disableInput()
+        {
+            // this works, but I think the car itself has issues with staying completely still
+            IsPlayer = false;
+            Throttle = 0f;
+            rb.velocity = new Vector3(0f, 0f, 0f);
+        }
+
         // Use this method if you want to use your own input manager
         private float GetInput(string input) {
 
@@ -468,7 +476,7 @@ namespace VehicleBehaviour {
 
         void Defuse()
         {
-            Debug.Log("Defused Bomb");
+            //Debug.Log("Defused Bomb");
         }
 
         void Repair()
