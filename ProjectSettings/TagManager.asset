@@ -8,6 +8,9 @@ TagManager:
   - Rank
   - Money
   - ExplosionObjects
+  - Spawner
+  - QuickTimes
+  - ScoreHandler
   layers:
   - Default
   - TransparentFX
