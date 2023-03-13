@@ -11,6 +11,8 @@ TagManager:
   - Spawner
   - QuickTimes
   - ScoreHandler
+  - Health
+  - testDamage
   layers:
   - Default
   - TransparentFX
