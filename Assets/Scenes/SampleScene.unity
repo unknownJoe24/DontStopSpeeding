@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -214,7 +214,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20041107}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 34, y: 0, z: 0}
   m_LocalScale: {x: 10.9025955, y: 167.31813, z: 10.769488}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10801,26 +10801,6 @@ Transform:
   m_Father: {fileID: 347687540}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &576787001 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
-  m_PrefabInstance: {fileID: 1311305091}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &576787002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576787001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  defense: 0
-  regen: 0
 --- !u!1 &671458848
 GameObject:
   m_ObjectHideFlags: 0
@@ -21431,6 +21411,48 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1311305094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267357208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9576441ca6f64a84391b1262d195b9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneWidth: 10
+  moveSpeed: 5
+  laneChangeSpeed: 50
+  snapThreshold: 0.01
+  gearChange: 0
+  defuseBomb: 0
+  repairCar: 0
+  upgradeOne: 0
+  upgradeTwo: 0
+  upgradeThree: 0
+  speedIncrement: 10
+  maxSpeed: 50
+  speed: 0
+  disableMovement: 0
+--- !u!114 &1311305095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267357208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  defense: 0
+  regen: 0
+  regenRate: 0
 --- !u!1 &1321953996
 GameObject:
   m_ObjectHideFlags: 0
@@ -31702,27 +31724,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1901312051 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
-  m_PrefabInstance: {fileID: 1311305091}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1901312052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901312051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9576441ca6f64a84391b1262d195b9a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laneWidth: 10
-  moveSpeed: 5
-  laneChangeSpeed: 100
-  snapThreshold: 0.01
 --- !u!224 &1956616268
 RectTransform:
   m_ObjectHideFlags: 0
