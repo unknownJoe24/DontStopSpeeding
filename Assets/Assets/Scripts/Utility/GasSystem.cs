@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using VehicleBehaviour;
 
 public class GasSystem : MonoBehaviour
 {
@@ -14,18 +13,18 @@ public class GasSystem : MonoBehaviour
     public bool inputDisabled = false;
     public Slider slider;
     public Image fillBar;
-    public VehicleBehaviour.WheelVehicle wheelVehicleObject;
+    public LaneSwitcher laneSwitcher;
 
     public void Start()
     {
-        wheelVehicleObject = GetComponent<WheelVehicle>();
+        laneSwitcher = GetComponent<LaneSwitcher>();
         slider.maxValue = maxGasLevel;
     }
     private void Update()
     {
         if (inputDisabled)
         {
-            wheelVehicleObject.Handbrake = inputDisabled;
+            laneSwitcher.DisableMovement= inputDisabled;
             return;
         }
 
