@@ -21,7 +21,6 @@ public class ScoreSystem : MonoBehaviour
 
     private float sTime;                                // Time since start()
     private float eTime;                                // Time elapsed since sTime
-    private Rigidbody playerRigidBody;                  // The rigid body of the player
     private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
     private float[] speeds;                             // Holds 30 speeds, used to calculate aSpeed
     private float cTime;                                // Holds the last time the player's speed was checked
@@ -43,7 +42,6 @@ public class ScoreSystem : MonoBehaviour
         redisplayInfo();
 
         sTime = Time.time;
-        playerRigidBody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
         playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>();
         speeds = new float[30];
         speeds[0] = playerInfo.Speed;
@@ -186,6 +184,8 @@ public class ScoreSystem : MonoBehaviour
         if((ulong)PlayerPrefs.GetInt(username + "Score") < score)
             PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;
+
+        playerInfo.disableInput();
 
         Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }
