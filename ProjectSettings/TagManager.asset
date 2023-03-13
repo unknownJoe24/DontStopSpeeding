@@ -7,6 +7,7 @@ TagManager:
   - Score
   - Rank
   - Money
+  - ExplosionObjects
   - Spawner
   - QuickTimes
   - ScoreHandler
@@ -17,7 +18,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Post Processing
   - 
   - 
   - 
