@@ -21,7 +21,7 @@ public class ScoreSystem : MonoBehaviour
 
     private float sTime;                                // Time since start()
     private float eTime;                                // Time elapsed since sTime
-    private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
+    private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
     private float[] speeds;                             // Holds 30 speeds, used to calculate aSpeed
     private float cTime;                                // Holds the last time the player's speed was checked
     private float aSpeed;                               // Averages speed of the player over the last 30 seconds
@@ -42,7 +42,7 @@ public class ScoreSystem : MonoBehaviour
         redisplayInfo();
 
         sTime = Time.time;
-        playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>();
+        playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
         speeds = new float[30];
         speeds[0] = playerInfo.Speed;
         cTime = Time.time;
@@ -185,7 +185,7 @@ public class ScoreSystem : MonoBehaviour
             PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;
 
-        playerInfo.disableInput();
+        playerInfo.DisableMovement = true;
 
         Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }

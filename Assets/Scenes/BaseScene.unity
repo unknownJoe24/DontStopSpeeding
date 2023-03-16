@@ -919,6 +919,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: brakeForce
       value: 2000
       objectReference: {fileID: 0}
@@ -1076,11 +1080,37 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 398876617}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398876618}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c241727a8fc83048b56bdd0b450f8fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &398876631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398876618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9576441ca6f64a84391b1262d195b9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laneWidth: 20
+  moveSpeed: 5
+  laneChangeSpeed: 50
+  snapThreshold: 0.01
+  gearChange: 0
+  defuseBomb: 0
+  repairCar: 0
+  upgradeOne: 0
+  upgradeTwo: 0
+  upgradeThree: 0
+  speedIncrement: 10
+  maxSpeed: 50
+  speed: 0
+  disableMovement: 0
 --- !u!43 &414669867
 Mesh:
   m_ObjectHideFlags: 0
@@ -1491,7 +1521,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh27712
+  m_Name: pb_Mesh27756
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2346,7 +2376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1116936447
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3374,7 +3404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys: 740000007900000075000000690000006f00000070000000620000006e0000006d0000006a0000006b0000006c000000
-  numInputs: 5
+  numInputs: 3
   timer: 2
   quickTimeUI: {fileID: 1959640137}
   sliderFill: {fileID: 255980579}

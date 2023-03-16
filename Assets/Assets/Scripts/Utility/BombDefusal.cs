@@ -84,7 +84,8 @@ public class BombDefusal : MonoBehaviour
         outcomeSprite.color += new Color(1f, 1f, 1f, 1);
         outcomeSince = Time.time;
 
-        GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>().disableInput();
+        //GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>().disableInput();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>().DisableMovement = true;
 
         defusing = false;
         completed = true;

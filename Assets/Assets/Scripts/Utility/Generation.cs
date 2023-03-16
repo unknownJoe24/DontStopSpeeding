@@ -72,7 +72,7 @@ public class Generation : MonoBehaviour
         lanes = new GameObject[][][] { one , two, three };
 
         // initialize containers 
-        prev = new GameObject[3];
+        prev = new GameObject[startRoads.Length];
         del = new GameObject[startRoads.Length];
 
         // initialize array
@@ -178,9 +178,7 @@ public class Generation : MonoBehaviour
 
         // is a safe road required
         bool obstacle = true;
-/*        if (prev[0].GetComponent<RoadController>().myInfo.getObstacle())
-            obstacle = false;
-*/
+
         // how many safe roads are in prev
         int numSafe = 0;
         if (obstacle)
@@ -201,7 +199,7 @@ public class Generation : MonoBehaviour
         }
 
         // get the probabilites for spawning transitions and obstacles
-        int safeProb = Random.Range(numSafe, 5 * minSafe);      // MAY NEED ADJUSTED
+        int safeProb = Random.Range(numSafe, minSafe + 5);      // MAY NEED ADJUSTED
         int obstProb = Random.Range(minVal, maxVal);
 
         // what was the ending amount of lanes for the last road spawned
@@ -210,9 +208,10 @@ public class Generation : MonoBehaviour
         // choose the next thing to spawn
         if (obstacle)
         {
-            // there can be more than one transition between obstacles if probability dicates
-            if (safeProb < 3)
+            // there can be more than the required transitions between obstacles if probability dicates
+            if (safeProb < minSafe + 3) // MAY NEED ADJUSTED
             {
+                Debug.Log("SPAWNING EXTRA SAFE");
                 toSpawn = getSafeSpawn(prevLanes);
             }
             // we want to spawn an obstacle

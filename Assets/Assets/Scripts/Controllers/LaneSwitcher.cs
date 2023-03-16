@@ -8,8 +8,8 @@ public class LaneSwitcher : MonoBehaviour
     public float snapThreshold = 0.01f;     // Distance threshold to snap to target lane
 
     private Rigidbody rb;
-    private int currentLane = 1;            // Current lane, starts in the middle lane (lane 1)
-    private int targetLane = 1;             // Target lane, starts in the middle lane (lane 1)
+    private int currentLane = 0;            // Current lane, starts in the middle lane (lane 1)
+    private int targetLane = 0;             // Target lane, starts in the middle lane (lane 1)
 
     [Header("State Checks")]
     public bool gearChange = false;
@@ -51,12 +51,12 @@ public class LaneSwitcher : MonoBehaviour
         upgradeThree = Input.GetButtonDown("Upgrade Three");
 
         // If input is positive, move to the right lane
-        if (Input.GetKeyDown(KeyCode.D) && currentLane < 2)
+        if (Input.GetKeyDown(KeyCode.D) && currentLane < 1)
         {
             targetLane = currentLane + 1;
         }
         // If input is negative, move to the left lane
-        else if (Input.GetKeyDown(KeyCode.A) && currentLane > 0)
+        else if (Input.GetKeyDown(KeyCode.A) && currentLane > -1)
         {
             targetLane = currentLane - 1;
         }
