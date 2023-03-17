@@ -165,7 +165,11 @@ public class ScoreSystem : MonoBehaviour
 
 
 
-
+    // accessor for money
+    public float getMoney()
+    {
+        return money;
+    }
 
     // Adds amnt to moneySpent
     public bool spendMoney(float amnt)

@@ -20,6 +20,8 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    public bool armored = false;
+
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
@@ -161,6 +163,21 @@ public class LaneSwitcher : MonoBehaviour
     void PurchaseUpgradeThree()
     {
         Debug.Log("Purchased Upgrade Three");
+    }
+
+    public void upgradeSpeed(int inc)
+    {
+        maxSpeed += inc;
+    }
+
+    public bool getArmor()
+    {
+        return armored;
+    }
+
+    public void upgradeArmor()
+    {
+        armored = true;
     }
 
 }

@@ -1107,6 +1107,7 @@ MonoBehaviour:
   upgradeOne: 0
   upgradeTwo: 0
   upgradeThree: 0
+  armored: 0
   speedIncrement: 10
   maxSpeed: 50
   speed: 0
@@ -3592,6 +3593,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904203521}
   m_CullTransparentMesh: 1
+--- !u!1 &1956001682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1956001684}
+  - component: {fileID: 1956001683}
+  m_Layer: 0
+  m_Name: StoreHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1956001683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956001682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297b7672a913aab4f875c4e97263e784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restockInterval: 10
+  stockSize: 2
+  items:
+  - {fileID: 11400000, guid: 3be6f73116e4eb84ea35a5adcf539886, type: 2}
+  - {fileID: 11400000, guid: da096c046a8655f4fa30238e6629e73f, type: 2}
+--- !u!4 &1956001684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956001682}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 458.3569, y: 196.44028, z: 2.7109485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1957543443
 GameObject:
   m_ObjectHideFlags: 0
