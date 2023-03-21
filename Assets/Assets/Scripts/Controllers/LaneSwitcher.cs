@@ -165,6 +165,10 @@ public class LaneSwitcher : MonoBehaviour
         Debug.Log("Purchased Upgrade Three");
     }
 
+
+
+
+
     public void upgradeSpeed(int inc)
     {
         maxSpeed += inc;

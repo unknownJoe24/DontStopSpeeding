@@ -9,18 +9,10 @@ public class StoreSystem : MonoBehaviour
     public float restockInterval;  // how often should the store stock be exchanged
     private float sinceRestock;    // when was the last restock
     public int stockSize;          // how many items are in stock at one time
-    private int itemNum;           // how many items does the store stock
 
     [SerializeField]
     private Upgrade[] items;       // array to hold the possible items the store can stock
-
-    /* non-scriptable object method
-    enum safeUp { speed = 0 }
-    enum riskUp { armor = 1 }
-    */
-
-    //private int[] stockKeys;       // keys relating to what items are in stock
-    private Upgrade[] stock;
+    private Upgrade[] stock;       // what items are in the store
 
     private LaneSwitcher carInfo;  // get the script that has the car information
     private ScoreSystem scoreInfo; // get the script that has the score information
@@ -28,10 +20,6 @@ public class StoreSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //itemNum = 3;
-        itemNum = items.Length;
-
-        //stockKeys = new int[stockSize];
         stock = new Upgrade[stockSize];
 
         restock();
@@ -46,6 +34,7 @@ public class StoreSystem : MonoBehaviour
     {
         handleInput();
 
+        // restock the shop
         if(Time.time - sinceRestock >= restockInterval)
         {
             restock();
@@ -56,89 +45,103 @@ public class StoreSystem : MonoBehaviour
     // handles the input used to purchase from the store
     private void handleInput()
     {
-        /*
         if (Input.GetButtonDown("Upgrade One"))
-            purchase(stockKeys[0]);
+            purchase(0);
         if (Input.GetButtonDown("Upgrade Two"))
-            purchase(stockKeys[1]);
+            purchase(1);
         if (Input.GetButtonDown("Upgrade Three"))
-            purchase(stockKeys[2]);
-        */
-
-        if (Input.GetButtonDown("Upgrade One"))
-            purchase(stock[0]);
-        if (Input.GetButtonDown("Upgrade Two"))
-            purchase(stock[1]);
-        if (Input.GetButtonDown("Upgrade Three"))
-            purchase(stock[2]);
+            purchase(2);
     }
 
     public void restock()
     {
-        /*
-        // populate the store's stock
-        for (int i = 0; i < stockSize; ++i)
+        for(int i = 0; i < stock.Length; ++i)
         {
-            stockKeys[i] = Random.Range(0, itemNum - 1);
-            Debug.Log("Store slot " + i + ": " + stockKeys[i]);
-        }
-        */
-
-        for(int i = 0; i < stockSize; ++i)
-        {
-            int indx = Random.Range(0, itemNum);
+            int indx = Random.Range(0, items.Length);
             stock[i] = items[indx];
             Debug.Log("Store slot " + i + ": " + stock[i]);
         }
     }
     
-    public void purchase(/*int stockKey*/ Upgrade toBuy)
+    public void purchase(int toBuyIndex)
     {
-        /*
-        switch(stockKey)
+        Upgrade toBuy = stock[toBuyIndex];
+
+        if (toBuy != null)
         {
-            case (int) safeUp.speed:
-                float speedCost = (totalTime / 120 + 1) * 1000;
-                if(scoreInfo.getMoney() > speedCost)
-                {
-                    scoreInfo.spendMoney(speedCost);
-                    carInfo.upgradeSpeed(20);
-                }
-                break;
+            switch (toBuy.getKey())
+            {
+                case 0:
+                    float speedCost = toBuy.getPrice(totalTime);
+                    if (scoreInfo.getMoney() >= speedCost)
+                    {
+                        Debug.Log("ACTUALLY BUYING SPEED UPGRADE");
+                        scoreInfo.spendMoney(speedCost);
+                        carInfo.upgradeSpeed(10);
+                        stock[toBuyIndex] = null;
+                        Debug.Log("Should be null: " + stock[toBuyIndex]);
+                    }
+                    break;
 
-            case (int) riskUp.armor:
-                float armorCost = (totalTime / 60 + 1) * 10000;
-                if(scoreInfo.getMoney() > armorCost && ! carInfo.getArmor())
-                {
-                    scoreInfo.spendMoney(armorCost);
-                    carInfo.upgradeArmor();
-                }
-                break;
+                case 1:
+                    float armorCost = toBuy.getPrice(totalTime);
+                    if (scoreInfo.getMoney() >= armorCost)
+                    {
+                        Debug.Log("Buying Armor");
+                        scoreInfo.spendMoney(armorCost);
+                        carInfo.upgradeArmor();
+                        removeFromItems(toBuy);
+                        removeFromStock(toBuy);
+                    }
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
-        */
+        else
+            Debug.Log("YOU ALREADY BOUGHT THAT");
+    }
 
-        switch(toBuy.getKey())
+    // removes an item toRemove from items
+    void removeFromItems(Upgrade toRemove)
+    {
+        // variable found holds if toRemove is found in items, newItems is all items in items excluding to Remove, and index is used to index newItems
+        bool found = false;
+        Upgrade[] newItems = new Upgrade[items.Length - 1];
+        int index = 0;
+
+        for(int i = 0; i < items.Length; ++i)
         {
-            case 0:
-                float speedCost = toBuy.getPrice(totalTime);
-                if (scoreInfo.getMoney() >= speedCost)
-                {
-                    scoreInfo.spendMoney(speedCost);
-                    carInfo.upgradeSpeed(10);
-                }
-                break;
+            if (items[i] != toRemove)
+                newItems[index++] = items[i];
+            else
+                found = true;
+        }
 
-            case 1:
-                float armorCost = toBuy.getPrice(totalTime);
-                if (scoreInfo.getMoney() >= armorCost)
-                    carInfo.upgradeArmor();
-                break;
+        // prevent errors
+        if (!found)
+            return;
 
-            default:
-                break;
+        // reassign items to newItems
+        items = newItems;
+
+        Debug.Log("Redisplaying items");
+        for(int i = 0; i < items.Length; ++i)
+        {
+            Debug.Log(items[i]);
+        }
+        return;
+    }
+
+    void removeFromStock(Upgrade toRemove)
+    {
+        for(int i = 0; i < stock.Length; ++i)
+        {
+            if (stock[i] == toRemove)
+                stock[i] = null;
         }
     }
 }
+
+// used CS 2 slides
