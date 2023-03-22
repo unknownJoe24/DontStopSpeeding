@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class StoreSystem : MonoBehaviour
 {
-    private float totalTime;       // how long has the game been running
-
     public float restockInterval;  // how often should the store stock be exchanged
     private float sinceRestock;    // when was the last restock
     public int stockSize;          // how many items are in stock at one time
 
-    [SerializeField]
-    private Upgrade[] riskyItems;  // arrays to hold the possible items the store can stock
-    private Upgrade[] safeItems;
+    public Upgrade[] riskyItems;  // arrays to hold the possible items the store can stock
+    public Upgrade[] safeItems;
     private Upgrade[] stock;       // what items are in the store
 
     private float safeProb;        // probability of a safe item being stocked
@@ -23,10 +20,13 @@ public class StoreSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         stock = new Upgrade[stockSize];
 
         restock();
         sinceRestock = Time.time;
+
+        safeProb = .5f;
 
         carInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
         scoreInfo = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreSystem>();
@@ -55,7 +55,7 @@ public class StoreSystem : MonoBehaviour
         if (Input.GetButtonDown("Upgrade Three"))
             purchase(2);
     }
-
+    
     public void restock()
     {
         for(int i = 0; i < stock.Length; ++i)
@@ -64,7 +64,7 @@ public class StoreSystem : MonoBehaviour
             Upgrade[] selectFrom;
             float prob = Random.Range(0f, 1f);
 
-            if (prob <= safeProb)
+            if (prob <= safeProb || riskyItems.Length < 1)
                 selectFrom = safeItems;
             else
                 selectFrom = riskyItems;
@@ -80,30 +80,32 @@ public class StoreSystem : MonoBehaviour
     {
         Upgrade toBuy = stock[toBuyIndex];
 
+        // only buy the item if it's in stock(not bought previously)
         if (toBuy != null)
         {
             switch (toBuy.getKey())
             {
+                // speed upgrade
                 case 0:
-                    float speedCost = toBuy.getPrice(totalTime);
+                    float speedCost = toBuy.getPrice();
                     if (scoreInfo.getMoney() >= speedCost)
                     {
-                        Debug.Log("ACTUALLY BUYING SPEED UPGRADE");
+                        //Debug.Log("ACTUALLY BUYING SPEED UPGRADE");
                         scoreInfo.spendMoney(speedCost);
                         carInfo.upgradeSpeed(10);
                         stock[toBuyIndex] = null;
-                        Debug.Log("Should be null: " + stock[toBuyIndex]);
                     }
                     break;
 
+                // armor upgrade
                 case 1:
-                    float armorCost = toBuy.getPrice(totalTime);
+                    float armorCost = toBuy.getPrice();
                     if (scoreInfo.getMoney() >= armorCost)
                     {
-                        Debug.Log("Buying Armor");
+                        //Debug.Log("Buying Armor");
                         scoreInfo.spendMoney(armorCost);
                         carInfo.upgradeArmor();
-                        removeFromItems(riskyItems, toBuy);
+                        removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
                     }
                     break;
@@ -112,22 +114,22 @@ public class StoreSystem : MonoBehaviour
                     break;
             }
         }
-        else
-            Debug.Log("YOU ALREADY BOUGHT THAT");
+        //else
+            //Debug.Log("YOU ALREADY BOUGHT THAT");
     }
 
     // removes an item toRemove from items
-    void removeFromItems(Upgrade[] itemArray, Upgrade toRemove)
+    void removeFromRiskyItems(Upgrade toRemove)
     {
         // variable found holds if toRemove is found in items, newItems is all items in items excluding to Remove, and index is used to index newItems
         bool found = false;
-        Upgrade[] newItems = new Upgrade[itemArray.Length - 1];
+        Upgrade[] newItems = new Upgrade[riskyItems.Length - 1];
         int index = 0;
 
-        for(int i = 0; i < itemArray.Length; ++i)
+        for(int i = 0; i < riskyItems.Length; ++i)
         {
-            if (itemArray[i] != toRemove)
-                newItems[index++] = itemArray[i];
+            if (riskyItems[i] != toRemove)
+                newItems[index++] = riskyItems[i];
             else
                 found = true;
         }
@@ -137,16 +139,17 @@ public class StoreSystem : MonoBehaviour
             return;
 
         // reassign items to newItems
-        itemArray = newItems;
+        riskyItems = newItems;
 
         Debug.Log("Redisplaying items");
-        for(int i = 0; i < itemArray.Length; ++i)
+        for(int i = 0; i < riskyItems.Length; ++i)
         {
-            Debug.Log(itemArray[i]);
+            Debug.Log(riskyItems[i]);
         }
         return;
     }
 
+    // 'remove' an item from the stock
     void removeFromStock(Upgrade toRemove)
     {
         for(int i = 0; i < stock.Length; ++i)

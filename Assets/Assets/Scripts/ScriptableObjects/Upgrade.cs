@@ -28,9 +28,9 @@ public class Upgrade : ScriptableObject
 
     public string getDesc() { return desc; }
 
-    public float getPrice(float time)
+    public float getPrice()
     {
-        return basePrice + priceMult * Mathf.Floor(time / multTime);
+        return basePrice + priceMult * Mathf.Floor(Time.timeSinceLevelLoad / multTime);
     }
 
     public int getKey() { return key; }

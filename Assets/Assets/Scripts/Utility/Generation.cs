@@ -191,10 +191,10 @@ public class Generation : MonoBehaviour
             }
         }
 
-        Debug.Log("minSafe: " + minSafe + "\nnumSafe: " + numSafe);
+        //Debug.Log("minSafe: " + minSafe + "\nnumSafe: " + numSafe);
         if (numSafe < minSafe)
         {
-            Debug.Log("Disabling Obstacles");
+            //Debug.Log("Disabling Obstacles");
             obstacle = false;
         }
 
@@ -211,7 +211,7 @@ public class Generation : MonoBehaviour
             // there can be more than the required transitions between obstacles if probability dicates
             if (safeProb < minSafe + 3) // MAY NEED ADJUSTED
             {
-                Debug.Log("SPAWNING EXTRA SAFE");
+                //Debug.Log("SPAWNING EXTRA SAFE");
                 toSpawn = getSafeSpawn(prevLanes);
             }
             // we want to spawn an obstacle
@@ -226,8 +226,8 @@ public class Generation : MonoBehaviour
             toSpawn = getSafeSpawn(prevLanes);
         }
 
-        Debug.Log("MIN: " + minVal + "\n MAX: " + maxVal);
-        Debug.Log(obstProb + "lead to " + toSpawn + "being selected");
+        //Debug.Log("MIN: " + minVal + "\n MAX: " + maxVal);
+        //Debug.Log(obstProb + "lead to " + toSpawn + "being selected");
 
         // spawn the road and get the instance spawned
         float spawnLength = (getRoad(toSpawn).getLength()) / 2 + (getRoad(prev[0]).getLength() / 2);

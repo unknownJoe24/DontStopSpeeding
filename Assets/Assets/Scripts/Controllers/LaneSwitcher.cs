@@ -154,15 +154,15 @@ public class LaneSwitcher : MonoBehaviour
 
     void PurchaseUpgradeOne()
     {
-        Debug.Log("Purchased Upgrade One");
+        //Debug.Log("Purchased Upgrade One");
     }
     void PurchaseUpgradeTwo()
     {
-        Debug.Log("Purchased Upgrade Two");
+        //Debug.Log("Purchased Upgrade Two");
     }
     void PurchaseUpgradeThree()
     {
-        Debug.Log("Purchased Upgrade Three");
+        //Debug.Log("Purchased Upgrade Three");
     }
 
 
