@@ -11,8 +11,11 @@ public class StoreSystem : MonoBehaviour
     public int stockSize;          // how many items are in stock at one time
 
     [SerializeField]
-    private Upgrade[] items;       // array to hold the possible items the store can stock
+    private Upgrade[] riskyItems;  // arrays to hold the possible items the store can stock
+    private Upgrade[] safeItems;
     private Upgrade[] stock;       // what items are in the store
+
+    private float safeProb;        // probability of a safe item being stocked
 
     private LaneSwitcher carInfo;  // get the script that has the car information
     private ScoreSystem scoreInfo; // get the script that has the score information
@@ -57,8 +60,18 @@ public class StoreSystem : MonoBehaviour
     {
         for(int i = 0; i < stock.Length; ++i)
         {
-            int indx = Random.Range(0, items.Length);
-            stock[i] = items[indx];
+            // decide whether to stock a safe or risky item
+            Upgrade[] selectFrom;
+            float prob = Random.Range(0f, 1f);
+
+            if (prob <= safeProb)
+                selectFrom = safeItems;
+            else
+                selectFrom = riskyItems;
+
+            //stock the item
+            int indx = Random.Range(0, selectFrom.Length);
+            stock[i] = selectFrom[indx];
             Debug.Log("Store slot " + i + ": " + stock[i]);
         }
     }
@@ -90,7 +103,7 @@ public class StoreSystem : MonoBehaviour
                         Debug.Log("Buying Armor");
                         scoreInfo.spendMoney(armorCost);
                         carInfo.upgradeArmor();
-                        removeFromItems(toBuy);
+                        removeFromItems(riskyItems, toBuy);
                         removeFromStock(toBuy);
                     }
                     break;
@@ -104,17 +117,17 @@ public class StoreSystem : MonoBehaviour
     }
 
     // removes an item toRemove from items
-    void removeFromItems(Upgrade toRemove)
+    void removeFromItems(Upgrade[] itemArray, Upgrade toRemove)
     {
         // variable found holds if toRemove is found in items, newItems is all items in items excluding to Remove, and index is used to index newItems
         bool found = false;
-        Upgrade[] newItems = new Upgrade[items.Length - 1];
+        Upgrade[] newItems = new Upgrade[itemArray.Length - 1];
         int index = 0;
 
-        for(int i = 0; i < items.Length; ++i)
+        for(int i = 0; i < itemArray.Length; ++i)
         {
-            if (items[i] != toRemove)
-                newItems[index++] = items[i];
+            if (itemArray[i] != toRemove)
+                newItems[index++] = itemArray[i];
             else
                 found = true;
         }
@@ -124,12 +137,12 @@ public class StoreSystem : MonoBehaviour
             return;
 
         // reassign items to newItems
-        items = newItems;
+        itemArray = newItems;
 
         Debug.Log("Redisplaying items");
-        for(int i = 0; i < items.Length; ++i)
+        for(int i = 0; i < itemArray.Length; ++i)
         {
-            Debug.Log(items[i]);
+            Debug.Log(itemArray[i]);
         }
         return;
     }
