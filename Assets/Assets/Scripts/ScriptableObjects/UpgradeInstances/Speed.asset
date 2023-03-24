@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: Speed
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 43f71e40693d8e7428e398b8cd92ccf2, type: 3}
   desc: Increases your max speed
   basePrice: 100
   priceMult: 100

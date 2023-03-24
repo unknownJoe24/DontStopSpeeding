@@ -10,7 +10,7 @@ public class StoreSystem : MonoBehaviour
 
     public Upgrade[] riskyItems;  // arrays to hold the possible items the store can stock
     public Upgrade[] safeItems;
-    private Upgrade[] stock;       // what items are in the store
+    public Upgrade[] stock;       // what items are in the store
 
     private float safeProb;        // probability of a safe item being stocked
 
