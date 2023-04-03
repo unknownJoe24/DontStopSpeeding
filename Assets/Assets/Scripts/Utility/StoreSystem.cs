@@ -151,7 +151,7 @@ public class StoreSystem : MonoBehaviour
                     }
                     break;
 
-                // SAFE Rewards upgrade
+                // RISKY Rewards upgrade
                 case 5:
                     float RISKYCost = toBuy.getPrice() * riskyPriceMult;
                     if (scoreInfo.getMoney() >= RISKYCost)
