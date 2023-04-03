@@ -5375,7 +5375,7 @@ GameObject:
   - component: {fileID: 8724764178694504067}
   m_Layer: 0
   m_Name: Wet Cement
-  m_TagString: Untagged
+  m_TagString: Liquid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

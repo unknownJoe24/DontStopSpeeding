@@ -20,7 +20,13 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    [SerializeField]
     public bool armored = false;
+    [SerializeField]
+    public bool amphibious = false;
+    private bool ampActive;
+    public float ampTime = 3f;
+    private float ampStart;
 
     [Header("Car Settings")]
     public float speedIncrement = 10f;
@@ -76,7 +82,7 @@ public class LaneSwitcher : MonoBehaviour
                 GearDown();
             }
         }
-
+        /*
         if (defuseBomb)
         {
             Defuse();
@@ -100,6 +106,15 @@ public class LaneSwitcher : MonoBehaviour
         if (upgradeThree)
         {
             PurchaseUpgradeThree();
+        }
+        */
+        // handle amphibious
+        if(ampActive && Time.time - ampStart > ampTime)
+        {
+            ampActive = false;
+            Debug.Log("Deactivating amphibious");
+            speed /= 1.2f;
+            maxSpeed /= 1.2f;
         }
     }
 
@@ -140,7 +155,7 @@ public class LaneSwitcher : MonoBehaviour
     {
         maxSpeed -= 20;
     }
-
+    /*
     void Defuse()
     {
         Debug.Log("Defused Bomb");
@@ -164,14 +179,20 @@ public class LaneSwitcher : MonoBehaviour
     {
         //Debug.Log("Purchased Upgrade Three");
     }
+    */
 
+    // upgrade implementation
 
-
-
-
-    public void upgradeSpeed(int inc)
+    // increases max speed
+    public void upgradeEngine(int inc)
     {
         maxSpeed += inc;
+    }
+
+    // reduces gas prices
+    public void upgradeTank(float mult)
+    {
+        GetComponent<GasSystem>().purchasePrice *= mult;
     }
 
     public bool getArmor()
@@ -179,9 +200,45 @@ public class LaneSwitcher : MonoBehaviour
         return armored;
     }
 
+    // immunity to snipers, slower movement
     public void upgradeArmor()
     {
         armored = true;
+        maxSpeed -= 30f;
+    }
+
+    public bool getAmphibious()
+    {
+        return amphibious;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeAmphibious()
+    {
+        amphibious = true;
+        maxSpeed -= 5f;
+    }
+
+    // upgrade effects
+    private void OnCollisionEnter(Collision collision)
+    {
+        // if amphibious, get speed boost
+        if(collision.gameObject.CompareTag("Liquid") && amphibious)
+        {
+            maxSpeed *= 1.2f;
+            speed *= 1.2f;
+            ampActive = true;
+            Debug.Log("Look at that boost!");
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // take note of leaving liquid
+        if (collision.gameObject.CompareTag("Liquid") && amphibious)
+        {
+            ampStart = Time.time;
+        }
     }
 
 }

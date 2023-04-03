@@ -8,11 +8,14 @@ public class StoreSystem : MonoBehaviour
     private float sinceRestock;    // when was the last restock
     public int stockSize;          // how many items are in stock at one time
 
-    public Upgrade[] riskyItems;  // arrays to hold the possible items the store can stock
+    public Upgrade[] riskyItems;   // arrays to hold the possible items the store can stock
     public Upgrade[] safeItems;
-    public Upgrade[] stock;       // what items are in the store
+    public Upgrade[] stock;        // what items are in the store
 
-    private float safeProb;        // probability of a safe item being stocked
+    private float safeProb;        // probability of a safe item being stocked, intrinsically linked to risky probability
+
+    private float safePriceMult;   // multiplier of the price for safe prices
+    private float riskyPriceMult;  // multiplier of the price for risky prices
 
     private LaneSwitcher carInfo;  // get the script that has the car information
     private ScoreSystem scoreInfo; // get the script that has the score information
@@ -27,6 +30,9 @@ public class StoreSystem : MonoBehaviour
         sinceRestock = Time.time;
 
         safeProb = .5f;
+
+        safePriceMult = 1f;
+        riskyPriceMult = 1f;
 
         carInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
         scoreInfo = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreSystem>();
@@ -72,7 +78,7 @@ public class StoreSystem : MonoBehaviour
             //stock the item
             int indx = Random.Range(0, selectFrom.Length);
             stock[i] = selectFrom[indx];
-            Debug.Log("Store slot " + i + ": " + stock[i]);
+            //Debug.Log("Store slot " + i + ": " + stock[i]);
         }
     }
     
@@ -85,21 +91,21 @@ public class StoreSystem : MonoBehaviour
         {
             switch (toBuy.getKey())
             {
-                // speed upgrade
+                // engine upgrade
                 case 0:
-                    float speedCost = toBuy.getPrice();
+                    float speedCost = toBuy.getPrice() * safePriceMult;
                     if (scoreInfo.getMoney() >= speedCost)
                     {
                         //Debug.Log("ACTUALLY BUYING SPEED UPGRADE");
                         scoreInfo.spendMoney(speedCost);
-                        carInfo.upgradeSpeed(10);
+                        carInfo.upgradeEngine(10);
                         stock[toBuyIndex] = null;
                     }
                     break;
 
                 // armor upgrade
                 case 1:
-                    float armorCost = toBuy.getPrice();
+                    float armorCost = toBuy.getPrice() * riskyPriceMult;
                     if (scoreInfo.getMoney() >= armorCost)
                     {
                         //Debug.Log("Buying Armor");
@@ -109,6 +115,100 @@ public class StoreSystem : MonoBehaviour
                         removeFromStock(toBuy);
                     }
                     break;
+
+                // tank upgrade
+                case 2:
+                    float tankCost = toBuy.getPrice() * safePriceMult;
+                    if(scoreInfo.getMoney() >= tankCost)
+                    {
+                        scoreInfo.spendMoney(tankCost);
+                        carInfo.upgradeTank(.95f);
+                        stock[toBuyIndex] = null;
+                    }
+                    break;
+
+                // amphibious upgrade
+                case 3:
+                    float amphibiousCost = toBuy.getPrice() * riskyPriceMult;
+                    if(scoreInfo.getMoney() >= amphibiousCost)
+                    {
+                        scoreInfo.spendMoney(amphibiousCost);
+                        carInfo.upgradeAmphibious();
+                        removeFromRiskyItems(toBuy);
+                        removeFromStock(toBuy);
+                    }
+                    break;
+
+                // SAFE Rewards upgrade
+                case 4:
+                    float SAFECost = toBuy.getPrice() * riskyPriceMult;
+                    if(scoreInfo.getMoney() >= SAFECost)
+                    {
+                        scoreInfo.spendMoney(SAFECost);
+                        SAFERewards();
+                        removeFromRiskyItems(toBuy);
+                        removeFromStock(toBuy);
+                    }
+                    break;
+
+                // SAFE Rewards upgrade
+                case 5:
+                    float RISKYCost = toBuy.getPrice() * riskyPriceMult;
+                    if (scoreInfo.getMoney() >= RISKYCost)
+                    {
+                        scoreInfo.spendMoney(RISKYCost);
+                        RISKYRewards();
+                        removeFromRiskyItems(toBuy);
+                        removeFromStock(toBuy);
+                    }
+                    break;
+
+                // Grease Monkey upgrade
+                case 6:
+                    float GreaseMonkeyCost = toBuy.getPrice() * safePriceMult;
+                    if(scoreInfo.getMoney() >= GreaseMonkeyCost)
+                    {
+                        scoreInfo.spendMoney(GreaseMonkeyCost);
+                        // input upgrade func here
+                        stock[toBuyIndex] = null;
+                    }
+                    break;
+
+                // Multiplier upgrade
+                case 7:
+                    float multiplierCost = toBuy.getPrice() * safePriceMult;
+                    if(scoreInfo.getMoney() >= multiplierCost)
+                    {
+                        scoreInfo.spendMoney(multiplierCost);
+                        // input upgrade func here
+                        stock[toBuyIndex] = null;
+                    }
+                    break;
+
+                // Ramp upgrade
+                case 8:
+                    float rampCost = toBuy.getPrice() * riskyPriceMult;
+                    if(scoreInfo.getMoney() >= rampCost)
+                    {
+                        scoreInfo.spendMoney(rampCost);
+                        // input upgrade func here
+                        removeFromRiskyItems(toBuy);
+                        removeFromStock(toBuy);
+                    }
+                    break;
+
+                // Al upgrade
+                case 9:
+                    float AlCost = toBuy.getPrice() * riskyPriceMult;
+                    if(scoreInfo.getMoney() >= AlCost)
+                    {
+                        scoreInfo.spendMoney(AlCost);
+                        // input upgrade func here
+                        removeFromRiskyItems(toBuy);
+                        removeFromStock(toBuy);
+                    }
+                    break;
+
 
                 default:
                     break;
@@ -141,7 +241,7 @@ public class StoreSystem : MonoBehaviour
         // reassign items to newItems
         riskyItems = newItems;
 
-        Debug.Log("Redisplaying items");
+        //Debug.Log("Redisplaying items");
         for(int i = 0; i < riskyItems.Length; ++i)
         {
             Debug.Log(riskyItems[i]);
@@ -149,7 +249,7 @@ public class StoreSystem : MonoBehaviour
         return;
     }
 
-    // 'remove' an item from the stock
+    // 'remove' an item globally from the stock
     void removeFromStock(Upgrade toRemove)
     {
         for(int i = 0; i < stock.Length; ++i)
@@ -158,6 +258,19 @@ public class StoreSystem : MonoBehaviour
                 stock[i] = null;
         }
     }
+
+    void SAFERewards()
+    {
+        safeProb *= 1.2f;
+        safePriceMult *= .8f;
+    }
+
+    void RISKYRewards()
+    {
+        safeProb *= .8f;
+        riskyPriceMult *= .8f;
+    }
+
 }
 
 // used CS 2 slides

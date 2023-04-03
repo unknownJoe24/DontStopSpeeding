@@ -546,7 +546,7 @@ GameObject:
   - component: {fileID: 8754330597375028292}
   m_Layer: 0
   m_Name: 2LaneWaterAngled
-  m_TagString: Untagged
+  m_TagString: Liquid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 8754330597385048108}
   m_Layer: 0
   m_Name: 3LaneWaterAngled
-  m_TagString: Untagged
+  m_TagString: Liquid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1682,7 +1682,7 @@ GameObject:
   - component: {fileID: 8754330598195142662}
   m_Layer: 0
   m_Name: 1LaneWaterAngled
-  m_TagString: Untagged
+  m_TagString: Liquid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2123,7 +2123,7 @@ GameObject:
   - component: {fileID: 8754330598408108760}
   m_Layer: 0
   m_Name: 3LaneWater
-  m_TagString: Untagged
+  m_TagString: Liquid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

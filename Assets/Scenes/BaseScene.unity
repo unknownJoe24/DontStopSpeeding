@@ -536,7 +536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &296934633
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1149,6 +1149,8 @@ MonoBehaviour:
   upgradeTwo: 0
   upgradeThree: 0
   armored: 0
+  amphibious: 1
+  ampTime: 3
   speedIncrement: 10
   maxSpeed: 50
   speed: 0
@@ -4629,8 +4631,12 @@ MonoBehaviour:
   stockSize: 2
   riskyItems:
   - {fileID: 11400000, guid: 3be6f73116e4eb84ea35a5adcf539886, type: 2}
+  - {fileID: 11400000, guid: cde43178c7664044bae840d0c0c531a1, type: 2}
+  - {fileID: 11400000, guid: 1c6693387ae78cc41a83ac8a9876348f, type: 2}
+  - {fileID: 11400000, guid: 7ae1250a41e3ea949abb58fb37f5891e, type: 2}
+  safeItems:
   - {fileID: 11400000, guid: da096c046a8655f4fa30238e6629e73f, type: 2}
-  safeItems: []
+  - {fileID: 11400000, guid: a099a354eb2e82e4e95d6f5125b1bfe0, type: 2}
   stock: []
 --- !u!4 &1956001684
 Transform:
