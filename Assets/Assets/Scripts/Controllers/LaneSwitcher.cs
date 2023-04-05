@@ -5,10 +5,12 @@ public class LaneSwitcher : MonoBehaviour
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
 
-    public Transform[] lanes;
+    public Transform[] threeLaneTransforms;
+    public Transform[] twoLaneTransforms;
     private int currentLane = 1;
     private bool isChangingLane = false;
     private int targetLane = 1;
+    public bool hasThreeLanes = true;
 
     [Header("State Checks")]
     public bool gearChange = false;
@@ -52,19 +54,18 @@ public class LaneSwitcher : MonoBehaviour
         // Check if the player is moving horizontally and change the target lane accordingly
         if (Input.GetAxisRaw("Horizontal") < 0 && currentLane > 0 && !isChangingLane)
         {
-            Debug.Log("HZ A");
             targetLane = currentLane - 1;
             isChangingLane = true;
         }
-        else if (Input.GetAxisRaw("Horizontal") > 0 && currentLane < lanes.Length - 1 && !isChangingLane)
+        else if (Input.GetAxisRaw("Horizontal") > 0 && currentLane < (hasThreeLanes ? threeLaneTransforms.Length : twoLaneTransforms.Length) - 1 && !isChangingLane)
         {
-            Debug.Log("HZ D");
             targetLane = currentLane + 1;
             isChangingLane = true;
         }
 
         // Move the player to the center of the current or target lane
-        Vector3 targetPosition = lanes[isChangingLane ? targetLane : currentLane].position;
+        Transform[] currentTransforms = hasThreeLanes ? threeLaneTransforms : twoLaneTransforms;
+        Vector3 targetPosition = currentTransforms[isChangingLane ? targetLane : currentLane].position;
         targetPosition.y = transform.position.y;
         targetPosition.z = transform.position.z;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
