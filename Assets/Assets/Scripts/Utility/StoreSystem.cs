@@ -8,7 +8,7 @@ public class StoreSystem : MonoBehaviour
     private float sinceRestock;    // when was the last restock
     public int stockSize;          // how many items are in stock at one time
 
-    public Upgrade[] riskyItems;   // arrays to hold the possible items the store can stock
+    public Upgrade[] riskyItems;   // arrays to hold the possible items the store can stock - should not contain any duplicates
     public Upgrade[] safeItems;
     public Upgrade[] stock;        // what items are in the store
 
@@ -23,17 +23,20 @@ public class StoreSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        // set the stock size - NOTE: A size != 3 will currently cause issues
         stock = new Upgrade[stockSize];
 
+        // restock the shop
         restock();
-        sinceRestock = Time.time;
 
+        // initialize the probability of safe items being stocked (risky are 1 - safeProb)
         safeProb = .5f;
 
+        // initialize the probabilities for the price multipliers (for R.I.S.K.Y and S.A.F.E. Rewards)
         safePriceMult = 1f;
         riskyPriceMult = 1f;
 
+        // initialize the variables storing the car(player) and score info
         carInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
         scoreInfo = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreSystem>();
     }
@@ -41,19 +44,18 @@ public class StoreSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // allow the player to buy upgrades
         handleInput();
 
         // restock the shop
         if(Time.time - sinceRestock >= restockInterval)
-        {
             restock();
-            sinceRestock = Time.time;
-        }
     }
 
     // handles the input used to purchase from the store
     private void handleInput()
     {
+        // purchase the upgrade corresponding to the key the user pressed
         if (Input.GetButtonDown("Upgrade One"))
             purchase(0);
         if (Input.GetButtonDown("Upgrade Two"))
@@ -62,8 +64,10 @@ public class StoreSystem : MonoBehaviour
             purchase(2);
     }
     
+    // restocks the shop's inventory
     public void restock()
     {
+        // restock each index of the stock
         for(int i = 0; i < stock.Length; ++i)
         {
             // decide whether to stock a safe or risky item
@@ -78,17 +82,21 @@ public class StoreSystem : MonoBehaviour
             //stock the item
             int indx = Random.Range(0, selectFrom.Length);
             stock[i] = selectFrom[indx];
-            //Debug.Log("Store slot " + i + ": " + stock[i]);
         }
+
+        // save the time that the store was restocked
+        sinceRestock = Time.time;
     }
     
     public void purchase(int toBuyIndex)
     {
+        // the actual item they wish to buy
         Upgrade toBuy = stock[toBuyIndex];
 
         // only buy the item if it's in stock(not bought previously)
         if (toBuy != null)
         {
+            // buy the corresponding upgrade
             switch (toBuy.getKey())
             {
                 // engine upgrade
@@ -96,7 +104,6 @@ public class StoreSystem : MonoBehaviour
                     float speedCost = toBuy.getPrice() * safePriceMult;
                     if (scoreInfo.getMoney() >= speedCost)
                     {
-                        //Debug.Log("ACTUALLY BUYING SPEED UPGRADE");
                         scoreInfo.spendMoney(speedCost);
                         carInfo.upgradeEngine(10);
                         stock[toBuyIndex] = null;
@@ -108,7 +115,6 @@ public class StoreSystem : MonoBehaviour
                     float armorCost = toBuy.getPrice() * riskyPriceMult;
                     if (scoreInfo.getMoney() >= armorCost)
                     {
-                        //Debug.Log("Buying Armor");
                         scoreInfo.spendMoney(armorCost);
                         carInfo.upgradeArmor();
                         removeFromRiskyItems(toBuy);
@@ -209,23 +215,21 @@ public class StoreSystem : MonoBehaviour
                     }
                     break;
 
-
                 default:
                     break;
             }
         }
-        //else
-            //Debug.Log("YOU ALREADY BOUGHT THAT");
     }
 
     // removes an item toRemove from items
     void removeFromRiskyItems(Upgrade toRemove)
     {
-        // variable found holds if toRemove is found in items, newItems is all items in items excluding to Remove, and index is used to index newItems
+        // variable found holds if toRemove is found in items, newItems is all items in items excluding toRemove, and index is used to index newItems
         bool found = false;
         Upgrade[] newItems = new Upgrade[riskyItems.Length - 1];
         int index = 0;
 
+        // remove the item from riskyItems
         for(int i = 0; i < riskyItems.Length; ++i)
         {
             if (riskyItems[i] != toRemove)
@@ -241,17 +245,13 @@ public class StoreSystem : MonoBehaviour
         // reassign items to newItems
         riskyItems = newItems;
 
-        //Debug.Log("Redisplaying items");
-        for(int i = 0; i < riskyItems.Length; ++i)
-        {
-            Debug.Log(riskyItems[i]);
-        }
         return;
     }
 
     // 'remove' an item globally from the stock
     void removeFromStock(Upgrade toRemove)
     {
+        // removes the item from each index of stock
         for(int i = 0; i < stock.Length; ++i)
         {
             if (stock[i] == toRemove)
@@ -259,12 +259,14 @@ public class StoreSystem : MonoBehaviour
         }
     }
 
+    // S.A.F.E. Reards implementation
     void SAFERewards()
     {
         safeProb *= 1.2f;
         safePriceMult *= .8f;
     }
 
+    // R.I.S.K.Y. Rewards implementation
     void RISKYRewards()
     {
         safeProb *= .8f;
