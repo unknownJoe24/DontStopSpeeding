@@ -16,17 +16,23 @@ public class LeaderboardHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerPrefsHandler.testFunc();
+        // load the save data, and initialize data
+        SaveGame.Load();
 
         initOffset = 350f;
         center = 475f;
         templateHeight = 50f;
 
-        string[] allPlayers = PlayerPrefsHandler.getPlayers();
+        int numAllPlayers = SaveGame.Instance.numPlayers;
+        int saveIndex = SaveGame.Instance.currIndex;
+        string[] allPlayers = SaveGame.Instance.players;
+        int[] allScores = SaveGame.Instance.scores;
+        string[] allRanks = SaveGame.Instance.ranks;
 
-        allPlayers = sortPlayers(allPlayers);
+        sortPlayers(ref allPlayers, ref allScores, ref allRanks);
 
-        for(int i = 0; i < PlayerPrefsHandler.getNumPlayers(); ++i)
+        // create an entry for each set of player data
+        for(int i = 0; i < numAllPlayers; ++i)
         {
             // create a new entry
             RectTransform newTrans;
@@ -36,9 +42,12 @@ public class LeaderboardHandler : MonoBehaviour
             newTrans.position = new Vector2(center, initOffset - templateHeight * i);
 
             
-            // fill the entry
+            // get the player information from the obtained save data
             string playerName = allPlayers[i];
+            int playerScore = allScores[i];
+            string playerRank = allRanks[i];
 
+            // fill the information
             TMP_Text[] fields = curr.GetComponentsInChildren<TMP_Text>();
             
             for(int j = 0; j < fields.Length; ++j)
@@ -50,32 +59,32 @@ public class LeaderboardHandler : MonoBehaviour
                         break;
 
                     case "Score":
-                        fields[j].text = PlayerPrefsHandler.getScore(playerName).ToString();
+                        fields[j].text = playerScore.ToString();
                         break;
 
                     case "Rank":
-                        fields[j].text = PlayerPrefsHandler.getRank(playerName);
+                        fields[j].text = playerRank;
                         break;
 
                     default:
                         break;
                 }
             }
-
-
         }
     }
 
-    string[] sortPlayers(string[] _allPlayers)
+    void sortPlayers(ref string[] _allPlayers, ref int[] _allScores, ref string[] _allRanks)
     {
+        int totalNum = SaveGame.Instance.numPlayers;
+
         // selection sort
-        for(int i = 0; i < PlayerPrefsHandler.getNumPlayers(); ++i)
+        for(int i = 0; i < totalNum; ++i)
         {
             int highScore = -1;
             int highIndex = i;
-            for (int j = i; j < PlayerPrefsHandler.getNumPlayers(); ++j)
+            for (int j = i; j < totalNum; ++j)
             {
-                int currScore = PlayerPrefsHandler.getScore(_allPlayers[j]);
+                int currScore = _allScores[j];
 
                 if (currScore > highScore)
                 {
@@ -84,11 +93,17 @@ public class LeaderboardHandler : MonoBehaviour
                 }
             }
 
-            string temp = _allPlayers[highIndex];
+            string pTemp = _allPlayers[highIndex];
             _allPlayers[highIndex] = _allPlayers[i];
-            _allPlayers[i] = temp;
-        }
+            _allPlayers[i] = pTemp;
 
-        return _allPlayers;
+            int sTemp = _allScores[highIndex];
+            _allScores[highIndex] = _allScores[i];
+            _allScores[i] = sTemp;
+
+            string rTemp = _allRanks[highIndex];
+            _allRanks[highIndex] = _allRanks[i];
+            _allRanks[i] = rTemp;
+        }
     }
 }
