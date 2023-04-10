@@ -6,10 +6,12 @@ using TMPro;
 public class PlayerHealth : MonoBehaviour
 {
 
+    public float maxHealth;
     public float health;                                // current player health
     public bool defense = false;
     public bool regen = false;
     public float regenRate;
+    public Animator anim;
 
     float currentSpeed;                                 // current speed player is going
 
@@ -21,7 +23,8 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = 50;                                    // sets player health at start
+        maxHealth = 100;
+        health = 100;                                    // sets player health at start
         regenRate = 5.0f;
         second = 0.0f;
 
@@ -45,9 +48,12 @@ public class PlayerHealth : MonoBehaviour
         if(health <= 0){
             //die
             print("ded");
+            //anim.SetBool("death", true);
+            anim.Play("Explosion Animation");
             playerInfo.IsPlayer = false;
             playerInfo.Throttle = 0f;
             playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
+            
         }
 
         if(Input.GetKeyDown("k"))       // this is temporary
@@ -62,7 +68,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // recover 5 health every 10 seconds
         // get time and then check every 10 seconds
-        if(health < 100 && regen)
+        if(health < maxHealth && regen)
         {
             second += Time.deltaTime;
             if(second >= 5.0)

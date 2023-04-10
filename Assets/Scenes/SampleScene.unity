@@ -10801,26 +10801,6 @@ Transform:
   m_Father: {fileID: 347687540}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &576787001 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
-  m_PrefabInstance: {fileID: 1311305091}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &576787002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576787001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  defense: 0
-  regen: 0
 --- !u!1 &671458848
 GameObject:
   m_ObjectHideFlags: 0
@@ -21274,7 +21254,7 @@ PrefabInstance:
       objectReference: {fileID: 166750573}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: brakeForce
@@ -21419,7 +21399,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267357208}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d7b6d32d7e27f0c42a79bb2801e05d28, type: 2}
   m_CullingMode: 0
@@ -21431,6 +21411,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1311305094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267357208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 1
+  defense: 0
+  regen: 0
+  regenRate: 0
+  anim: {fileID: 1311305093}
 --- !u!1 &1321953996
 GameObject:
   m_ObjectHideFlags: 0
@@ -31702,27 +31699,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1901312051 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
-  m_PrefabInstance: {fileID: 1311305091}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1901312052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1901312051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9576441ca6f64a84391b1262d195b9a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laneWidth: 10
-  moveSpeed: 5
-  laneChangeSpeed: 100
-  snapThreshold: 0.01
 --- !u!224 &1956616268
 RectTransform:
   m_ObjectHideFlags: 0
