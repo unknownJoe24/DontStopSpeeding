@@ -21401,7 +21401,7 @@ Animator:
   m_GameObject: {fileID: 267357208}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d7b6d32d7e27f0c42a79bb2801e05d28, type: 2}
+  m_Controller: {fileID: 9100000, guid: df9eb17027a724ac8947d86981b0e221, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -21423,6 +21423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
   health: 1
   defense: 0
   regen: 0

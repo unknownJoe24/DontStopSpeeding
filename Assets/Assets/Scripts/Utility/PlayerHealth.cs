@@ -47,6 +47,7 @@ public class PlayerHealth : MonoBehaviour
 
         if(health <= 0){
             //die
+            health = 0;
             print("ded");
             //anim.SetBool("death", true);
             anim.Play("Explosion Animation");
