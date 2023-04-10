@@ -42,6 +42,7 @@ public class LaneSwitcher : MonoBehaviour
 
     void Update()
     {
+        //Debug.Log(Speed);
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
         repairCar = Input.GetButtonDown("Repair Car");
