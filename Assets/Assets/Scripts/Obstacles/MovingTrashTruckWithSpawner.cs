@@ -54,7 +54,7 @@ public class MovingTrashTruckWithSpawner : MonoBehaviour
     {
         if(!collided)
         {
-            _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
+            _rigidbody.velocity = -transform.forward * _speed * Time.deltaTime;
         }
         
     }
