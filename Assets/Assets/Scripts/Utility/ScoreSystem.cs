@@ -220,6 +220,8 @@ public class ScoreSystem : MonoBehaviour
             }
         }
 
+        // MAKE IT DELETE LOWEST
+
         // create an entry or update an existing one
         if ( score > savedScores[toWrite])
         {
