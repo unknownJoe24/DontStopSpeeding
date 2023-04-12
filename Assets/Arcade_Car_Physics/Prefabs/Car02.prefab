@@ -10035,6 +10035,7 @@ GameObject:
   - component: {fileID: 54013180283023842}
   - component: {fileID: 114415631047791334}
   - component: {fileID: 630484822351609293}
+  - component: {fileID: 1530498019705823391}
   - component: {fileID: 114064628577781280}
   - component: {fileID: 82875422344952318}
   - component: {fileID: 82884678253985140}
@@ -10093,7 +10094,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637335803908784}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c241727a8fc83048b56bdd0b450f8fa, type: 3}
   m_Name: 
@@ -10218,7 +10219,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013c055ee7b029c438c57e99e7c81d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gas: 0
+  gasLevel: 15
+  decreaseRate: 20
+  maxGasLevel: 15
+  purchaseAmount: 5
+  purchasePrice: 50
+  currScoreHandler: {fileID: 0}
+  inputDisabled: 0
+  slider: {fileID: 0}
+  fillBar: {fileID: 0}
+  laneSwitcher: {fileID: 0}
+--- !u!114 &1530498019705823391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637335803908784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9576441ca6f64a84391b1262d195b9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  threeLaneTransforms: []
+  twoLaneTransforms: []
+  hasThreeLanes: 1
+  gearChange: 0
+  defuseBomb: 0
+  repairCar: 0
+  upgradeOne: 0
+  upgradeTwo: 0
+  upgradeThree: 0
+  speedIncrement: 10
+  maxSpeed: 50
+  speed: 0
+  disableMovement: 0
 --- !u!114 &114064628577781280
 MonoBehaviour:
   m_ObjectHideFlags: 0
