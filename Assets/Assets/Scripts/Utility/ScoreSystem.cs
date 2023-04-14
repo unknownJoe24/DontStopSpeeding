@@ -10,7 +10,7 @@ public class ScoreSystem : MonoBehaviour
     int score;                                         // How much score does the player currently have
     float moneySpent;                                  // How much money has the player spent
     float money;                                       // How much money does the player currently have (based off of moneySpent and score)
-    enum ranks {POOP, BRONZE, SILVER, GOLD};           // Enum of the ranks so the code is more organized
+    enum ranks { POOP, BRONZE, SILVER, GOLD };           // Enum of the ranks so the code is more organized
     string rank;                                       // How well is the player doing
 
     bool saved;                                        // Bool to tell if the player's score has been saved
@@ -67,7 +67,7 @@ public class ScoreSystem : MonoBehaviour
             redisplayInfo();
         }
 
-        if(Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             saveScore();
         }
@@ -111,7 +111,7 @@ public class ScoreSystem : MonoBehaviour
         {
             return (float)(1 + _aSpeed / 1000f);
         }
-        
+
         // base case - aSpeed < 100f
         return (float)(1 + _aSpeed / 10f);
     }
@@ -146,27 +146,24 @@ public class ScoreSystem : MonoBehaviour
             rank = ranks.GOLD.ToString();
     }
 
-
-
-
-
     // Updates the score, rank, and money (since money and rank are derived from score) UI elements
     void redisplayInfo()
     {
         // set score and money texts
         scoreText.text = "Score\n" + score.ToString();
         moneyText.text = "$" + money.ToString();
-        
+
         // change rank text's color to correpsond to the rank
-        if(rank == ranks.POOP.ToString())
+
+        if (rank == ranks.POOP.ToString())
         {
             rankText.color = new Color(.7f, .35f, 0f);
         }
-        else if(rank == ranks.BRONZE.ToString())
+        else if (rank == ranks.BRONZE.ToString())
         {
             rankText.color = new Color(.7f, .6f, 0f);
         }
-        else if(rank == ranks.SILVER.ToString())
+        else if (rank == ranks.SILVER.ToString())
         {
             rankText.color = Color.gray;
         }
@@ -174,9 +171,10 @@ public class ScoreSystem : MonoBehaviour
         {
             rankText.color = Color.yellow;
         }
-        
+
         // display rank
         rankText.text = "Rank\n" + rank;
+
     }
 
 
@@ -211,9 +209,9 @@ public class ScoreSystem : MonoBehaviour
         int toWrite = saveIndex;
 
         // itereate through the players and check for username
-        for(int i = 0; i < numSavedPlayers; ++i)
+        for (int i = 0; i < numSavedPlayers; ++i)
         {
-            if(username == savedPlayers[i])
+            if (username == savedPlayers[i])
             {
                 exists = true;
                 toWrite = i;
@@ -223,7 +221,7 @@ public class ScoreSystem : MonoBehaviour
         // MAKE IT DELETE LOWEST
 
         // create an entry or update an existing one
-        if ( score > savedScores[toWrite])
+        if (score > savedScores[toWrite])
         {
             // create new entry
             if (!exists)

@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [Header("UI")]
+    public Image healthBar;
 
+    public float maxHealth = 100;
     public float health;                                // current player health
     public bool defense = false;
     public bool regen = false;
@@ -99,7 +103,8 @@ public class PlayerHealth : MonoBehaviour
 
     void redisplayInfo()
     {
-        healthText.text = "Health: " + health.ToString();
+        healthText.text = "HP: " + health.ToString();
+        healthBar.fillAmount = health / maxHealth;
     }
 
     void OnTriggerEnter (Collider other)

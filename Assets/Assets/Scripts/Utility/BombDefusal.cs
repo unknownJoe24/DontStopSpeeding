@@ -16,6 +16,7 @@ public class BombDefusal : MonoBehaviour
     // The UI
     public GameObject quickTimeUI;
     public GameObject sliderFill;
+    public TextMeshProUGUI buttonDisplay; 
 
     // The field and sprites for the outcome of the keypresses
     [SerializeField]
@@ -69,6 +70,8 @@ public class BombDefusal : MonoBehaviour
     KeyCode getNewKey()
     {
         KeyCode newKey = keys[Random.Range(0, keys.Length - 1)];
+
+        buttonDisplay.text = newKey.ToString();
 
         timeUp = Time.time;
 

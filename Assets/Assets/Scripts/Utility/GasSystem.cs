@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class GasSystem : MonoBehaviour
 {
     public float gasLevel = 15.0f;
-    public float decreaseRate = 20.0f; // 1 gallon per 20 seconds
+    public float decreaseRate = 1.0f; // 1 gallon per 20 seconds
     public float maxGasLevel = 15.0f;
     public float purchaseAmount = 5.0f;
     public float purchasePrice = 50.0f;
@@ -14,6 +14,7 @@ public class GasSystem : MonoBehaviour
     public Slider slider;
     public Image fillBar;
     public LaneSwitcher laneSwitcher;
+    //public float nextUpdate;
 
     public void Start()
     {
@@ -29,9 +30,10 @@ public class GasSystem : MonoBehaviour
         }
 
 
+        
         if (Time.time - lastGasUpdateTime >= decreaseRate)
         {
-            gasLevel -= 1.0f;
+            gasLevel -= 0.05f;
             lastGasUpdateTime = Time.time;
             SetGasValue(gasLevel);
 
