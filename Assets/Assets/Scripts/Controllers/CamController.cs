@@ -8,7 +8,7 @@ public class CamController : MonoBehaviour
     private Vector3 offset;                         // Where is the camera's offset from `target`
     private Vector3 baseRotation;                   // What is the rotation of the camera
     private bool specialMove;                       // Will the camera exhibit special behavior
-    private LaneSwitcher carInfo;                   // Where to get the information of the car
+    private VehicleBehaviour.WheelVehicle carInfo;  // Where to get the information of the car
     private float minTurn;                          // The minimum angle that will cause a drift effect
     private float yMove;                            // How much will the camera rotate when the car drifts
     private float carSpeed;                         // How fast is the player moving
@@ -17,16 +17,14 @@ public class CamController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // initialize target and the camera information
         target = GameObject.FindGameObjectWithTag("Player");
         offset = new Vector3(0f, 5f, -7f);
         baseRotation = new Vector3(15f, 0f, 0f);
         transform.position = target.transform.position + offset;
         transform.rotation = Quaternion.Euler(baseRotation);
 
-        // initialize special movement information
         specialMove = true;
-        carInfo = target.GetComponent<LaneSwitcher>();
+        carInfo = target.GetComponent<VehicleBehaviour.WheelVehicle>();
         minTurn = 15f;
         yMove = 5f;
         carSpeed = carInfo.Speed;
@@ -35,7 +33,6 @@ public class CamController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // get the car speed and handle the drife effect
         carSpeed = carInfo.Speed;
         driftEffect();
     }
@@ -51,7 +48,28 @@ public class CamController : MonoBehaviour
     {
         if (specialMove)
         {
+            bool drift = Input.GetButton("Drift");
+            float angle = target.transform.rotation.eulerAngles.y;
 
+            if (drift)
+            {
+                if (angle > 180f + minTurn && angle < 360f - minTurn)  // Left
+                {
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(baseRotation + new Vector3(0f, -yMove, 0f)), .1f);
+                }
+                else if (angle > minTurn && angle < 180f - minTurn) // Right
+                {
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(baseRotation + new Vector3(0f, yMove, 0f)), .1f);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(baseRotation), .1f);
+                }
+            }
+            else
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(baseRotation), .1f);
+            }
         }
     }
 }

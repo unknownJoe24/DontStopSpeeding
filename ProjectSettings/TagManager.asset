@@ -13,7 +13,6 @@ TagManager:
   - ScoreHandler
   - Health
   - testDamage
-  - Liquid
   layers:
   - Default
   - TransparentFX

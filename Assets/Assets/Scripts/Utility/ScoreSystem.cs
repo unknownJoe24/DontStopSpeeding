@@ -21,7 +21,7 @@ public class ScoreSystem : MonoBehaviour
 
     private float sTime;                                // Time since start()
     private float eTime;                                // Time elapsed since sTime
-    private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
+    private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
     private float[] speeds;                             // Holds 30 speeds, used to calculate aSpeed
     private float cTime;                                // Holds the last time the player's speed was checked
     private float aSpeed;                               // Averages speed of the player over the last 30 seconds
@@ -42,7 +42,7 @@ public class ScoreSystem : MonoBehaviour
         redisplayInfo();
 
         sTime = Time.time;
-        playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
+        playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>();
         speeds = new float[30];
         speeds[0] = playerInfo.Speed;
         cTime = Time.time;
@@ -132,16 +132,13 @@ public class ScoreSystem : MonoBehaviour
         else if (score >= 100000)
             rank = ranks.GOLD.ToString();
     }
-
-
-
-
-
+    
     // Updates the score, rank, and money (since money and rank are derived from score) UI elements
     void redisplayInfo()
     {
         scoreText.text = "Score\n" + score.ToString();
         moneyText.text = "$" + money.ToString();
+        
         
         if(rank == ranks.POOP.ToString())
         {
@@ -161,15 +158,12 @@ public class ScoreSystem : MonoBehaviour
         }
         
         rankText.text = "Rank\n" + rank;
+        
     }
 
 
 
-    // accessor for money
-    public float getMoney()
-    {
-        return money;
-    }
+
 
     // Adds amnt to moneySpent
     public bool spendMoney(float amnt)
@@ -189,7 +183,7 @@ public class ScoreSystem : MonoBehaviour
             PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;
 
-        playerInfo.DisableMovement = true;
+        playerInfo.disableInput();
 
         Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }

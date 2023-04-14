@@ -16,6 +16,7 @@ public class BombDefusal : MonoBehaviour
     // The UI
     public GameObject quickTimeUI;
     public GameObject sliderFill;
+    public TextMeshProUGUI buttonDisplay; 
 
     // The field and sprites for the outcome of the keypresses
     [SerializeField]
@@ -45,7 +46,6 @@ public class BombDefusal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // initialize variables
         quickTimeUI.SetActive(false);
         defusing = false;
         done = 0;
@@ -56,14 +56,12 @@ public class BombDefusal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // start defusal if the correct key is pressed and the bomb is/has not being/been defused
-        if (Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
+        if (Input.GetButtonDown("Defuse Bomb") && !completed)
         {
             defusing = true;
             currKey = getNewKey();
         }
 
-        // continue defusal process if the bomb is currenlty being diffused
         if (defusing)
             Defusal();
     }
@@ -71,14 +69,12 @@ public class BombDefusal : MonoBehaviour
     // get the next key that needs to be pressed
     KeyCode getNewKey()
     {
-        // generate a random key to be pressing
-        int keyIndex = Random.Range(0, keys.Length - 1);
-        KeyCode newKey = keys[keyIndex];
+        KeyCode newKey = keys[Random.Range(0, keys.Length - 1)];
 
-        // when was the key generated
+        buttonDisplay.text = newKey.ToString();
+
         timeUp = Time.time;
 
-        // return the new key
         return newKey;
     }
 
@@ -90,10 +86,9 @@ public class BombDefusal : MonoBehaviour
         outcomeSprite.sprite = failureSprite;
         outcomeSprite.color += new Color(1f, 1f, 1f, 1);
         outcomeSince = Time.time;
-        
-        GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>().DisableMovement = true;
 
-        // the bomb diffusal process is not being diffused and (for the purpose of the code) has been diffused
+        GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>().disableInput();
+
         defusing = false;
         completed = true;
     }
@@ -126,14 +121,10 @@ public class BombDefusal : MonoBehaviour
             // the user has pressed all keys
             else
             {
-                // save the score
                 GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreSystem>().saveScore();
                 Debug.Log("You win!");
 
-                // make the quick time UI disappear
                 quickTimeUI.SetActive(false);
-
-                // the bomb is no longer being diffused and has been diffused
                 defusing = false;
                 completed = true;
             }
@@ -142,7 +133,6 @@ public class BombDefusal : MonoBehaviour
 
     void Defusal()
     {
-        // check the input if the bomb is being diffused
         if(defusing)
             checkInput();
 
@@ -158,7 +148,6 @@ public class BombDefusal : MonoBehaviour
             outcomeSprite.color = new Color(0f, 0f, 0f, 0f);
         }
 
-        // display the key that needs to be pressed
         DisplayPrompt(currKey);
     }
 
@@ -167,14 +156,11 @@ public class BombDefusal : MonoBehaviour
     {
         if (defusing)
             Debug.Log(toPress);
-        
-        // make sure the quick time UI is appearing
+
         quickTimeUI.SetActive(true);
 
-        // get the slider that shows how much time is left to press the key
         quickTimeUI.GetComponentInChildren<Slider>().value = (timer - (Time.time - timeUp)) / timer;
 
-        // how long has the key been presented and decrease the slider accordingly
         float timeSince = Time.time - timeUp;
         sliderFill.GetComponentInChildren<Image>().color = new Color(timeSince, timer - timeSince, 0);
     }

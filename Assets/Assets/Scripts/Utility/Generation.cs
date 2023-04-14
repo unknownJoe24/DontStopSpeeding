@@ -23,10 +23,10 @@ public class Generation : MonoBehaviour
     // used for lane amount generation
     private int numTwoLanes, numThreeLanes, numRoads;
 
-    // constant indexes to improve readability
+    // dictionary for ease of use
     const int easy = 0, diff = 1, hard = 2, safe = 3, trans = 4;
 
-    // what are the roads that are already placed in the scene
+    // what is the first road placed
     [SerializeField]
     private GameObject[] startRoads;
 
@@ -45,17 +45,16 @@ public class Generation : MonoBehaviour
     // variables for randomness
     private int minVal, maxVal;
 
-    // variables to hold the arrays of the road templates - one is currently empty
+    // variables to hold the arrays of the road templates
     GameObject[][] one;
     GameObject[][] two;
     GameObject[][] three;
 
-    // holds the arrays above
     GameObject[][][] lanes;
 
     private void Start()
     {
-        // initialize arrays two and three
+        // initialize dictionary
         two = new GameObject[][] { easy2, diff2, hard2, safe2, transTo3 };
         three = new GameObject[][] { easy3, diff3, hard3, safe3, transTo2 };
 
@@ -67,18 +66,16 @@ public class Generation : MonoBehaviour
             numTwoLanes += two[i].Length;
             numThreeLanes += three[i].Length;
         }
-
-        // numRoads is all roads regardless of number of lanes
         numRoads = numTwoLanes + numThreeLanes;
 
         // initialize lanes container, one is a dummy container
         lanes = new GameObject[][][] { one , two, three };
 
         // initialize containers 
-        prev = new GameObject[startRoads.Length];
+        prev = new GameObject[3];
         del = new GameObject[startRoads.Length];
 
-        // initialize prev with the strting roads
+        // initialize array
         for(int i = 0; i < prev.Length; ++i)
         {
             int startIndex = startRoads.Length - 1 - i;
@@ -86,7 +83,6 @@ public class Generation : MonoBehaviour
                 prev[i] = startRoads[startIndex];
         }
 
-        // intialize the minimum amount of safe roads to be spawned between obstacles
         minSafe = 1;
 
         // initialize chances for what difficulty of road we can spawn
@@ -96,14 +92,12 @@ public class Generation : MonoBehaviour
 
     private void Update()
     {
-        // time since the game has started
         float timeSince = Time.time - startTime;
 
-        // calculates the minimum amount of safe roads between obstacles corresponding to timeSince
         int calcMinSafe = 1 + (int)Mathf.Floor(timeSince / 120f);
         minSafe = calcMinSafe > minSafe ? calcMinSafe : minSafe;
 
-        // adjusts the difficulty
+        // difficulty
         if(timeSince > 60 && timeSince <= 120)
         {
             minVal = 50;
@@ -122,97 +116,92 @@ public class Generation : MonoBehaviour
         return _target.GetComponent<RoadController>().myInfo;
     }
 
-    // function to determine what road to spawn, if it needs to be 'safe' i.e. from safe or trans containers
+    // function to determine what road to spawn if it needs to be 'safe' i.e. from safe or trans containers
     private GameObject getSafeSpawn(int lanesFrom)
     {
-        // new road must begin with three lanes
         if (lanesFrom == 3)
         {
-            // initialize curr and changeLanes
             GameObject[] curr;
             float changeLanes = Random.Range(0f, 1f);
 
-            // do we want to transition to two lanes?
+            // we want to transition to two lanes
             if (changeLanes < ((float)numTwoLanes / (float)numRoads))
                 curr = lanes[lanesFrom - 1][trans];
             else
                 curr = lanes[lanesFrom - 1][safe];
 
-            // return a random road from the determined container
             int indx = Random.Range(0, curr.Length);
             return (curr[indx]);
         }
-        // new road must begin with two lanes
         else
         {
-            // initialize curr and changeLanes
             GameObject[] curr;
             float changeLanes = Random.Range(0f, 1f);
-            
-            // do we want to transition to three lanes?
+
             if (changeLanes < ((float)numThreeLanes / (float)numRoads))
                 curr = lanes[lanesFrom - 1][trans];
             else
                 curr = lanes[lanesFrom - 1][safe];
 
-            // return a random road from the determined container
             int indx = Random.Range(0, curr.Length);
             return (curr[indx]);
         }
     }
 
-    // function to determine what difficulty of obstacle to spawn
+    // function to determine what obstacle to spawn
     private GameObject getObstacleSpawn(int lanesFrom, int prob)
     {
         GameObject[] curr;
-        
-        // easy obstacle
         if (prob < 100 && (curr = lanes[lanesFrom - 1][easy]).Length > 0)
         {
             curr = lanes[lanesFrom - 1][easy];
             int indx = Random.Range(0, curr.Length);
             return (curr[indx]);
         }
-        // difficult obstacle
         else if (prob < 200)
         {
             curr = lanes[lanesFrom - 1][diff];
             int indx = Random.Range(0, curr.Length);
             return (curr[indx]);
         }
-        // hard obstacle
         else
-        {
-            curr = lanes[lanesFrom - 1][hard];
+        {curr = lanes[lanesFrom - 1][hard];
             int indx = Random.Range(0, curr.Length);
             return (curr[indx]);
         }
     }
 
-    // generate a new road
+    // generate a new piece
     public void generate()
     {
-        // the road to spawn in
         GameObject toSpawn;
 
         // is a safe road required
         bool obstacle = true;
-
-        // how many safe roads are subsequently in prev
+/*        if (prev[0].GetComponent<RoadController>().myInfo.getObstacle())
+            obstacle = false;
+*/
+        // how many safe roads are in prev
         int numSafe = 0;
-        int counter = 0;
-        while(counter < prev.Length && !getRoad(prev[counter]).getObstacle())
+        if (obstacle)
         {
-            ++numSafe;
-            ++counter;
+            int counter = 0;
+            while(counter < prev.Length && !getRoad(prev[counter]).getObstacle())
+            {
+                ++numSafe;
+                ++counter;
+            }
         }
 
-        // set obstacle to false if we do not meet the minimum amount of safe roads
+        Debug.Log("minSafe: " + minSafe + "\nnumSafe: " + numSafe);
         if (numSafe < minSafe)
+        {
+            Debug.Log("Disabling Obstacles");
             obstacle = false;
+        }
 
-        // get the probabilites for spawning transitions and obstacles, MAY NEED ADJUSTMENT
-        int safeProb = Random.Range(numSafe, minSafe + 5);
+        // get the probabilites for spawning transitions and obstacles
+        int safeProb = Random.Range(numSafe, 5 * minSafe);      // MAY NEED ADJUSTED
         int obstProb = Random.Range(minVal, maxVal);
 
         // what was the ending amount of lanes for the last road spawned
@@ -221,8 +210,8 @@ public class Generation : MonoBehaviour
         // choose the next thing to spawn
         if (obstacle)
         {
-            // there can be more than the required transitions between obstacles if probability dicates, MAY NEED ADJUSTMENT
-            if (safeProb < minSafe + 3)
+            // there can be more than one transition between obstacles if probability dicates
+            if (safeProb < 3)
             {
                 toSpawn = getSafeSpawn(prevLanes);
             }
@@ -232,11 +221,14 @@ public class Generation : MonoBehaviour
                 toSpawn = getObstacleSpawn(prevLanes, obstProb);
             }
         }
-        // we NEED to spawn a number of transitions between every obstacle
+        // we NEED to spawn a transition between every obstacle
         else
         {
             toSpawn = getSafeSpawn(prevLanes);
         }
+
+        Debug.Log("MIN: " + minVal + "\n MAX: " + maxVal);
+        Debug.Log(obstProb + "lead to " + toSpawn + "being selected");
 
         // spawn the road and get the instance spawned
         float spawnLength = (getRoad(toSpawn).getLength()) / 2 + (getRoad(prev[0]).getLength() / 2);
@@ -247,6 +239,7 @@ public class Generation : MonoBehaviour
         {
             Destroy(del[del.Length - 1]);
         }
+
 
         // push the elements of delete - mimics queue
         for(int i = del.Length - 1; i >= 0; --i)
@@ -265,5 +258,6 @@ public class Generation : MonoBehaviour
             else
                 prev[i] = prev[i - 1];
         }
+
     }
 }
