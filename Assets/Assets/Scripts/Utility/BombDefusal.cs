@@ -56,7 +56,7 @@ public class BombDefusal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Defuse Bomb") && !completed)
+        if (Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
         {
             defusing = true;
             currKey = getNewKey();
