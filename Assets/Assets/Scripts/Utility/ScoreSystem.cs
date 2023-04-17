@@ -25,6 +25,7 @@ public class ScoreSystem : MonoBehaviour
     private float[] speeds;                             // Holds 30 speeds, used to calculate aSpeed
     private float cTime;                                // Holds the last time the player's speed was checked
     private float aSpeed;                               // Averages speed of the player over the last 30 seconds
+    public float storeScoreMult = 1f;                   // The value of the Store-bought Score Multiplier upgrade
 
     // Start is called before the first frame update
     void Start()
@@ -96,16 +97,17 @@ public class ScoreSystem : MonoBehaviour
     {
         if (_aSpeed > 100f && _aSpeed <= 1000f)
         {
-            return (float)(1 + _aSpeed / 100f);
+            return (float)(1 + _aSpeed / 100f) * storeScoreMult;
+            // Is this what we wanted for this upgrade^^^?
         }
         else if (_aSpeed > 1000f)
         {
-            return (float)(1 + _aSpeed / 1000f);
+            return (float)(1 + _aSpeed / 1000f) * storeScoreMult;
         }
         
 
         // base case - aSpeed < 100f
-        return (float)(1 + _aSpeed / 10f);
+        return (float)(1 + _aSpeed / 10f) * storeScoreMult;
     }
 
     // Calculates the score, rank, money (since money and rank are dervied from score), and the related information

@@ -175,7 +175,7 @@ public class StoreSystem : MonoBehaviour
                     if(scoreInfo.getMoney() >= GreaseMonkeyCost)
                     {
                         scoreInfo.spendMoney(GreaseMonkeyCost);
-                        // input upgrade func here
+                        carInfo.upgradeGreaseMonkey(.95f);
                         stock[toBuyIndex] = null;
                     }
                     break;
@@ -186,7 +186,7 @@ public class StoreSystem : MonoBehaviour
                     if(scoreInfo.getMoney() >= multiplierCost)
                     {
                         scoreInfo.spendMoney(multiplierCost);
-                        // input upgrade func here
+                        upgradeScoreMult()
                         stock[toBuyIndex] = null;
                     }
                     break;
@@ -197,7 +197,7 @@ public class StoreSystem : MonoBehaviour
                     if(scoreInfo.getMoney() >= rampCost)
                     {
                         scoreInfo.spendMoney(rampCost);
-                        // input upgrade func here
+                        carInfo.upgradeRamp();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
                     }
@@ -209,7 +209,7 @@ public class StoreSystem : MonoBehaviour
                     if(scoreInfo.getMoney() >= AlCost)
                     {
                         scoreInfo.spendMoney(AlCost);
-                        // input upgrade func here
+                        carInfo.upgradeAl();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
                     }
@@ -259,7 +259,7 @@ public class StoreSystem : MonoBehaviour
         }
     }
 
-    // S.A.F.E. Reards implementation
+    // S.A.F.E. Rewards implementation
     void SAFERewards()
     {
         safeProb *= 1.2f;
@@ -271,6 +271,13 @@ public class StoreSystem : MonoBehaviour
     {
         safeProb *= .8f;
         riskyPriceMult *= .8f;
+    }
+
+    // Score Multiplier upgrade implementation
+    void upgradeScoreMult()
+    {
+        // is this what we wanted?
+        scoreInfo.storeScoreMult *= 1.1f
     }
 
 }

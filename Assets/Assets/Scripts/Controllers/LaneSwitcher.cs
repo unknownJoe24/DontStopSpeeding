@@ -27,6 +27,12 @@ public class LaneSwitcher : MonoBehaviour
     private bool ampActive;
     public float ampTime = 3f;
     private float ampStart;
+    [SerializeField]
+    public bool sponsored = false;
+    private float alTimer;
+    private float alTime;
+    [SerializeField]
+    public bool rampedUp = false;
 
     [Header("Car Settings")]
     public float speedIncrement = 10f;
@@ -44,6 +50,7 @@ public class LaneSwitcher : MonoBehaviour
 
     void Start()
     {
+        alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
     }
@@ -115,6 +122,14 @@ public class LaneSwitcher : MonoBehaviour
             Debug.Log("Deactivating amphibious");
             speed /= 1.2f;
             maxSpeed /= 1.2f;
+        }
+
+        // handle Better Call Al's sponsorship segment
+        if(sponsored && Time.time - alTimer > alTime)
+        {
+            // Better Call Al!
+            alTimer = Time.time;
+            alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
     }
 
@@ -195,6 +210,13 @@ public class LaneSwitcher : MonoBehaviour
         GetComponent<GasSystem>().purchasePrice *= mult;
     }
 
+    // reduces repair prices
+    public void upgradeGreaseMonkey(float mult)
+    {
+        // There isn't really yet a way to implement this yet
+        console.log("Purchased Grease Monkey...  Nice. \n");
+    }
+
     public bool getArmor()
     {
         return armored;
@@ -219,6 +241,30 @@ public class LaneSwitcher : MonoBehaviour
         maxSpeed -= 5f;
     }
 
+    public bool getSponsor()
+    {
+        return sponsored;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeAl()
+    {
+        sponsored = true;
+        // Damage & Health system not fully implemented yet
+    }
+
+    public bool getRamp()
+    {
+        return rampedUp;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeRamp()
+    {
+        rampedUp = true;
+        // Damage & Health system not fully implemented yet
+    }
+
     // upgrade effects
     private void OnCollisionEnter(Collision collision)
     {
@@ -229,6 +275,12 @@ public class LaneSwitcher : MonoBehaviour
             speed *= 1.2f;
             ampActive = true;
             Debug.Log("Look at that boost!");
+        }
+
+        // if Ramped Up, jump
+        if (collision.gameObject.CompareTag("Ramp") && rampedUp)
+        {
+            // Ramp movement & animation
         }
     }
 
