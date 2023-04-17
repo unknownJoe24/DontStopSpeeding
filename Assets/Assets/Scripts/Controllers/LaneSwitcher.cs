@@ -21,6 +21,20 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    [SerializeField]
+    public bool armored = false;
+    [SerializeField]
+    public bool amphibious = false;
+    private bool ampActive;
+    public float ampTime = 3f;
+    private float ampStart;
+    [SerializeField]
+    public bool sponsored = false;
+    private float alTimer;
+    private float alTime;
+    [SerializeField]
+    public bool rampedUp = false;
+
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
@@ -37,6 +51,7 @@ public class LaneSwitcher : MonoBehaviour
 
     void Start()
     {
+        alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
     }
@@ -102,6 +117,23 @@ public class LaneSwitcher : MonoBehaviour
         {
             PurchaseUpgradeThree();
         }
+        */
+        // handle amphibious
+        if(ampActive && Time.time - ampStart > ampTime)
+        {
+            ampActive = false;
+            Debug.Log("Deactivating amphibious");
+            speed /= 1.2f;
+            maxSpeed /= 1.2f;
+        }
+
+        // handle Better Call Al's sponsorship segment
+        if(sponsored && Time.time - alTimer > alTime)
+        {
+            // Better Call Al!
+            alTimer = Time.time;
+            alTime = 200f + (Random.Range(0f, 1f) * 300f);
+        }
     }
 
     private void FixedUpdate()
@@ -150,7 +182,105 @@ public class LaneSwitcher : MonoBehaviour
     }
     void PurchaseUpgradeThree()
     {
-        Debug.Log("Purchased Upgrade Three");
+        //Debug.Log("Purchased Upgrade Three");
+    }
+    */
+
+    // upgrade implementation
+
+    // increases max speed
+    public void upgradeEngine(int inc)
+    {
+        maxSpeed += inc;
+    }
+
+    // reduces gas prices
+    public void upgradeTank(float mult)
+    {
+        GetComponent<GasSystem>().purchasePrice *= mult;
+    }
+
+    // reduces repair prices
+    public void upgradeGreaseMonkey(float mult)
+    {
+        // There isn't really yet a way to implement this yet
+        console.log("Purchased Grease Monkey...  Nice. \n");
+    }
+
+    public bool getArmor()
+    {
+        return armored;
+    }
+
+    // immunity to snipers, slower movement
+    public void upgradeArmor()
+    {
+        armored = true;
+        maxSpeed -= 30f;
+    }
+
+    public bool getAmphibious()
+    {
+        return amphibious;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeAmphibious()
+    {
+        amphibious = true;
+        maxSpeed -= 5f;
+    }
+
+    public bool getSponsor()
+    {
+        return sponsored;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeAl()
+    {
+        sponsored = true;
+        // Damage & Health system not fully implemented yet
+    }
+
+    public bool getRamp()
+    {
+        return rampedUp;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeRamp()
+    {
+        rampedUp = true;
+        // Damage & Health system not fully implemented yet
+    }
+
+    // upgrade effects
+    private void OnCollisionEnter(Collision collision)
+    {
+        // if amphibious, get speed boost
+        if(collision.gameObject.CompareTag("Liquid") && amphibious)
+        {
+            maxSpeed *= 1.2f;
+            speed *= 1.2f;
+            ampActive = true;
+            Debug.Log("Look at that boost!");
+        }
+
+        // if Ramped Up, jump
+        if (collision.gameObject.CompareTag("Ramp") && rampedUp)
+        {
+            // Ramp movement & animation
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // take note of leaving liquid
+        if (collision.gameObject.CompareTag("Liquid") && amphibious)
+        {
+            ampStart = Time.time;
+        }
     }
 
 }
