@@ -43,6 +43,9 @@ public class BombDefusal : MonoBehaviour
     // Has the defusal process been done before
     private bool completed;
 
+    // Has the player failed defusal
+    private bool failed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +54,7 @@ public class BombDefusal : MonoBehaviour
         done = 0;
         outcomeFor = 1f;
         completed = false;
+        failed = false;
     }
 
     // Update is called once per frame
@@ -91,6 +95,7 @@ public class BombDefusal : MonoBehaviour
 
         defusing = false;
         completed = true;
+        failed = true;
     }
 
     void checkInput()
@@ -163,5 +168,15 @@ public class BombDefusal : MonoBehaviour
 
         float timeSince = Time.time - timeUp;
         sliderFill.GetComponentInChildren<Image>().color = new Color(timeSince, timer - timeSince, 0);
+    }
+
+    public bool GetCompletion()
+    {
+        return completed;
+    }
+
+    public bool HasFailed()
+    {
+        return failed;
     }
 }

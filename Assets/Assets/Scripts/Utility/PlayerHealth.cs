@@ -49,9 +49,7 @@ public class PlayerHealth : MonoBehaviour
         if(health <= 0){
             //die
             print("ded");
-            playerInfo.IsPlayer = false;
-            playerInfo.Throttle = 0f;
-            playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>().disableInput();
         }
 
         if(Input.GetKeyDown("k"))       // this is temporary
