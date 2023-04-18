@@ -14,6 +14,7 @@ TagManager:
   - Health
   - testDamage
   - Liquid
+  - Car Despawner
   layers:
   - Default
   - TransparentFX
