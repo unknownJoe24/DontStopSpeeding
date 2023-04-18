@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: Armor
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6611262d6e62f074d9cb5ba144d602ae, type: 3}
   desc: Provides Immunity to snipers
   basePrice: 1
   priceMult: 1
