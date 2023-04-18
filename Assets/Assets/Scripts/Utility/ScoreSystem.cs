@@ -7,10 +7,10 @@ using TMPro;
 public class ScoreSystem : MonoBehaviour
 {
     string username;                                   // What is the name of the player
-    int score;                                         // How much score does the player currently have
+    ulong score;                                       // How much score does the player currently have
     float moneySpent;                                  // How much money has the player spent
     float money;                                       // How much money does the player currently have (based off of moneySpent and score)
-    enum ranks { POOP, BRONZE, SILVER, GOLD };           // Enum of the ranks so the code is more organized
+    enum ranks {POOP, BRONZE, SILVER, GOLD};           // Enum of the ranks so the code is more organized
     string rank;                                       // How well is the player doing
 
     bool saved;                                        // Bool to tell if the player's score has been saved
@@ -21,31 +21,29 @@ public class ScoreSystem : MonoBehaviour
 
     private float sTime;                                // Time since start()
     private float eTime;                                // Time elapsed since sTime
-    private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
+    private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
     private float[] speeds;                             // Holds 30 speeds, used to calculate aSpeed
     private float cTime;                                // Holds the last time the player's speed was checked
     private float aSpeed;                               // Averages speed of the player over the last 30 seconds
+    public float storeScoreMult = 1f;                   // The value of the Store-bought Score Multiplier upgrade
 
     // Start is called before the first frame update
     void Start()
     {
-        // initialize player entry information
-        username = "Player" + SaveGame.Instance.numPlayers.ToString();
+        username = "Player1";
         score = 0;
         moneySpent = 0;
         money = score - moneySpent;
 
         saved = false;
 
-        // get the text fields and initialize them
         scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TMP_Text>();
         rankText = GameObject.FindGameObjectWithTag("Rank").GetComponent<TMP_Text>();
         moneyText = GameObject.FindGameObjectWithTag("Money").GetComponent<TMP_Text>();
         redisplayInfo();
 
-        // initialize other information
         sTime = Time.time;
-        playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>();
+        playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
         speeds = new float[30];
         speeds[0] = playerInfo.Speed;
         cTime = Time.time;
@@ -64,12 +62,10 @@ public class ScoreSystem : MonoBehaviour
 
             calcRank();
 
-            redisplayInfo();
-        }
+            if (Input.GetButtonDown("Defuse Bomb"))
+                saveScore();
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            saveScore();
+            redisplayInfo();
         }
     }
 
@@ -88,82 +84,76 @@ public class ScoreSystem : MonoBehaviour
             cTime = Time.time;
         }
 
-        // sum up the speeds
         for (int i = 0; i < speeds.Length; ++i)
         {
             aSpeed += speeds[i];
         }
 
-        // get the average
         aSpeed /= speeds.Length;
     }
 
     // Returns a speed multiplier determined by an average speed
     float getSpeedMult(float _aSpeed)
     {
-        // 101-1000 grants 
         if (_aSpeed > 100f && _aSpeed <= 1000f)
         {
-            return (float)(1 + _aSpeed / 100f);
+            return (float)(1 + _aSpeed / 100f) * storeScoreMult;
+            // Is this what we wanted for this upgrade^^^?
         }
-        // 1000+ grants
         else if (_aSpeed > 1000f)
         {
-            return (float)(1 + _aSpeed / 1000f);
+            return (float)(1 + _aSpeed / 1000f) * storeScoreMult;
         }
+        
 
         // base case - aSpeed < 100f
-        return (float)(1 + _aSpeed / 10f);
+        return (float)(1 + _aSpeed / 10f) * storeScoreMult;
     }
 
     // Calculates the score, rank, money (since money and rank are dervied from score), and the related information
     void calcScore()
     {
         // calculates the score, getSpeedMult(aSpeed) is only called if 30 seconds have passed
-        int tempScore = (int)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
+        ulong tempScore = (ulong)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
 
         // only increase the score
         score = tempScore > score ? tempScore : score;
 
-        // divide by 4 for the money (and subtract moneySpent)
         money = score / 4 - moneySpent;
     }
 
     // Calculate the rank based on the score of the player
     void calcRank()
     {
-        // 0-999 is POOP
         if (score < 1000)
             rank = ranks.POOP.ToString();
-        // 1000-9999 is BRONZE
         else if (score >= 1000 && score < 10000)
             rank = ranks.BRONZE.ToString();
-        // 10000 - 99999 is SILVER
         else if (score >= 10000 && score < 100000)
             rank = ranks.SILVER.ToString();
-        // 100000+ is GOLD
         else if (score >= 100000)
             rank = ranks.GOLD.ToString();
     }
 
+
+
+
+
     // Updates the score, rank, and money (since money and rank are derived from score) UI elements
     void redisplayInfo()
     {
-        // set score and money texts
         scoreText.text = "Score\n" + score.ToString();
         moneyText.text = "$" + money.ToString();
-
-        // change rank text's color to correpsond to the rank
-
-        if (rank == ranks.POOP.ToString())
+        
+        if(rank == ranks.POOP.ToString())
         {
             rankText.color = new Color(.7f, .35f, 0f);
         }
-        else if (rank == ranks.BRONZE.ToString())
+        else if(rank == ranks.BRONZE.ToString())
         {
             rankText.color = new Color(.7f, .6f, 0f);
         }
-        else if (rank == ranks.SILVER.ToString())
+        else if(rank == ranks.SILVER.ToString())
         {
             rankText.color = Color.gray;
         }
@@ -171,15 +161,17 @@ public class ScoreSystem : MonoBehaviour
         {
             rankText.color = Color.yellow;
         }
-
-        // display rank
+        
         rankText.text = "Rank\n" + rank;
-
     }
 
 
 
-
+    // accessor for money
+    public float getMoney()
+    {
+        return money;
+    }
 
     // Adds amnt to moneySpent
     public bool spendMoney(float amnt)
@@ -195,58 +187,13 @@ public class ScoreSystem : MonoBehaviour
     // Save the player's score and rank
     public void saveScore()
     {
-        // load the save and obtain the data
-        SaveGame.Load();
-
-        // retrieve the saved information
-        int numSavedPlayers = SaveGame.Instance.numPlayers;
-        int saveIndex = SaveGame.Instance.currIndex;
-        string[] savedPlayers = SaveGame.Instance.players, savedRanks = SaveGame.Instance.ranks;
-        int[] savedScores = SaveGame.Instance.scores;
-
-        // check to see if the player already has an entry
-        bool exists = false;
-        int toWrite = saveIndex;
-
-        // itereate through the players and check for username
-        for (int i = 0; i < numSavedPlayers; ++i)
-        {
-            if (username == savedPlayers[i])
-            {
-                exists = true;
-                toWrite = i;
-            }
-        }
-
-        // MAKE IT DELETE LOWEST
-
-        // create an entry or update an existing one
-        if (score > savedScores[toWrite])
-        {
-            // create new entry
-            if (!exists)
-            {
-                SaveGame.Instance.players[toWrite] = username;
-                ++numSavedPlayers;
-                SaveGame.Instance.numPlayers = Mathf.Min(numSavedPlayers, 100);
-            }
-
-            // store the score and rank for the entry being handled
-            SaveGame.Instance.scores[toWrite] = score;
-            SaveGame.Instance.ranks[toWrite] = rank;
-
-            // write to the now oldest entry
-            SaveGame.Instance.currIndex = (saveIndex + 1) % 100;
-        }
-
-        // save the data
-        SaveGame.Save();
-
-        // set the saved flag to true
+        if((ulong)PlayerPrefs.GetInt(username + "Score") < score)
+            PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;
 
-        // disable player input
-        playerInfo.disableInput();
+        playerInfo.DisableMovement = true;
+
+        Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }
 }
 
