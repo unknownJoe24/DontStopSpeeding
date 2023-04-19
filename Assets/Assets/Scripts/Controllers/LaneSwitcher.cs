@@ -217,12 +217,14 @@ public class LaneSwitcher : MonoBehaviour
             ampActive = true;
             Debug.Log("Look at that boost!");
         }
-
+        
+        /*
         // if Ramped Up, jump
         if (collision.gameObject.CompareTag("Ramp") && rampedUp)
         {
             // Ramp movement & animation
         }
+        */
     }
 
     private void OnCollisionExit(Collision collision)

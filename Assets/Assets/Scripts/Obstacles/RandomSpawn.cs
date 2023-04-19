@@ -39,7 +39,7 @@ public class RandomSpawn : MonoBehaviour
 
             RandomMissingLaneList[j] = randomLane1;
 
-            print(RandomMissingLaneList[j]);
+            //print(RandomMissingLaneList[j]);
         }
     }
 }
