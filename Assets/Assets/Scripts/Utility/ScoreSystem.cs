@@ -7,7 +7,7 @@ using TMPro;
 public class ScoreSystem : MonoBehaviour
 {
     string username;                                   // What is the name of the player
-    ulong score;                                       // How much score does the player currently have
+    int score;                                       // How much score does the player currently have
     float moneySpent;                                  // How much money has the player spent
     float money;                                       // How much money does the player currently have (based off of moneySpent and score)
     enum ranks {POOP, BRONZE, SILVER, GOLD};           // Enum of the ranks so the code is more organized
@@ -30,7 +30,7 @@ public class ScoreSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        username = "Player1";
+        username = "Player2";
         score = 0;
         moneySpent = 0;
         money = score - moneySpent;
@@ -111,7 +111,7 @@ public class ScoreSystem : MonoBehaviour
     void calcScore()
     {
         // calculates the score, getSpeedMult(aSpeed) is only called if 30 seconds have passed
-        ulong tempScore = (ulong)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
+        int tempScore = (int)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
 
         // only increase the score
         score = tempScore > score ? tempScore : score;
@@ -186,13 +186,72 @@ public class ScoreSystem : MonoBehaviour
     {
         Debug.Log("Saving Score");
 
-        if((ulong)PlayerPrefs.GetInt(username + "Score") < score)
-            PlayerPrefsHandler.saveScore(username, score, rank);
+        // load the save and obtain the data
+        SaveGame.Load();
+
+        // retrieve the saved information
+        int numSavedPlayers = SaveGame.Instance.numPlayers;
+        string[] savedPlayers = SaveGame.Instance.players;
+        int[] savedScores = SaveGame.Instance.scores;
+
+        bool save = true; ;
+        int toWrite = numSavedPlayers;
+
+        // we need to overwrite an entry
+        if (toWrite == 99)
+        {
+            // find the lowest score 
+            toWrite = savedScores[0];
+            for (int i = 1; i < savedScores.Length; ++i)
+            {
+                if (savedScores[i] < toWrite)
+                    toWrite = i;
+            }
+
+            if (savedScores[toWrite] >= score)
+                save = false;
+        }
+
+        if (save)
+        {
+            // check to see if the player already has an entry
+            bool exists = false;
+
+            // itereate through the players and check for username
+            for (int i = 0; i < numSavedPlayers; ++i)
+            {
+                if (username == savedPlayers[i])
+                {
+                    exists = true;
+                    toWrite = i;
+                }
+            }
+
+            // create an entry or update an existing one
+            if (score > savedScores[toWrite])
+            {
+                // create new entry
+                if (!exists)
+                {
+                    SaveGame.Instance.players[toWrite] = username;
+                    ++numSavedPlayers;
+                    SaveGame.Instance.numPlayers = Mathf.Min(numSavedPlayers, 100);
+                }
+
+                // store the score and rank for the entry being handled
+                SaveGame.Instance.scores[toWrite] = score;
+                SaveGame.Instance.ranks[toWrite] = rank;
+            }
+
+            // save the data
+            SaveGame.Save();
+        }
+
+        // set the saved flag to true
         saved = true;
 
+        // disable player input
         playerInfo.DisableMovement = true;
-
-        Debug.Log(username + "'s Score: " + score + "\n" + username + "'s Rank: " + rank);
     }
 }
 

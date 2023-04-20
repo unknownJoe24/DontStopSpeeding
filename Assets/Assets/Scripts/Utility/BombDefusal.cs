@@ -79,6 +79,10 @@ public class BombDefusal : MonoBehaviour
         int keyIndex = Random.Range(0, keys.Length - 1);
         KeyCode newKey = keys[keyIndex];
 
+
+        // display the letter of the key needing to be pressed
+        quickTimeUI.GetComponentInChildren<TMP_Text>().text = newKey.ToString();
+
         // when was the key generated
         timeUp = Time.time;
 
@@ -166,8 +170,10 @@ public class BombDefusal : MonoBehaviour
     // display the key to be pressed
     void DisplayPrompt(KeyCode toPress)
     {
+        /*
         if (defusing && !completed)
             Debug.Log(toPress);
+        */
         
         // make sure the quick time UI is appearing
         quickTimeUI.SetActive(true);
@@ -178,5 +184,15 @@ public class BombDefusal : MonoBehaviour
         // how long has the key been presented and decrease the slider accordingly
         float timeSince = Time.time - timeUp;
         sliderFill.GetComponentInChildren<Image>().color = new Color(timeSince, timer - timeSince, 0);
+
+    }
+
+
+
+
+    // accessors
+    public bool getCompleted()
+    {
+        return completed;
     }
 }
