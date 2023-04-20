@@ -52,7 +52,7 @@ public class ScoreSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!saved)
+        if (!saved && !playerInfo.gameObject.GetComponent<PlayerHealth>().dead)
         {
             eTime = Time.time - sTime;
 
@@ -61,9 +61,6 @@ public class ScoreSystem : MonoBehaviour
             calcScore();
 
             calcRank();
-
-            if (Input.GetButtonDown("Defuse Bomb"))
-                saveScore();
 
             redisplayInfo();
         }
@@ -187,6 +184,8 @@ public class ScoreSystem : MonoBehaviour
     // Save the player's score and rank
     public void saveScore()
     {
+        Debug.Log("Saving Score");
+
         if((ulong)PlayerPrefs.GetInt(username + "Score") < score)
             PlayerPrefsHandler.saveScore(username, score, rank);
         saved = true;

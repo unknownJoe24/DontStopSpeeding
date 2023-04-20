@@ -7,10 +7,14 @@ public class PlayerHealth : MonoBehaviour
 {
 
     public float health;                                // current player health
+    public bool dead;                                   // is the player dead
     public float invulnerableDur;                       // how long the player becomes invulnerable
     public bool defense = false;                        // defense - redundant?
     public bool regen = false;                          // does the car regenerate
     public float regenRate;
+
+    public AudioClip hurtSound;                         // sound when the player is hurt
+    public AudioClip deathSound;                        // sound when the player dies
 
     float currentSpeed;                                 // current speed player is going
 
@@ -18,21 +22,35 @@ public class PlayerHealth : MonoBehaviour
     private float second;                               // the time since health was regenerated
     private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
     private Rigidbody playerRigidBody;                  // the rigid body of the player
-    private TMP_Text healthText;
+    private TMP_Text healthText;                        // the UI to display the player's health
+
+    GameObject[] colliderObjects;                       // the individual colliders of the player
 
     // Start is called before the first frame update
     void Start()
     {
-        health = 50;                                    // sets player health at start
+        // member initialization
         invulnerableDur = 2f;
         regenRate = 1f;
-
         invulnerableTime = 0f;
         second = 0.0f;
 
+        // get components
         playerInfo = gameObject.GetComponent<LaneSwitcher>();
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
         healthText = GameObject.FindGameObjectWithTag("Health").GetComponent<TMP_Text>();
+
+        // get all objects under gameObject that have a collider
+        // this is used to swap the player's layer
+        Collider[] allColliders = GetComponentsInChildren<Collider>();
+        colliderObjects = new GameObject[allColliders.Length];
+        if (allColliders.Length == 0)
+            Debug.LogError("The colliders were not achieved properly");
+
+        for (int i = 0; i < allColliders.Length; ++i)
+        {
+            colliderObjects[i] = allColliders[i].gameObject;
+        }
     }
 
     // Update is called once per frame
@@ -45,35 +63,27 @@ public class PlayerHealth : MonoBehaviour
         redisplayInfo();
 
         // handle invulnerability
-        if (gameObject.layer == LayerMask.NameToLayer("Invincible"))
+        if (gameObject.layer == LayerMask.NameToLayer("Invincibility"))
         {
             invulnerableTime += Time.deltaTime;
             // make the player vulnerable again
             if(invulnerableTime >= invulnerableDur)
             {
-                gameObject.layer = LayerMask.NameToLayer("Default");
-                invulnerableTime = 0f;
+                handleInvulnerability(false);
             }
         }
 
         // recover health if the player has taken damage
         if(regen && health > 0)
-        {
             recoverHealth();
-        }
 
         // kill the player if they ran out of health
-        if(health <= 0)
-        {
-            //die
+        if(!dead && health <= 0)
             killPlayer();
-        }
 
         // debugging
         if(Input.GetKeyDown("k"))       // this is temporary
-        {
             killPlayer();
-        }
     }
 
     // Recover player health over time
@@ -102,7 +112,10 @@ public class PlayerHealth : MonoBehaviour
         if(currentSpeed > 0)
         {
             health -= currentSpeed / 10;
-            handleInvulnerability();
+            if (health > 0)
+                SoundManager.Instance.Play(hurtSound, 1f);
+
+            handleInvulnerability(true);
         }
         /*
             if(currentSpeed > 0)
@@ -129,45 +142,70 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // kills the player, prevents movement, and plays the death animation
-    void killPlayer()
+    public void killPlayer()
     {
         // stop movement
         playerInfo.DisableMovement = true;
         playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
 
-        // create child clone
+        // create a new object at the location of the car to hold the car animation
+        GameObject emptyObj = new GameObject();
+        GameObject emptyInst = Instantiate(emptyObj);
+
+        emptyInst.transform.position = transform.position;
+        gameObject.SetActive(false);
+
+        dead = true;
+
+        // create a new car to be animated
         GameObject newCar = Instantiate(gameObject);
-        newCar.transform.parent = transform;
+        //newCar.gameObject.GetComponent<PlayerHealth>().dead = true;
+        newCar.transform.parent = emptyInst.transform;
+        Camera.main.gameObject.GetComponent<CamController>().updateTarget(newCar);
+        newCar.SetActive(true);
+
+        // set the position and launch upwards
+        newCar.transform.position = emptyInst.transform.position;
+        Rigidbody newBody = newCar.GetComponent<Rigidbody>();
+
+        //newBody.constraints = RigidbodyConstraints.FreezeRotation;
+        newBody.constraints = RigidbodyConstraints.FreezePositionX;
+        //newBody.constraints = RigidbodyConstraints.FreezePosition;
+        //newBody.AddForce(Vector3.up * 50f);
 
         // enable the animator and play the animation
         Animator playerAnimator = newCar.GetComponent<Animator>();
+        playerAnimator.updateMode = AnimatorUpdateMode.AnimatePhysics;
         playerAnimator.enabled = true;
         playerAnimator.bodyPosition = transform.position;
         playerAnimator.rootPosition = transform.position;
-        playerAnimator.applyRootMotion = false;
+        playerAnimator.applyRootMotion = true;
         playerAnimator.SetBool("Dead", true);
+
+        SoundManager.Instance.Play(deathSound, 1f);
     }
 
     // change the player's vulnerability
-    void handleInvulnerability()
+    void handleInvulnerability(bool _status)
     {
-
-        // get all objects under gameObject that have a collider
-        Collider[] allColliders = GetComponentsInChildren<Collider>();
-        GameObject[] colliderObjects = new GameObject[allColliders.Length];
-        if (allColliders.Length == 0)
-            Debug.LogError("The colliders were not achieved properly");
-
-        for(int i = 0; i < allColliders.Length; ++i)
+        if (_status)
         {
-            colliderObjects[i] = allColliders[i].gameObject;
+            //set the layer for every object under and including the player that has a collider
+            gameObject.layer = LayerMask.NameToLayer("Invincibility");
+            for (int i = 0; i < colliderObjects.Length; ++i)
+            {
+                colliderObjects[i].layer = LayerMask.NameToLayer("Invincibility");
+            }
         }
-
-        //set the layer for every object under and including the player that has a collider
-        gameObject.layer = LayerMask.NameToLayer("Invincibility");
-        for(int i = 0; i < colliderObjects.Length; ++i)
+        else
         {
-            colliderObjects[i].layer = LayerMask.NameToLayer("Invincibility");
+            //set the layer for every object under and including the player that has a collider
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            for (int i = 0; i < colliderObjects.Length; ++i)
+            {
+                colliderObjects[i].layer = LayerMask.NameToLayer("Default");
+            }
+            invulnerableTime = 0f;
         }
     }
 
