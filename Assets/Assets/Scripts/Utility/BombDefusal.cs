@@ -56,16 +56,20 @@ public class BombDefusal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool deadCurr = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().dead;
+
         // start defusal if the correct key is pressed and the bomb is/has not being/been defused
-        if (Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
+        if (!deadCurr && Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
         {
             defusing = true;
             currKey = getNewKey();
         }
 
         // continue defusal process if the bomb is currenlty being diffused
-        if (defusing)
+        if (!deadCurr && defusing)
             Defusal();
+        else if (deadCurr)
+            completed = true;
     }
 
     // get the next key that needs to be pressed
@@ -74,6 +78,10 @@ public class BombDefusal : MonoBehaviour
         // generate a random key to be pressing
         int keyIndex = Random.Range(0, keys.Length - 1);
         KeyCode newKey = keys[keyIndex];
+
+
+        // display the letter of the key needing to be pressed
+        quickTimeUI.GetComponentInChildren<TMP_Text>().text = newKey.ToString();
 
         // when was the key generated
         timeUp = Time.time;
@@ -84,14 +92,13 @@ public class BombDefusal : MonoBehaviour
 
     void lose()
     {
-        Debug.Log("You Lose");
 
         // display an x next to the key
         outcomeSprite.sprite = failureSprite;
         outcomeSprite.color += new Color(1f, 1f, 1f, 1);
         outcomeSince = Time.time;
         
-        GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>().DisableMovement = true;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().killPlayer();
 
         // the bomb diffusal process is not being diffused and (for the purpose of the code) has been diffused
         defusing = false;
@@ -105,7 +112,6 @@ public class BombDefusal : MonoBehaviour
         {
             if (keys[i] != currKey && Input.GetKeyDown(keys[i]))
             {
-                Debug.Log("Wrong Key!");
                 lose();
             }
         }
@@ -128,7 +134,6 @@ public class BombDefusal : MonoBehaviour
             {
                 // save the score
                 GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreSystem>().saveScore();
-                Debug.Log("You win!");
 
                 // make the quick time UI disappear
                 quickTimeUI.SetActive(false);
@@ -165,8 +170,10 @@ public class BombDefusal : MonoBehaviour
     // display the key to be pressed
     void DisplayPrompt(KeyCode toPress)
     {
-        if (defusing)
+        /*
+        if (defusing && !completed)
             Debug.Log(toPress);
+        */
         
         // make sure the quick time UI is appearing
         quickTimeUI.SetActive(true);
@@ -177,5 +184,15 @@ public class BombDefusal : MonoBehaviour
         // how long has the key been presented and decrease the slider accordingly
         float timeSince = Time.time - timeUp;
         sliderFill.GetComponentInChildren<Image>().color = new Color(timeSince, timer - timeSince, 0);
+
+    }
+
+
+
+
+    // accessors
+    public bool getCompleted()
+    {
+        return completed;
     }
 }
