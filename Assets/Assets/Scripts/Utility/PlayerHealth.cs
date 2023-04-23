@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -16,24 +17,25 @@ public class PlayerHealth : MonoBehaviour
     private float second;
     private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
     private Rigidbody playerRigidBody;
-    private TMP_Text healthText;
+    public TMP_Text healthText;
+    public Image healthBar;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = 50;                                    // sets player health at start
+        health = 100;                                    // sets player health at start
         regenRate = 5.0f;
         second = 0.0f;
 
         playerInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>();
         playerRigidBody = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
-        healthText = GameObject.FindGameObjectWithTag("Health").GetComponent<TMP_Text>();
+        //healthText = GameObject.FindGameObjectWithTag("Health").GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentSpeed = playerInfo.Speed;
+        //currentSpeed = playerInfo.Speed; -- THIS LINE DOESN'T WORK
 
         redisplayInfo();
 
@@ -99,7 +101,8 @@ public class PlayerHealth : MonoBehaviour
 
     void redisplayInfo()
     {
-        healthText.text = "Health: " + health.ToString();
+        healthText.text = "HP: " + health.ToString();
+        healthBar.fillAmount = health / 100;
     }
 
     void OnTriggerEnter (Collider other)
