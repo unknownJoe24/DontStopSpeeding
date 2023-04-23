@@ -5,8 +5,8 @@ public class LaneSwitcher : MonoBehaviour
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
 
-    public Transform[] threeLaneTransforms;
     public Transform[] twoLaneTransforms;
+    public Transform[] threeLaneTransforms;
     private int currentLane = 1;
     private bool isChangingLane = false;
     private int targetLane = 1;
@@ -21,9 +21,28 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    [SerializeField]
+    public bool armored = false;
+    [SerializeField]
+    public bool amphibious = false;
+    private bool ampActive;
+    public float ampTime = 3f;
+    private float ampStart;
+    [SerializeField]
+    public bool sponsored = false;
+    private float alTimer;
+    private float alTime;
+    [SerializeField]
+    public bool rampedUp = false;
+
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
+    public float speedInc;
+    private float sinceInc;
+    private float minSpeed;
+    [Range(0f, 1f)]
+    [SerializeField] private float volume = 1f;
 
     [SerializeField] float speed = 0.0f;    // Use this to read the current car speed (you'll need this to make a speedometer)
     public float Speed => speed;
@@ -37,13 +56,16 @@ public class LaneSwitcher : MonoBehaviour
 
     void Start()
     {
+        alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
+
+        sinceInc = 0f;
+        minSpeed = 0f;
     }
 
     void Update()
     {
-        //Debug.Log(Speed);
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
         repairCar = Input.GetButtonDown("Repair Car");
@@ -53,6 +75,7 @@ public class LaneSwitcher : MonoBehaviour
         upgradeThree = Input.GetButtonDown("Upgrade Three");
 
         // Check if the player is moving horizontally and change the target lane accordingly
+
         if (Input.GetAxisRaw("Horizontal") < 0 && currentLane > 0 && !isChangingLane)
         {
             targetLane = currentLane - 1;
@@ -77,47 +100,59 @@ public class LaneSwitcher : MonoBehaviour
             currentLane = targetLane;
             isChangingLane = false;
         }
-
-        if (defuseBomb)
+    
+        // handle amphibious
+        if (ampActive && Time.time - ampStart > ampTime)
         {
-            Defuse();
+            ampActive = false;
+            Debug.Log("Deactivating amphibious");
+            speed /= 1.2f;
+            maxSpeed /= 1.2f;
         }
 
-        if (repairCar)
+        // handle Better Call Al's sponsorship segment
+        if(sponsored && Time.time - alTimer > alTime)
         {
-            Repair();
+            // Better Call Al!
+            alTimer = Time.time;
+            alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
 
-        if (upgradeOne)
-        {
-            PurchaseUpgradeOne();
-        }
-
-        if (upgradeTwo)
-        {
-            PurchaseUpgradeTwo();
-        }
-
-        if (upgradeThree)
-        {
-            PurchaseUpgradeThree();
-        }
+        handleMinSpeed();
     }
 
     private void FixedUpdate()
     {
         speed = transform.InverseTransformDirection(rb.velocity).z;
-        
+
         if (speed < maxSpeed && !disableMovement)
         {
             rb.AddForce(transform.forward * 10000);
-        } 
+        }
 
         if (disableMovement && speed > 0.0f)
         {
             rb.drag += 0.05f;
         }
 
+    }
+
+    // handles the increase in the minimum speed and kills the player if the fall below it
+    void handleMinSpeed()
+    {
+        sinceInc += Time.deltaTime;
+        if (sinceInc >= speedInc)
+        {
+            maxSpeed += 10;
+            minSpeed += 10;
+            sinceInc = 0f;
+        }
+
+        PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
+        BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
+
+        if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+            healthInfo.killPlayer();
     }
     void GearUp()
     {
@@ -129,28 +164,107 @@ public class LaneSwitcher : MonoBehaviour
         maxSpeed -= 20;
     }
 
-    void Defuse()
-    {
-        Debug.Log("Defused Bomb");
-    }
-
-    void Repair()
-    {
-        Debug.Log("Repaired Car");
-    }
 
 
-    void PurchaseUpgradeOne()
+
+
+    // upgrade implementation
+
+    // increases max speed
+    public void upgradeEngine(int inc)
     {
-        Debug.Log("Purchased Upgrade One");
+        maxSpeed += inc;
     }
-    void PurchaseUpgradeTwo()
+
+    // reduces gas prices
+    public void upgradeTank(float mult)
     {
-        Debug.Log("Purchased Upgrade Two");
+        GetComponent<GasSystem>().purchasePrice *= mult;
     }
-    void PurchaseUpgradeThree()
+
+    // reduces repair prices
+    public void upgradeGreaseMonkey(float mult)
     {
-        Debug.Log("Purchased Upgrade Three");
+        // There isn't really yet a way to implement this yet
+        Debug.Log("Purchased Grease Monkey...  Nice. \n");
+    }
+
+    public bool getArmor()
+    {
+        return armored;
+    }
+
+    // immunity to snipers, slower movement
+    public void upgradeArmor()
+    {
+        armored = true;
+        maxSpeed -= 30f;
+    }
+
+    public bool getAmphibious()
+    {
+        return amphibious;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeAmphibious()
+    {
+        amphibious = true;
+        maxSpeed -= 5f;
+    }
+
+    public bool getSponsor()
+    {
+        return sponsored;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeAl()
+    {
+        sponsored = true;
+        // Damage & Health system not fully implemented yet
+    }
+
+    public bool getRamp()
+    {
+        return rampedUp;
+    }
+
+    // slower 'ground' traversal, faster liquid traversal
+    public void upgradeRamp()
+    {
+        rampedUp = true;
+        // Damage & Health system not fully implemented yet
+    }
+
+    // upgrade effects
+    private void OnCollisionEnter(Collision collision)
+    {
+        // if amphibious, get speed boost
+        if(collision.gameObject.CompareTag("Liquid") && amphibious)
+        {
+            maxSpeed *= 1.2f;
+            speed *= 1.2f;
+            ampActive = true;
+            Debug.Log("Look at that boost!");
+        }
+        
+        /*
+        // if Ramped Up, jump
+        if (collision.gameObject.CompareTag("Ramp") && rampedUp)
+        {
+            // Ramp movement & animation
+        }
+        */
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // take note of leaving liquid
+        if (collision.gameObject.CompareTag("Liquid") && amphibious)
+        {
+            ampStart = Time.time;
+        }
     }
 
 }

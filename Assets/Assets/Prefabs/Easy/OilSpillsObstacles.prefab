@@ -1655,7 +1655,7 @@ GameObject:
   - component: {fileID: 4658017515742335796}
   - component: {fileID: 4658017515742335947}
   - component: {fileID: 4658017515742335946}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Oil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2451,7 +2451,7 @@ GameObject:
   - component: {fileID: 4658017515902753200}
   - component: {fileID: 4658017515902753207}
   - component: {fileID: 4658017515902753206}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Oil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3267,7 +3267,7 @@ GameObject:
   - component: {fileID: 4658017516061988359}
   - component: {fileID: 4658017516061988358}
   - component: {fileID: 4658017516061988357}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Oil
   m_TagString: Untagged
   m_Icon: {fileID: 0}

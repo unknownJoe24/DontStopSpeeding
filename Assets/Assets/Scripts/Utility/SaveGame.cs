@@ -5,12 +5,11 @@ public class SaveGame
 
     //serialized
     public int numPlayers = 0;
-    public int currIndex = 0;
     public string[] players = new string[100];
     public int[] scores = new int[100];
     public string[] ranks = new string[100];
 
-    private static string _gameDataFileName = "scores(2).json";
+    private static string _gameDataFileName = "HighScores(1).json";
 
     private static SaveGame _instance;
     public static SaveGame Instance

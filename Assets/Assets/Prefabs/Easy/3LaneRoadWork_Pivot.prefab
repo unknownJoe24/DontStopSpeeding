@@ -2327,8 +2327,16 @@ PrefabInstance:
       value: Traffic_pot prefab (2)
       objectReference: {fileID: 0}
     - target: {fileID: 1791774932667290, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791774932667290, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837546083915202, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1837546083915202, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5265,8 +5273,16 @@ PrefabInstance:
       value: TrafficCone (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8499547822320879349, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499547822320879349, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499610910763489453, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8499610910763489453, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -9113,12 +9129,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2571592580561615982, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2571592580561615982, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2571655166847254784, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
       propertyPath: m_Name
       value: TrafficLaneSign (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2571655166847254784, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2571655166847254784, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -14329,8 +14353,16 @@ PrefabInstance:
       value: Traffic_pot prefab (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1791774932667290, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791774932667290, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837546083915202, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1837546083915202, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -15107,12 +15139,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 1105149250022118615}
     m_Modifications:
     - target: {fileID: 840253749101409846, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 840253749101409846, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 840538293790168946, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
       propertyPath: m_Name
       value: BigTrafficObject (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 840538293790168946, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 840538293790168946, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -16647,8 +16687,16 @@ PrefabInstance:
       value: TrafficCone
       objectReference: {fileID: 0}
     - target: {fileID: 8499547822320879349, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499547822320879349, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499610910763489453, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8499610910763489453, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -23141,8 +23189,16 @@ PrefabInstance:
       value: Traffic_pot prefab (3)
       objectReference: {fileID: 0}
     - target: {fileID: 1791774932667290, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791774932667290, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837546083915202, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1837546083915202, guid: 419d31cd2358c274b93f3ed5fac4773f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -26053,8 +26109,16 @@ PrefabInstance:
       value: TrafficCone (2)
       objectReference: {fileID: 0}
     - target: {fileID: 8499547822320879349, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499547822320879349, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499610910763489453, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8499610910763489453, guid: 3ced56d66e5844f4595fb419a510f2e5, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -26409,12 +26473,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 1105149250022118615}
     m_Modifications:
     - target: {fileID: 840253749101409846, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 840253749101409846, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 840538293790168946, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
       propertyPath: m_Name
       value: BigTrafficObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 840538293790168946, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 840538293790168946, guid: f5121b26d3f78a642b0aaa38ade88a0d, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -26593,12 +26665,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2571592580561615982, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2571592580561615982, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2571655166847254784, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
       propertyPath: m_Name
       value: TrafficLaneSign
+      objectReference: {fileID: 0}
+    - target: {fileID: 2571655166847254784, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2571655166847254784, guid: ac15c08c26d875c49b6ac7a7276d7e91, type: 3}
       propertyPath: m_StaticEditorFlags

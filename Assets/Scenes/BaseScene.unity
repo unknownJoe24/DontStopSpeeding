@@ -897,6 +897,75 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9157162338132660105, guid: 8ee49010f1077a044bc022830ca83fac, type: 3}
   m_PrefabInstance: {fileID: 419244667}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &629330825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 629330828}
+  - component: {fileID: 629330827}
+  - component: {fileID: 629330826}
+  m_Layer: 0
+  m_Name: StoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &629330826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629330825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25cdbc30d078b4104931a36c8ecc86d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgrade: {fileID: 0}
+  displayDesc: {fileID: 0}
+  displayPrice: {fileID: 0}
+  displayIcon: {fileID: 0}
+  defaultImg: {fileID: 0}
+  system: {fileID: 629330827}
+  Item: {fileID: 0}
+--- !u!114 &629330827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629330825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297b7672a913aab4f875c4e97263e784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restockInterval: 0
+  stockSize: 0
+  riskyItems: []
+  safeItems: []
+  stock: []
+--- !u!4 &629330828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629330825}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5623436, y: -3.8431551, z: 11.804986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &654564476
 Mesh:
   m_ObjectHideFlags: 0
@@ -2258,6 +2327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e731b064f0a024d820fa764086d18d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  storeScoreMult: 1
 --- !u!4 &1307837124
 Transform:
   m_ObjectHideFlags: 0
@@ -2810,7 +2880,6 @@ MonoBehaviour:
   timer: 2
   quickTimeUI: {fileID: 692030893}
   sliderFill: {fileID: 778164361}
-  buttonDisplay: {fileID: 970407239}
   outcomeSprite: {fileID: 1601156116}
   successSprite: {fileID: 21300000, guid: e171366852b6df5458146c71dc1f8c4b, type: 3}
   failureSprite: {fileID: 21300000, guid: 52d661ca07da4454d8811c33ca14e417, type: 3}

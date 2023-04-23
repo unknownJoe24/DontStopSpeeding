@@ -10,7 +10,7 @@ public class LeaderboardHandler : MonoBehaviour
     public GameObject entryTemplate;    // template for leaderboard entries
 
     private float initOffset;           // initial offset for the leaderboard entries
-    private float center;               // the center of the canvas
+    private float centerx;              // the center of the canvas
     private float templateHeight;       // height of the templates
 
     // Start is called before the first frame update
@@ -19,12 +19,11 @@ public class LeaderboardHandler : MonoBehaviour
         // load the save data, and initialize data
         SaveGame.Load();
 
-        initOffset = 350f;
-        center = 475f;
+        initOffset = 100f;
+        centerx = LeaderboardCanvas.GetComponent<RectTransform>().rect.width / 2f;
         templateHeight = 50f;
 
         int numAllPlayers = SaveGame.Instance.numPlayers;
-        int saveIndex = SaveGame.Instance.currIndex;
         string[] allPlayers = SaveGame.Instance.players;
         int[] allScores = SaveGame.Instance.scores;
         string[] allRanks = SaveGame.Instance.ranks;
@@ -39,7 +38,7 @@ public class LeaderboardHandler : MonoBehaviour
             GameObject curr = Instantiate(entryTemplate);
             curr.transform.SetParent(LeaderboardCanvas.transform);
             newTrans = curr.GetComponent<RectTransform>();
-            newTrans.position = new Vector2(center, initOffset - templateHeight * i);
+            newTrans.anchoredPosition = new Vector2(0, initOffset - templateHeight * i);
 
             
             // get the player information from the obtained save data

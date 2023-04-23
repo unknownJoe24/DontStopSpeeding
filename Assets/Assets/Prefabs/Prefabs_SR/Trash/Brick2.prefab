@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4969028967701133480}
   - component: {fileID: 3770348745560918960}
   - component: {fileID: 5921842988713494727}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Brick2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30b81332bee7624d9601102ac2b45ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: 0
 --- !u!65 &5921842988713494727
 BoxCollider:
   m_ObjectHideFlags: 0

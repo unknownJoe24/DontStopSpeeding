@@ -16,7 +16,6 @@ public class BombDefusal : MonoBehaviour
     // The UI
     public GameObject quickTimeUI;
     public GameObject sliderFill;
-    public TextMeshProUGUI buttonDisplay; 
 
     // The field and sprites for the outcome of the keypresses
     [SerializeField]
@@ -49,6 +48,7 @@ public class BombDefusal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // initialize variables
         quickTimeUI.SetActive(false);
         defusing = false;
         done = 0;
@@ -60,39 +60,51 @@ public class BombDefusal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
+        bool deadCurr = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().dead;
+
+        // start defusal if the correct key is pressed and the bomb is/has not being/been defused
+        if (!deadCurr && Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
         {
             defusing = true;
             currKey = getNewKey();
         }
 
-        if (defusing)
+        // continue defusal process if the bomb is currenlty being diffused
+        if (!deadCurr && defusing)
             Defusal();
+        else if (deadCurr)
+            completed = true;
     }
 
     // get the next key that needs to be pressed
     KeyCode getNewKey()
     {
-        KeyCode newKey = keys[Random.Range(0, keys.Length - 1)];
+        // generate a random key to be pressing
+        int keyIndex = Random.Range(0, keys.Length - 1);
+        KeyCode newKey = keys[keyIndex];
 
-        buttonDisplay.text = newKey.ToString();
 
+        // display the letter of the key needing to be pressed
+        quickTimeUI.GetComponentInChildren<TMP_Text>().text = newKey.ToString();
+
+        // when was the key generated
         timeUp = Time.time;
 
+        // return the new key
         return newKey;
     }
 
     void lose()
     {
-        Debug.Log("You Lose");
 
         // display an x next to the key
         outcomeSprite.sprite = failureSprite;
         outcomeSprite.color += new Color(1f, 1f, 1f, 1);
         outcomeSince = Time.time;
+        
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().killPlayer();
 
-        GameObject.FindGameObjectWithTag("Player").GetComponent<VehicleBehaviour.WheelVehicle>().disableInput();
-
+        // the bomb diffusal process is not being diffused and (for the purpose of the code) has been diffused
         defusing = false;
         completed = true;
         failed = true;
@@ -105,7 +117,6 @@ public class BombDefusal : MonoBehaviour
         {
             if (keys[i] != currKey && Input.GetKeyDown(keys[i]))
             {
-                Debug.Log("Wrong Key!");
                 lose();
             }
         }
@@ -126,10 +137,13 @@ public class BombDefusal : MonoBehaviour
             // the user has pressed all keys
             else
             {
+                // save the score
                 GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreSystem>().saveScore();
-                Debug.Log("You win!");
 
+                // make the quick time UI disappear
                 quickTimeUI.SetActive(false);
+
+                // the bomb is no longer being diffused and has been diffused
                 defusing = false;
                 completed = true;
             }
@@ -138,6 +152,7 @@ public class BombDefusal : MonoBehaviour
 
     void Defusal()
     {
+        // check the input if the bomb is being diffused
         if(defusing)
             checkInput();
 
@@ -153,21 +168,37 @@ public class BombDefusal : MonoBehaviour
             outcomeSprite.color = new Color(0f, 0f, 0f, 0f);
         }
 
+        // display the key that needs to be pressed
         DisplayPrompt(currKey);
     }
 
     // display the key to be pressed
     void DisplayPrompt(KeyCode toPress)
     {
-        if (defusing)
+        /*
+        if (defusing && !completed)
             Debug.Log(toPress);
-
+        */
+        
+        // make sure the quick time UI is appearing
         quickTimeUI.SetActive(true);
 
+        // get the slider that shows how much time is left to press the key
         quickTimeUI.GetComponentInChildren<Slider>().value = (timer - (Time.time - timeUp)) / timer;
 
+        // how long has the key been presented and decrease the slider accordingly
         float timeSince = Time.time - timeUp;
         sliderFill.GetComponentInChildren<Image>().color = new Color(timeSince, timer - timeSince, 0);
+
+    }
+
+
+
+
+    // accessors
+    public bool getCompleted()
+    {
+        return completed;
     }
 
     public bool GetCompletion()
