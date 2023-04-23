@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2974899867652641126}
   - component: {fileID: 5236079497955433066}
   - component: {fileID: 6146743948886357283}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Planks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30b81332bee7624d9601102ac2b45ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: 0
 --- !u!1 &5599702799932715642
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +111,7 @@ GameObject:
   - component: {fileID: 5599702799932223066}
   - component: {fileID: 5599702799929323130}
   - component: {fileID: 5599702799930453178}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Desk3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +194,7 @@ GameObject:
   - component: {fileID: 5599702799932223068}
   - component: {fileID: 5599702799929323132}
   - component: {fileID: 5599702799930453180}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Desk2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +277,7 @@ GameObject:
   - component: {fileID: 5599702799932223070}
   - component: {fileID: 5599702799929323134}
   - component: {fileID: 5599702799930453182}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Desk1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

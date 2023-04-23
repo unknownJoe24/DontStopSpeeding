@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611c9dacbf8af184c97372bff8d3317d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cowMoos:
+  - {fileID: 8300000, guid: 582f64d25eb5cc54c81c16b2ca88a961, type: 3}
+  - {fileID: 8300000, guid: cedd8c165bdecee4893f8a1905a6de80, type: 3}
+  - {fileID: 8300000, guid: 8dc3d9ea55e361144b55280917e84e66, type: 3}
   point1: {fileID: 0}
   point2: {fileID: 0}
   speed: 1.5

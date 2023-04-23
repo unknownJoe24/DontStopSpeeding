@@ -38,6 +38,9 @@ public class LaneSwitcher : MonoBehaviour
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
+    public float speedInc;
+    private float sinceInc;
+    private float minSpeed;
     [Range(0f, 1f)]
     [SerializeField] private float volume = 1f;
 
@@ -56,6 +59,9 @@ public class LaneSwitcher : MonoBehaviour
         alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
+
+        sinceInc = 0f;
+        minSpeed = 0f;
     }
 
     void Update()
@@ -111,6 +117,8 @@ public class LaneSwitcher : MonoBehaviour
             alTimer = Time.time;
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
+
+        handleMinSpeed();
     }
 
     private void FixedUpdate()
@@ -128,6 +136,24 @@ public class LaneSwitcher : MonoBehaviour
         }
 
     }
+
+    // handles the increase in the minimum speed and kills the player if the fall below it
+    void handleMinSpeed()
+    {
+        sinceInc += Time.deltaTime;
+        if (sinceInc >= speedInc)
+        {
+            maxSpeed += 10;
+            minSpeed += 10;
+            sinceInc = 0f;
+        }
+
+        PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
+        BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
+
+        if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+            healthInfo.killPlayer();
+    }
     void GearUp()
     {
         maxSpeed += 20;
@@ -138,7 +164,12 @@ public class LaneSwitcher : MonoBehaviour
         maxSpeed -= 20;
     }
 
+
+
+
+
     // upgrade implementation
+
     // increases max speed
     public void upgradeEngine(int inc)
     {
@@ -217,12 +248,14 @@ public class LaneSwitcher : MonoBehaviour
             ampActive = true;
             Debug.Log("Look at that boost!");
         }
-
+        
+        /*
         // if Ramped Up, jump
         if (collision.gameObject.CompareTag("Ramp") && rampedUp)
         {
             // Ramp movement & animation
         }
+        */
     }
 
     private void OnCollisionExit(Collision collision)

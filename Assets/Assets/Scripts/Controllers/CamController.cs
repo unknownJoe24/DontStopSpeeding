@@ -56,4 +56,10 @@ public class CamController : MonoBehaviour
 
         }
     }
+
+    // changes the target of the camera
+    public void updateTarget(GameObject _target)
+    {
+        target = _target;
+    }
 }
