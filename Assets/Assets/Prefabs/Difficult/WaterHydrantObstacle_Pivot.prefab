@@ -10266,7 +10266,7 @@ GameObject:
   - component: {fileID: 4722098235870918381}
   - component: {fileID: 4722098235870918380}
   - component: {fileID: 4722098235870918376}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2LaneWaterAngled_depth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10751,7 +10751,7 @@ GameObject:
   - component: {fileID: 4722098236038328066}
   - component: {fileID: 4722098236038328069}
   - component: {fileID: 4722098236038328065}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2LaneWaterAngled_depth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16022,7 +16022,7 @@ GameObject:
   - component: {fileID: 4722098236196613673}
   - component: {fileID: 4722098236196613672}
   - component: {fileID: 4722098236196613675}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2LaneWaterAngled (1)
   m_TagString: Liquid
   m_Icon: {fileID: 0}
@@ -16551,7 +16551,7 @@ GameObject:
   - component: {fileID: 4722098236432929737}
   - component: {fileID: 4722098236432929736}
   - component: {fileID: 4722098236432929732}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2LaneWaterAngled_depth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16963,6 +16963,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4722098236448429013}
+  - component: {fileID: 7602803359230244440}
   m_Layer: 0
   m_Name: WaterHydrantObstacle_Pivot
   m_TagString: Untagged
@@ -16989,9 +16990,23 @@ Transform:
   - {fileID: 4721953431895533116}
   - {fileID: 4722098236896891352}
   - {fileID: 4721953431325552113}
+  - {fileID: 7411742255118382961}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7602803359230244440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4722098236448429012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d832ce6621b295b45adbe127547a22f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myInfo: {fileID: 11400000, guid: b124ca2551c1ec0409063d0b8c2b099b, type: 2}
 --- !u!1 &4722098236476705684
 GameObject:
   m_ObjectHideFlags: 0
@@ -17264,7 +17279,7 @@ GameObject:
   - component: {fileID: 4722098236788287837}
   - component: {fileID: 4722098236788287836}
   - component: {fileID: 4722098236788287839}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2LaneWaterAngled
   m_TagString: Liquid
   m_Icon: {fileID: 0}
@@ -17687,7 +17702,7 @@ GameObject:
   - component: {fileID: 4722098236896891348}
   - component: {fileID: 4722098236896891351}
   - component: {fileID: 4722098236896891350}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: 2LaneWaterAngled (2)
   m_TagString: Liquid
   m_Icon: {fileID: 0}
@@ -18375,6 +18390,51 @@ Transform:
   m_Father: {fileID: 4722098235911997928}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6404260646513119300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7411742255118382961}
+  - component: {fileID: 549444319763188658}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Spawner
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7411742255118382961
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404260646513119300}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4722098236448429013}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &549444319763188658
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404260646513119300}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 90, y: 10, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4722098235212383225
 PrefabInstance:
   m_ObjectHideFlags: 0

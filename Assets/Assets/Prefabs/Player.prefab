@@ -10034,6 +10034,7 @@ GameObject:
   - component: {fileID: 630484822351609293}
   - component: {fileID: 1530498019705823391}
   - component: {fileID: 4413831334381972873}
+  - component: {fileID: 2791200557568430364}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -10148,13 +10149,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5780a552b5db41347bdd091e01ac8cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineClip: {fileID: 8300000, guid: 818f7f711bdaa48ba960398dcec20f19, type: 3}
   startingSound: {fileID: 8300000, guid: 66753e6b7787e4d71b562b3ef3acac36, type: 3}
+  engineClip: {fileID: 8300000, guid: 818f7f711bdaa48ba960398dcec20f19, type: 3}
   pitchMultiplier: 0.2
   maxPitch: 1.2
   minVolume: 0.2
   maxVolume: 0.5
   volume: 0.436
+--- !u!95 &2791200557568430364
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637335803908784}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d7b6d32d7e27f0c42a79bb2801e05d28, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1672480277976696
 GameObject:
   m_ObjectHideFlags: 0

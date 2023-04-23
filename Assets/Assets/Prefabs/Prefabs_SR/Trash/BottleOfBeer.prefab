@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3954160182789565436}
   - component: {fileID: 9215242411100668331}
   - component: {fileID: 5309247051793484626}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BottleOfBeer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

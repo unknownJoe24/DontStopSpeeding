@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     // Audio players components.
     [SerializeField]
     private AudioSource EffectsSource;
+
     [SerializeField]
     private AudioSource MusicSource;
 
@@ -65,6 +66,10 @@ public class SoundManager : MonoBehaviour
     // Play a random clip from an array, and randomize the pitch slightly.
     public void RandomSoundEffect(AudioClip[] clips, float volume)
     {
+/*
+        if (_source == null)
+            _source = EffectsSource;
+*/
         if (clips.Length == 0) return;
 
         int randomIndex = Random.Range(0, clips.Length);

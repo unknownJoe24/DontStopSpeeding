@@ -5,6 +5,8 @@ using UnityEngine;
 public class CowCrossing_WayPoints : MonoBehaviour
 {
 
+    public AudioClip[] cowMoos;
+
     [SerializeField] private Transform point1, point2;
 
     //public GameObject group; 
@@ -44,6 +46,15 @@ public class CowCrossing_WayPoints : MonoBehaviour
             //moving towards position 2
            // group.transform.localScale = new Vector3(-1, 1, 1);
             _switch = false; 
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // the cow goes moo
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            SoundManager.Instance.RandomSoundEffect(cowMoos, 1);
         }
     }
 }

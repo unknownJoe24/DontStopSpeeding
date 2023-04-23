@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2400528608938520364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 159180957962072672}
+  - component: {fileID: 4902047984417770760}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Spawner
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &159180957962072672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400528608938520364}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4658017514390818982}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4902047984417770760
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400528608938520364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 90, y: 10, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4658017514298152109
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,6 +164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4658017514390818982}
+  - component: {fileID: 3437173064895960801}
   m_Layer: 0
   m_Name: OilSpillsObstacles
   m_TagString: Untagged
@@ -142,9 +188,23 @@ Transform:
   - {fileID: 4658017515210051608}
   - {fileID: 4658017514520673133}
   - {fileID: 4658017514831658766}
+  - {fileID: 159180957962072672}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3437173064895960801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658017514390818981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d832ce6621b295b45adbe127547a22f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myInfo: {fileID: 11400000, guid: 75c00759e5336144ca2d49dfa18057e1, type: 2}
 --- !u!1 &4658017514404667832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,7 +1715,7 @@ GameObject:
   - component: {fileID: 4658017515742335796}
   - component: {fileID: 4658017515742335947}
   - component: {fileID: 4658017515742335946}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Oil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2451,7 +2511,7 @@ GameObject:
   - component: {fileID: 4658017515902753200}
   - component: {fileID: 4658017515902753207}
   - component: {fileID: 4658017515902753206}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Oil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3267,7 +3327,7 @@ GameObject:
   - component: {fileID: 4658017516061988359}
   - component: {fileID: 4658017516061988358}
   - component: {fileID: 4658017516061988357}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Oil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
