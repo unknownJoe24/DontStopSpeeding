@@ -33,7 +33,7 @@ public class LaneSwitcher : MonoBehaviour
     private float alTimer;
     private float alTime;
     [SerializeField]
-    public bool rampedUp = false;
+    static public bool rampedUp = false; //this is being set to static for Ramp Controller script
 
     [Header("Car Settings")]
     public float speedIncrement = 10f;
