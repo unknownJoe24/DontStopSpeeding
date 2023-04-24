@@ -616,6 +616,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4282600445830977213, guid: 22d7c89bbff6aef4d99a9132117df6e6, type: 3}
+      propertyPath: move
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22d7c89bbff6aef4d99a9132117df6e6, type: 3}
 --- !u!4 &208898862 stripped
@@ -944,7 +948,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-106936
+  m_Name: pb_Mesh-934384
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4708,6 +4712,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1300346439549158, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 1398208134900576, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -4750,7 +4758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -418.30368
+      value: -126.4
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4904,6 +4912,10 @@ PrefabInstance:
       propertyPath: turnInputCurve.m_Curve.Array.data[1].tangentMode
       value: 34
       objectReference: {fileID: 0}
+    - target: {fileID: 195895538068584180, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 199402147754596638, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -4954,7 +4966,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: maxSpeed
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: speedInc
@@ -4966,7 +4978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: moveSpeed
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: drivingSound
@@ -5004,6 +5016,10 @@ PrefabInstance:
       propertyPath: threeLaneTransforms.Array.data[2]
       value: 
       objectReference: {fileID: 1569538309}
+    - target: {fileID: 2421338244116335808, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2791200557568430364, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -5570,7 +5586,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-106984
+  m_Name: pb_Mesh-934432
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5991,7 +6007,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-106948
+  m_Name: pb_Mesh-934396
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6573,7 +6589,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-107032
+  m_Name: pb_Mesh-934480
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

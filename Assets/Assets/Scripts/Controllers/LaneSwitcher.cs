@@ -4,6 +4,7 @@ public class LaneSwitcher : MonoBehaviour
 {
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
+    private Vector3 rayPos;                 // where does the ray that checks beneatht the car come from
 
     public Transform[] twoLaneTransforms;
     public Transform[] threeLaneTransforms;
@@ -24,6 +25,7 @@ public class LaneSwitcher : MonoBehaviour
     [SerializeField]
     public bool armored = false;
     [SerializeField]
+    private bool prevLiquid = false;
     public bool amphibious = false;
     private bool ampActive;
     public float ampTime = 3f;
@@ -66,6 +68,9 @@ public class LaneSwitcher : MonoBehaviour
 
     void Update()
     {
+        rayPos = gameObject.transform.position;
+        rayPos.z = GameObject.Find("FLWheel").transform.position.z;
+
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
         repairCar = Input.GetButtonDown("Repair Car");
@@ -118,7 +123,31 @@ public class LaneSwitcher : MonoBehaviour
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
 
-        handleMinSpeed();
+        if(checkBelow(LayerMask.GetMask("Liquid")))
+        {
+            if(!prevLiquid)
+            {
+                maxSpeed *= .8f;     //BIND????
+                speed -= 10;       // slow down faster
+                prevLiquid = true;
+            }
+        }
+        else
+        {
+            if(prevLiquid)
+            {
+
+                maxSpeed /= .8f;
+                prevLiquid = false;
+            }
+        }
+
+        if(prevLiquid)
+        {
+            speed = Mathf.Max(maxSpeed, speed - (1000 * Time.deltaTime)); // slow down faster than friction
+        }
+
+        //handleMinSpeed();
     }
 
     private void FixedUpdate()
@@ -150,9 +179,12 @@ public class LaneSwitcher : MonoBehaviour
 
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
         BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
-
+        
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        {
             healthInfo.killPlayer();
+            Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
+        }
     }
     void GearUp()
     {
@@ -267,4 +299,9 @@ public class LaneSwitcher : MonoBehaviour
         }
     }
 
+    private bool checkBelow(LayerMask _layer)
+    {
+        bool rlt = Physics.Raycast(rayPos, Vector3.down, 20f, _layer);
+        return rlt;
+    }
 }

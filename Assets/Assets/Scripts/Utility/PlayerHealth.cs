@@ -113,7 +113,7 @@ public class PlayerHealth : MonoBehaviour
         {
             health -= currentSpeed / 10;
             if (health > 0)
-                SoundManager.Instance.Play(hurtSound, 1f);
+                //SoundManager.Instance.Play(hurtSound, 1f);
 
             handleInvulnerability(true);
         }

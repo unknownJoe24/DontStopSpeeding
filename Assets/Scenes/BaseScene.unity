@@ -769,7 +769,11 @@ PrefabInstance:
     - target: {fileID: 630484822351609293, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: wheelVehicleObject
       value: 
-      objectReference: {fileID: 398876624}
+      objectReference: {fileID: 0}
+    - target: {fileID: 2791200557568430364, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
 --- !u!1 &398876618 stripped
@@ -790,17 +794,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generatorObject: {fileID: 324281667}
---- !u!114 &398876624 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114415631047791334, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
-  m_PrefabInstance: {fileID: 398876617}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398876618}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c241727a8fc83048b56bdd0b450f8fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &419244667
 PrefabInstance:
   m_ObjectHideFlags: 0
