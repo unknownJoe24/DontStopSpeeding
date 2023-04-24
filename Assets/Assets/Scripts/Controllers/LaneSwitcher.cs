@@ -80,6 +80,7 @@ public class LaneSwitcher : MonoBehaviour
 
     void Update()
     {
+        speed = transform.InverseTransformDirection(rb.velocity).z;
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
         repairCar = Input.GetButtonDown("Repair Car");
@@ -144,7 +145,6 @@ public class LaneSwitcher : MonoBehaviour
 
     private void FixedUpdate()
     {
-        speed = transform.InverseTransformDirection(rb.velocity).z;
 
         if (!disableMovement)
         {
@@ -174,9 +174,20 @@ public class LaneSwitcher : MonoBehaviour
         float gearMinSpeed = gearMinSpeeds[currentGear - 1];
 
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
-        BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
+        BombDefusal bombInfo = GameObject.Find("DefusalHandler")?.GetComponent<BombDefusal>();
 
-        // Check if the speed is less than the minimum speed for the current gear
+        if (healthInfo == null)
+        {
+            Debug.LogError("PlayerHealth component is missing on the game object.");
+            return;
+        }
+
+        if (bombInfo == null)
+        {
+            Debug.LogError("BombDefusal component is missing on the DefusalHandler game object.");
+            return;
+        }
+
         if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
             healthInfo.killPlayer();
     }
@@ -191,11 +202,9 @@ public class LaneSwitcher : MonoBehaviour
         {
             // Use Mathf.Lerp to smoothly adjust the speed to the gear's max speed
             // The third parameter (0.05f) controls the interpolation speed; adjust this value to change how quickly the car's speed adjusts to the maxSpeed for the current gear
-            speed = Mathf.Lerp(speed, gearMaxSpeed, 0.05f);
-
-            // Update the rigidbody's velocity with the adjusted speed while keeping the x and y components unchanged
+            float newSpeed = Mathf.Lerp(speed, gearMaxSpeed, 0.05f);
             Vector3 newVelocity = rb.velocity;
-            newVelocity.z = speed;
+            newVelocity.z = newSpeed;
             rb.velocity = newVelocity;
         }
     }
