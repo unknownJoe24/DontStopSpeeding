@@ -183,45 +183,63 @@ public class LaneSwitcher : MonoBehaviour
 
     void AdjustSpeed()
     {
+        // Get the max speed for the current gear
         float gearMaxSpeed = gearMaxSpeeds[currentGear - 1];
+
+        // Check if the current speed is greater than the gear's max speed
         if (speed > gearMaxSpeed)
         {
+            // Use Mathf.Lerp to smoothly adjust the speed to the gear's max speed
+            // The third parameter (0.05f) controls the interpolation speed; adjust this value to change how quickly the car's speed adjusts to the maxSpeed for the current gear
             speed = Mathf.Lerp(speed, gearMaxSpeed, 0.05f);
+
+            // Update the rigidbody's velocity with the adjusted speed while keeping the x and y components unchanged
             Vector3 newVelocity = rb.velocity;
             newVelocity.z = speed;
             rb.velocity = newVelocity;
         }
     }
 
+
     void ChangeGear()
     {
+        // Initialize a variable to determine the direction of the gear change
         int gearChangeDirection = 0;
+
+        // Check if the player is trying to upshift
         if (Input.GetAxisRaw("Change Gear") > 0)
         {
             gearChangeDirection = 1;
         }
+        // Check if the player is trying to downshift
         else if (Input.GetAxisRaw("Change Gear") < 0)
         {
             gearChangeDirection = -1;
         }
 
+        // Calculate the new gear based on the gear change direction
         int newGear = currentGear + gearChangeDirection;
+
+        // Clamp the new gear value between the minimum and maximum gears
         newGear = Mathf.Clamp(newGear, 1, maxGears);
 
         // Check if the speed is within the acceptable range for upshifting gears
         if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
         {
+            // Set the current gear to the new gear
             currentGear = newGear;
         }
         // Allow downshifting gears without checking the speed
         else if (gearChangeDirection == -1)
         {
+            // Set the current gear to the new gear
             currentGear = newGear;
         }
 
         // Set the new minSpeed based on the current gear
         minSpeed = gearMinSpeeds[currentGear - 1];
     }
+
 
 
     // upgrade implementation
