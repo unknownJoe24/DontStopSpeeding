@@ -65,10 +65,17 @@ public class LaneSwitcher : MonoBehaviour
     {
         alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
 
         sinceInc = 0f;
-        minSpeed = 0f;
+
+        // Set the initial minimum speed based on the current gear
+        minSpeed = gearMinSpeeds[currentGear - 1];
+
+        // Set the initial speed to be equal to the initial minimum speed
+        speed = minSpeed;
+
+        // Set the initial movement velocity of RB
+        rb.velocity = new Vector3(0f, 0f, speed);
     }
 
     void Update()
@@ -161,12 +168,17 @@ public class LaneSwitcher : MonoBehaviour
             sinceInc = 0f;
         }
 
+        // Get the minimum speed for the current gear
+        float gearMinSpeed = gearMinSpeeds[currentGear - 1];
+
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
         BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
 
-        if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        // Check if the speed is less than the minimum speed for the current gear
+        if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
             healthInfo.killPlayer();
     }
+
     void ChangeGear()
     {
         int gearChangeDirection = 0;
