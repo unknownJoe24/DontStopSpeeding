@@ -4,6 +4,9 @@ public class LaneSwitcher : MonoBehaviour
 {
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
+    public float forwardForce = 10000f;
+    public float interpolationSpeed = 0.05f;
+
 
     public Transform[] twoLaneTransforms;
     public Transform[] threeLaneTransforms;
@@ -148,7 +151,7 @@ public class LaneSwitcher : MonoBehaviour
 
         if (!disableMovement)
         {
-            rb.AddForce(transform.forward * 10000);
+            rb.AddForce(transform.forward * forwardForce);
         }
 
         if (disableMovement && speed > 0.0f)
@@ -202,7 +205,7 @@ public class LaneSwitcher : MonoBehaviour
         {
             // Use Mathf.Lerp to smoothly adjust the speed to the gear's max speed
             // The third parameter (0.05f) controls the interpolation speed; adjust this value to change how quickly the car's speed adjusts to the maxSpeed for the current gear
-            float newSpeed = Mathf.Lerp(speed, gearMaxSpeed, 0.05f);
+            float newSpeed = Mathf.Lerp(speed, gearMaxSpeed, interpolationSpeed);
             Vector3 newVelocity = rb.velocity;
             newVelocity.z = newSpeed;
             rb.velocity = newVelocity;
