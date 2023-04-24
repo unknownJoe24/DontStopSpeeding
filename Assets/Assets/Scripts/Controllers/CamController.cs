@@ -19,7 +19,9 @@ public class CamController : MonoBehaviour
     {
         // initialize target and the camera information
         target = GameObject.FindGameObjectWithTag("Player");
-        offset = new Vector3(0f, 5f, -7f);
+        //offset = new Vector3(0f, 3f, -4f); //closer
+        offset = new Vector3(0f, 8f, -9f); //further back 
+        //offset = new Vector3(0f, 5f, -7f);
         baseRotation = new Vector3(15f, 0f, 0f);
         transform.position = target.transform.position + offset;
         transform.rotation = Quaternion.Euler(baseRotation);
