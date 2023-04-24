@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class LaneSwitcher : MonoBehaviour
 {
@@ -21,6 +23,7 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    // Upgrade-Handling Variables
     [SerializeField]
     public bool armored = false;
     [SerializeField]
@@ -32,6 +35,8 @@ public class LaneSwitcher : MonoBehaviour
     public bool sponsored = false;
     private float alTimer;
     private float alTime;
+    [SerializeField]
+    private VideoPlayer vPlayer;
     [SerializeField]
     public bool rampedUp = false;
 
@@ -56,7 +61,8 @@ public class LaneSwitcher : MonoBehaviour
 
     void Start()
     {
-        alTime = 200f + (Random.Range(0f, 1f) * 300f);
+        alTime = 5f;
+        //alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
 
@@ -100,7 +106,22 @@ public class LaneSwitcher : MonoBehaviour
             currentLane = targetLane;
             isChangingLane = false;
         }
-    
+
+        // This code segment was taken directly from the "NewLaneSwitcher" script.
+        if (gearChange)
+        {
+            float gearSetting = Input.GetAxis("Change Gear");
+
+            if (gearSetting > 0)
+            {
+                GearUp();
+            }
+            else if (gearSetting < 0)
+            {
+                GearDown();
+            }
+        }
+
         // handle amphibious
         if (ampActive && Time.time - ampStart > ampTime)
         {
@@ -113,7 +134,7 @@ public class LaneSwitcher : MonoBehaviour
         // handle Better Call Al's sponsorship segment
         if(sponsored && Time.time - alTimer > alTime)
         {
-            // Better Call Al!
+            StartCoroutine(vPlayer.GetComponent<StreamVideo>().PlayVideo());
             alTimer = Time.time;
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
@@ -154,14 +175,15 @@ public class LaneSwitcher : MonoBehaviour
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
             healthInfo.killPlayer();
     }
+
     void GearUp()
     {
-        maxSpeed += 20;
+        maxSpeed += 2;
     }
 
     void GearDown()
     {
-        maxSpeed -= 20;
+        maxSpeed -= 2;
     }
 
 

@@ -11,6 +11,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioSource MusicSource;
 
+    [SerializeField]
+    private AudioSource AVSource;
+
     // Random pitch adjustment range.
     [SerializeField]
     private float LowPitchRange = .95f;
@@ -43,6 +46,17 @@ public class SoundManager : MonoBehaviour
             EffectsSource.clip = clip;
             EffectsSource.volume = volume;
             EffectsSource.Play();
+        }
+    }
+
+    // Play the audio clip that accompanies the video.
+    public void PlayAV(AudioClip clip, float volume)
+    {
+        if (clip != null)
+        {
+            AVSource.clip = clip;
+            AVSource.volume = volume;
+            AVSource.Play();
         }
     }
 
