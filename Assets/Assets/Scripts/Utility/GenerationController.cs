@@ -24,7 +24,7 @@ public class GenerationController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Spawner"))
+        if(other.gameObject.CompareTag("Spawner") && generatorScript != null)
         {
             other.gameObject.SetActive(false);
 

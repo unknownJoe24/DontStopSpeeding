@@ -40,6 +40,13 @@ public class LaneSwitcher : MonoBehaviour
     public float maxSpeed = 50f;
     public float speedInc;
     private float sinceInc;
+
+    [Header("Gear Settings")]
+    public int currentGear = 1;
+    public int maxGears = 3;
+    public float[] gearMinSpeeds = { 50f, 70f, 100f };
+    public float[] gearMaxSpeeds = { 70f, 100f, 120f };
+
     private float minSpeed;
     [Range(0f, 1f)]
     [SerializeField] private float volume = 1f;
@@ -100,7 +107,13 @@ public class LaneSwitcher : MonoBehaviour
             currentLane = targetLane;
             isChangingLane = false;
         }
-    
+
+        // Gear change
+        if (gearChange)
+        {
+            ChangeGear();
+        }
+
         // handle amphibious
         if (ampActive && Time.time - ampStart > ampTime)
         {
@@ -125,7 +138,8 @@ public class LaneSwitcher : MonoBehaviour
     {
         speed = transform.InverseTransformDirection(rb.velocity).z;
 
-        if (speed < maxSpeed && !disableMovement)
+        float gearMaxSpeed = gearMaxSpeeds[currentGear - 1];
+        if (speed < gearMaxSpeed && !disableMovement)
         {
             rb.AddForce(transform.forward * 10000);
         }
@@ -134,7 +148,6 @@ public class LaneSwitcher : MonoBehaviour
         {
             rb.drag += 0.05f;
         }
-
     }
 
     // handles the increase in the minimum speed and kills the player if the fall below it
@@ -154,19 +167,27 @@ public class LaneSwitcher : MonoBehaviour
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
             healthInfo.killPlayer();
     }
-    void GearUp()
+    void ChangeGear()
     {
-        maxSpeed += 20;
+        int gearChangeDirection = 0;
+        if (Input.GetAxisRaw("Change Gear") > 0)
+        {
+            gearChangeDirection = 1;
+        }
+        else if (Input.GetAxisRaw("Change Gear") < 0)
+        {
+            gearChangeDirection = -1;
+        }
+
+        currentGear += gearChangeDirection;
+        currentGear = Mathf.Clamp(currentGear, 1, maxGears);
+
+        float newMinSpeed = gearMinSpeeds[currentGear - 1];
+        if (speed < newMinSpeed)
+        {
+            speed = newMinSpeed;
+        }
     }
-
-    void GearDown()
-    {
-        maxSpeed -= 20;
-    }
-
-
-
-
 
     // upgrade implementation
 
