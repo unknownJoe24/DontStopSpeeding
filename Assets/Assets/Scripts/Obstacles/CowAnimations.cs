@@ -28,8 +28,14 @@ public class CowAnimations : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            // renable all rotation
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
+            // disable animation - note bounciness stil applies
             _animtor.enabled = false;
+            // no longer move
             gameObject.transform.parent.gameObject.GetComponent<CowCrossing_WayPoints>().setMove(false);
+
             _audioS.Play();
             Debug.Log("Cow is being disabled.");
         }

@@ -40,6 +40,7 @@ public class LaneSwitcher : MonoBehaviour
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
+    private float baseMaxSpeed;
     public float speedInc;
     private float sinceInc;
     private float minSpeed;
@@ -61,6 +62,9 @@ public class LaneSwitcher : MonoBehaviour
         alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
         rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
+
+        ampStart = -1f;
+        baseMaxSpeed = maxSpeed;
 
         sinceInc = 0f;
         minSpeed = 0f;
@@ -107,12 +111,11 @@ public class LaneSwitcher : MonoBehaviour
         }
     
         // handle amphibious
-        if (ampActive && Time.time - ampStart > ampTime)
+        if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
         {
             ampActive = false;
-            Debug.Log("Deactivating amphibious");
             speed /= 1.2f;
-            maxSpeed /= 1.2f;
+            maxSpeed = baseMaxSpeed;
         }
 
         // handle Better Call Al's sponsorship segment
@@ -127,18 +130,41 @@ public class LaneSwitcher : MonoBehaviour
         {
             if(!prevLiquid)
             {
-                maxSpeed *= .8f;     //BIND????
-                speed -= 10;       // slow down faster
-                prevLiquid = true;
+                if (!amphibious)
+                {
+                    maxSpeed *= .8f;     //BIND????
+                    speed -= 10;       // slow down faster
+                    prevLiquid = true;
+                }
+                else if(!ampActive)
+                {
+                    maxSpeed *= 1.2f;
+                    speed *= 1.2f;
+                    ampActive = true;
+                    prevLiquid = true;
+                }
+                else if(ampActive)
+                {
+                    // deactivates timer
+                    prevLiquid = true;
+                    ampStart = -1;
+                }
             }
         }
         else
         {
             if(prevLiquid)
             {
-
-                maxSpeed /= .8f;
-                prevLiquid = false;
+                if (!amphibious)
+                {
+                    maxSpeed = baseMaxSpeed;
+                    prevLiquid = false;
+                }
+                else
+                {
+                    ampStart = Time.time;
+                    prevLiquid = false;
+                }
             }
         }
 
@@ -147,7 +173,7 @@ public class LaneSwitcher : MonoBehaviour
             speed = Mathf.Max(maxSpeed, speed - (1000 * Time.deltaTime)); // slow down faster than friction
         }
 
-        //handleMinSpeed();
+        handleMinSpeed();
     }
 
     private void FixedUpdate()
@@ -172,7 +198,7 @@ public class LaneSwitcher : MonoBehaviour
         sinceInc += Time.deltaTime;
         if (sinceInc >= speedInc)
         {
-            maxSpeed += 10;
+            increaseMaxSpeed(10f);
             minSpeed += 10;
             sinceInc = 0f;
         }
@@ -196,7 +222,12 @@ public class LaneSwitcher : MonoBehaviour
         maxSpeed -= 20;
     }
 
-
+    // this prevents things from arising when the maxSpeed is temporarily altered and needs increased
+    void increaseMaxSpeed(float _diff)
+    {
+        maxSpeed = (maxSpeed / baseMaxSpeed) * (baseMaxSpeed + _diff);
+        baseMaxSpeed += _diff;
+    }
 
 
 
@@ -269,35 +300,7 @@ public class LaneSwitcher : MonoBehaviour
         // Damage & Health system not fully implemented yet
     }
 
-    // upgrade effects
-    private void OnCollisionEnter(Collision collision)
-    {
-        // if amphibious, get speed boost
-        if(collision.gameObject.CompareTag("Liquid") && amphibious)
-        {
-            maxSpeed *= 1.2f;
-            speed *= 1.2f;
-            ampActive = true;
-            Debug.Log("Look at that boost!");
-        }
-        
-        /*
-        // if Ramped Up, jump
-        if (collision.gameObject.CompareTag("Ramp") && rampedUp)
-        {
-            // Ramp movement & animation
-        }
-        */
-    }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        // take note of leaving liquid
-        if (collision.gameObject.CompareTag("Liquid") && amphibious)
-        {
-            ampStart = Time.time;
-        }
-    }
 
     private bool checkBelow(LayerMask _layer)
     {
