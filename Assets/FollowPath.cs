@@ -5,11 +5,17 @@ using PathCreation;
 
 public class FollowPath : MonoBehaviour
 {
-
-    public PathCreator pathCreator;
+    private GameObject pathObj; 
+    private PathCreator pathCreator;
     public float speed = 5f;
 
     float distanceTravel;
+
+    private void Start()
+    {
+        pathObj = GameObject.Find("Path");
+        pathCreator = pathObj.GetComponent<PathCreator>();
+    }
 
     private void Update()
     {

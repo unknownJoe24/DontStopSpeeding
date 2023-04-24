@@ -5,8 +5,26 @@ using UnityEngine;
 public class RampController : MonoBehaviour
 {
 
+    private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
+
     private bool _rampedUp;
-    public bool testTrigger; 
+    public bool testTrigger;
+    private GameObject _player; 
+    public GameObject[] points;
+    private float currentLerpTime;
+    private bool isLerping;
+    [SerializeField] float lerpTime = 1f;   // Time it takes to get to the position - acts a speed
+
+
+    public static int pointCounter;
+    public static int pointLength;
+
+    private void Start()
+    {
+        pointCounter = 0;
+        pointLength = points.Length;
+        _player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     private void Awake()
     {
@@ -16,17 +34,33 @@ public class RampController : MonoBehaviour
 
     private void Update()
     {
+       
 
         _rampedUp = LaneSwitcher.rampedUp;
 
         if(_rampedUp || testTrigger)
         {
             transform.GetChild(0).gameObject.SetActive(true);
+            currentLerpTime = 0f;
+            if(pointCounter <= points.Length - 1)
+            {
+                LerpToPoints();
+            }
+            else
+            {
+                var _playerRB = _player.GetComponent<Rigidbody>();
+                _playerRB.useGravity = true;
+                _playerRB.constraints = RigidbodyConstraints.None; this.enabled = false;
+            
+            }
+            
         }
         else
         {
             transform.GetChild(0).gameObject.SetActive(false);
         }
+
+
         //print(testTrigger);
     }
 
@@ -45,6 +79,23 @@ public class RampController : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
         }
 
+    }
+
+    private void LerpToPoints()
+    {
+            currentLerpTime += Time.deltaTime;
+            if (currentLerpTime > lerpTime)
+            {
+                
+                currentLerpTime = lerpTime;
+                //isLerping = false;
+            }
+
+            float percentComplete = currentLerpTime / lerpTime;
+            var _playerRB = _player.GetComponent<Rigidbody>();
+            _playerRB.useGravity = false;
+            _playerRB.constraints = RigidbodyConstraints.FreezeRotation;
+            _playerRB.MovePosition(Vector3.Lerp(_player.transform.position, points[pointCounter].transform.position, percentComplete));
     }
 
 }
