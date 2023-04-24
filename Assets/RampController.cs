@@ -12,6 +12,7 @@ public class RampController : MonoBehaviour
     private GameObject _player; 
     public GameObject[] points;
     private float currentLerpTime;
+    public float speed; 
     private bool isLerping;
     [SerializeField] float lerpTime = 1f;   // Time it takes to get to the position - acts a speed
 
@@ -84,18 +85,21 @@ public class RampController : MonoBehaviour
     private void LerpToPoints()
     {
             currentLerpTime += Time.deltaTime;
-            if (currentLerpTime > lerpTime)
-            {
-                
-                currentLerpTime = lerpTime;
-                //isLerping = false;
-            }
+        /* if (currentLerpTime > lerpTime)
+         {
 
+             currentLerpTime = lerpTime;
+             //isLerping = false;
+         }*/
+            var step = speed * Time.deltaTime; // calculate distance to move
             float percentComplete = currentLerpTime / lerpTime;
             var _playerRB = _player.GetComponent<Rigidbody>();
             _playerRB.useGravity = false;
             _playerRB.constraints = RigidbodyConstraints.FreezeRotation;
-            _playerRB.MovePosition(Vector3.Lerp(_player.transform.position, points[pointCounter].transform.position, percentComplete));
+            _playerRB.MovePosition(Vector3.MoveTowards(_player.transform.position, points[pointCounter].transform.position, step));
+            //_player.transform.LookAt(points[pointCounter].transform.position);
+
+        //move to + look at
     }
 
 }
