@@ -139,14 +139,14 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         handleMinSpeed();
+        AdjustSpeed();
     }
 
     private void FixedUpdate()
     {
         speed = transform.InverseTransformDirection(rb.velocity).z;
 
-        float gearMaxSpeed = gearMaxSpeeds[currentGear - 1];
-        if (speed < gearMaxSpeed && !disableMovement)
+        if (!disableMovement)
         {
             rb.AddForce(transform.forward * 10000);
         }
@@ -156,6 +156,8 @@ public class LaneSwitcher : MonoBehaviour
             rb.drag += 0.05f;
         }
     }
+
+
 
     // handles the increase in the minimum speed and kills the player if the fall below it
     void handleMinSpeed()
@@ -179,6 +181,18 @@ public class LaneSwitcher : MonoBehaviour
             healthInfo.killPlayer();
     }
 
+    void AdjustSpeed()
+    {
+        float gearMaxSpeed = gearMaxSpeeds[currentGear - 1];
+        if (speed > gearMaxSpeed)
+        {
+            speed = Mathf.Lerp(speed, gearMaxSpeed, 0.05f);
+            Vector3 newVelocity = rb.velocity;
+            newVelocity.z = speed;
+            rb.velocity = newVelocity;
+        }
+    }
+
     void ChangeGear()
     {
         int gearChangeDirection = 0;
@@ -191,15 +205,24 @@ public class LaneSwitcher : MonoBehaviour
             gearChangeDirection = -1;
         }
 
-        currentGear += gearChangeDirection;
-        currentGear = Mathf.Clamp(currentGear, 1, maxGears);
+        int newGear = currentGear + gearChangeDirection;
+        newGear = Mathf.Clamp(newGear, 1, maxGears);
 
-        float newMinSpeed = gearMinSpeeds[currentGear - 1];
-        if (speed < newMinSpeed)
+        // Check if the speed is within the acceptable range for upshifting gears
+        if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
         {
-            speed = newMinSpeed;
+            currentGear = newGear;
         }
+        // Allow downshifting gears without checking the speed
+        else if (gearChangeDirection == -1)
+        {
+            currentGear = newGear;
+        }
+
+        // Set the new minSpeed based on the current gear
+        minSpeed = gearMinSpeeds[currentGear - 1];
     }
+
 
     // upgrade implementation
 
