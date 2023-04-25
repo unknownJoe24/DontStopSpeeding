@@ -5,7 +5,7 @@ using UnityEngine;
 public class RampController : MonoBehaviour
 {
 
-    private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
+    private LaneSwitcher playerInfo;                    // Reference to the playerInfo speed (might use as basis for deciding speed for moving in LerpToPoints();
 
     private bool _rampedUp;
     public bool testTrigger;
@@ -19,11 +19,13 @@ public class RampController : MonoBehaviour
 
     public static int pointCounter;
     public static int pointLength;
+    public static bool carAttach; 
 
     private void Start()
     {
         pointCounter = 0;
         pointLength = points.Length;
+        carAttach = false; 
         _player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -84,20 +86,23 @@ public class RampController : MonoBehaviour
 
     private void LerpToPoints()
     {
-            currentLerpTime += Time.deltaTime;
-        /* if (currentLerpTime > lerpTime)
-         {
 
-             currentLerpTime = lerpTime;
-             //isLerping = false;
-         }*/
+        if(carAttach)
+
+        {
+            currentLerpTime += Time.deltaTime;
             var step = speed * Time.deltaTime; // calculate distance to move
             float percentComplete = currentLerpTime / lerpTime;
             var _playerRB = _player.GetComponent<Rigidbody>();
             _playerRB.useGravity = false;
             _playerRB.constraints = RigidbodyConstraints.FreezeRotation;
             _playerRB.MovePosition(Vector3.MoveTowards(_player.transform.position, points[pointCounter].transform.position, step));
+            var rotation = Quaternion.LookRotation(points[pointCounter].transform.position - _player.transform.position);
+            _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, speed * Time.deltaTime);
             //_player.transform.LookAt(points[pointCounter].transform.position);
+        }
+
+
 
         //move to + look at
     }
