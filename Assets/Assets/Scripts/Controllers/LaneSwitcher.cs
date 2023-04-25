@@ -125,7 +125,8 @@ public class LaneSwitcher : MonoBehaviour
             ChangeGear();
         }
 
-        // handle amphibious
+        /* Commented out to avoid conflict with Cows liquids length
+        // handle amphibiousness
         if (ampActive && Time.time - ampStart > ampTime)
         {
             ampActive = false;
@@ -133,6 +134,7 @@ public class LaneSwitcher : MonoBehaviour
             speed /= 1.2f;
             maxSpeed /= 1.2f;
         }
+        */
 
         // handle Better Call Al's sponsorship segment
         if(sponsored && Time.time - alTimer > alTime)

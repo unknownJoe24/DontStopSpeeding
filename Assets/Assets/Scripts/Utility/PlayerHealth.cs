@@ -94,11 +94,13 @@ public class PlayerHealth : MonoBehaviour
         if (!dead && health <= 0)
             killPlayer();
 
-        if (Input.GetKeyDown("k"))       // this is temporary
+        //This was commented out to avoid a Merge Conflict for cows liquids lengths
+       /* if (Input.GetKeyDown("k"))       // this is temporary
         {
             takeDamage();
             //print("taking damage");
         }
+       */
     }
 
     // Recover player health over time
