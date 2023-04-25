@@ -13,6 +13,7 @@ public class PauseGame : MonoBehaviour {
         {
             if(gamePaused == false)
             {
+                print("Game Paused");
                 Time.timeScale = 0;
                 gamePaused = true;
                 Cursor.visible = true;
