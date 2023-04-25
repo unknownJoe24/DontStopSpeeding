@@ -67,7 +67,7 @@ public class LaneSwitcher : MonoBehaviour
         baseMaxSpeed = maxSpeed;
 
         sinceInc = 0f;
-        minSpeed = 0f;
+        minSpeed = baseMaxSpeed - 30f;
     }
 
     void Update()
@@ -110,13 +110,7 @@ public class LaneSwitcher : MonoBehaviour
             isChangingLane = false;
         }
     
-        // handle amphibious
-        if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
-        {
-            ampActive = false;
-            speed /= 1.2f;
-            maxSpeed = baseMaxSpeed;
-        }
+
 
         // handle Better Call Al's sponsorship segment
         if(sponsored && Time.time - alTimer > alTime)
@@ -126,52 +120,7 @@ public class LaneSwitcher : MonoBehaviour
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
 
-        if(checkBelow(LayerMask.GetMask("Liquid")))
-        {
-            if(!prevLiquid)
-            {
-                if (!amphibious)
-                {
-                    maxSpeed *= .8f;     //BIND????
-                    speed -= 10;       // slow down faster
-                    prevLiquid = true;
-                }
-                else if(!ampActive)
-                {
-                    maxSpeed *= 1.2f;
-                    speed *= 1.2f;
-                    ampActive = true;
-                    prevLiquid = true;
-                }
-                else if(ampActive)
-                {
-                    // deactivates timer
-                    prevLiquid = true;
-                    ampStart = -1;
-                }
-            }
-        }
-        else
-        {
-            if(prevLiquid)
-            {
-                if (!amphibious)
-                {
-                    maxSpeed = baseMaxSpeed;
-                    prevLiquid = false;
-                }
-                else
-                {
-                    ampStart = Time.time;
-                    prevLiquid = false;
-                }
-            }
-        }
-
-        if(prevLiquid)
-        {
-            speed = Mathf.Max(maxSpeed, speed - (1000 * Time.deltaTime)); // slow down faster than friction
-        }
+        handleLiquids();
 
         handleMinSpeed();
     }
@@ -198,8 +147,8 @@ public class LaneSwitcher : MonoBehaviour
         sinceInc += Time.deltaTime;
         if (sinceInc >= speedInc)
         {
-            increaseMaxSpeed(10f);
-            minSpeed += 10;
+            increaseMaxSpeed(speedIncrement);
+            minSpeed += speedIncrement * .9f;
             sinceInc = 0f;
         }
 
@@ -212,6 +161,7 @@ public class LaneSwitcher : MonoBehaviour
             Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
         }
     }
+
     void GearUp()
     {
         maxSpeed += 20;
@@ -229,6 +179,64 @@ public class LaneSwitcher : MonoBehaviour
         baseMaxSpeed += _diff;
     }
 
+    // handle how the player interacts with liquids
+    private void handleLiquids()
+    {
+        // handle amphibious
+        if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
+        {
+            ampActive = false;
+            speed /= 1.2f;
+            maxSpeed = baseMaxSpeed;
+        }
+
+        if (checkBelow(LayerMask.GetMask("Liquid")))
+        {
+            if (!prevLiquid)
+            {
+                if (!amphibious)
+                {
+                    maxSpeed *= .8f;     //BIND????
+                    speed -= 10;       // slow down faster
+                    prevLiquid = true;
+                }
+                else if (!ampActive)
+                {
+                    maxSpeed *= 1.2f;
+                    speed *= 1.2f;
+                    ampActive = true;
+                    prevLiquid = true;
+                }
+                else if (ampActive)
+                {
+                    // deactivates timer
+                    prevLiquid = true;
+                    ampStart = -1;
+                }
+            }
+        }
+        else
+        {
+            if (prevLiquid)
+            {
+                if (!amphibious)
+                {
+                    maxSpeed = baseMaxSpeed;
+                    prevLiquid = false;
+                }
+                else
+                {
+                    ampStart = Time.time;
+                    prevLiquid = false;
+                }
+            }
+        }
+
+        if (prevLiquid)
+        {
+            speed = Mathf.Max(maxSpeed, speed - (1000 * Time.deltaTime)); // slow down faster than friction
+        }
+    }
 
 
     // upgrade implementation

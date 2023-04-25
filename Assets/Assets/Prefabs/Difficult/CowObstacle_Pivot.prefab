@@ -311,7 +311,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489327037368140955}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: -0.10002, z: -45}
+  m_LocalPosition: {x: -6.9143143, y: -0.6729484, z: -11.494637}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -321,7 +321,7 @@ Transform:
   - {fileID: 4282600445525458453}
   - {fileID: 3489327037287308811}
   - {fileID: 3489327037246098218}
-  m_Father: {fileID: 3489327039059590881}
+  m_Father: {fileID: 5137426480019657494}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3489327037370794947
@@ -1594,7 +1594,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489327037929669178}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: -0.10002, z: -15}
+  m_LocalPosition: {x: -6.9143143, y: -0.6729484, z: 18.505363}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1604,7 +1604,7 @@ Transform:
   - {fileID: 4282600445020493483}
   - {fileID: 3489327039194330004}
   - {fileID: 3489327038117661488}
-  m_Father: {fileID: 3489327039059590881}
+  m_Father: {fileID: 5137426480019657494}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3489327037963350484
@@ -2149,12 +2149,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489327038260126119}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.0856857, y: -0.5729284, z: 33.505363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3489327039212342417}
-  m_Father: {fileID: 3489327039059590881}
+  m_Father: {fileID: 5137426480019657494}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3489327038284371685
@@ -2484,7 +2484,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489327038440605116}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 16, y: -0.10002, z: -30}
+  m_LocalPosition: {x: 21.085686, y: -0.6729484, z: 3.5053635}
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2494,7 +2494,7 @@ Transform:
   - {fileID: 4282600444934831512}
   - {fileID: 3489327038681136261}
   - {fileID: 3489327038902772327}
-  m_Father: {fileID: 3489327039059590881}
+  m_Father: {fileID: 5137426480019657494}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1 &3489327038465543520
@@ -3852,12 +3852,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3489327039015605450}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -24}
+  m_LocalPosition: {x: 5.0856857, y: -0.5729284, z: 9.505363}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3489327038612779823}
-  m_Father: {fileID: 3489327039059590881}
+  m_Father: {fileID: 5137426480019657494}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3489327039059590880
@@ -3871,7 +3871,7 @@ GameObject:
   - component: {fileID: 3489327039059590881}
   - component: {fileID: 3244554591590356268}
   m_Layer: 0
-  m_Name: CowObstacle
+  m_Name: CowObstacle_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3889,12 +3889,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3489327038260126116}
-  - {fileID: 3489327039015605451}
-  - {fileID: 3489327037368140952}
-  - {fileID: 3489327038440605117}
-  - {fileID: 3489327037929669179}
   - {fileID: 7085168653021070621}
+  - {fileID: 5137426480019657494}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4271,6 +4267,42 @@ Transform:
   m_Father: {fileID: 3489327037668948510}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5714446729710074899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5137426480019657494}
+  m_Layer: 0
+  m_Name: CowObstacle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5137426480019657494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5714446729710074899}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.0856857, y: 0.5729284, z: -21.50536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3489327038260126116}
+  - {fileID: 3489327039015605451}
+  - {fileID: 3489327037368140952}
+  - {fileID: 3489327038440605117}
+  - {fileID: 3489327037929669179}
+  m_Father: {fileID: 3489327039059590881}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6179057313129434582
 GameObject:
   m_ObjectHideFlags: 0
@@ -4301,7 +4333,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3489327039059590881}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &3982366986380590127
 BoxCollider:
