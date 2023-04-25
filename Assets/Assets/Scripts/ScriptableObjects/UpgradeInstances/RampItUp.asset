@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: RampItUp
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e19bb088600a8be4c8e9038b91c54780, type: 3}
   desc: Creates ramps
   basePrice: 750
   priceMult: 500

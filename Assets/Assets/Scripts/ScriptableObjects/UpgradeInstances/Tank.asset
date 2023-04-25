@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: Tank
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d8a95fe82c2693843a46673e83b7a733, type: 3}
   desc: Lowers the price of gas
   basePrice: 200
   priceMult: 150
