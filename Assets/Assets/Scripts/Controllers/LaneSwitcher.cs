@@ -4,6 +4,9 @@ public class LaneSwitcher : MonoBehaviour
 {
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
+    public float forwardForce = 10000f;
+    public float interpolationSpeed = 0.05f;
+
 
     public Transform[] twoLaneTransforms;
     public Transform[] threeLaneTransforms;
@@ -40,6 +43,13 @@ public class LaneSwitcher : MonoBehaviour
     public float maxSpeed = 50f;
     public float speedInc;
     private float sinceInc;
+
+    [Header("Gear Settings")]
+    public int currentGear = 1;
+    public int maxGears = 3;
+    public float[] gearMinSpeeds = { 50f, 70f, 100f };
+    public float[] gearMaxSpeeds = { 70f, 100f, 120f };
+
     private float minSpeed;
     [Range(0f, 1f)]
     [SerializeField] private float volume = 1f;
@@ -58,14 +68,22 @@ public class LaneSwitcher : MonoBehaviour
     {
         alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
 
         sinceInc = 0f;
-        minSpeed = 0f;
+
+        // Set the initial minimum speed based on the current gear
+        minSpeed = gearMinSpeeds[currentGear - 1];
+
+        // Set the initial speed to be equal to the initial minimum speed
+        speed = minSpeed;
+
+        // Set the initial movement velocity of RB
+        rb.velocity = new Vector3(0f, 0f, speed);
     }
 
     void Update()
     {
+        speed = transform.InverseTransformDirection(rb.velocity).z;
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
         repairCar = Input.GetButtonDown("Repair Car");
@@ -100,7 +118,13 @@ public class LaneSwitcher : MonoBehaviour
             currentLane = targetLane;
             isChangingLane = false;
         }
-    
+
+        // Gear change
+        if (gearChange)
+        {
+            ChangeGear();
+        }
+
         // handle amphibious
         if (ampActive && Time.time - ampStart > ampTime)
         {
@@ -119,23 +143,24 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         handleMinSpeed();
+        AdjustSpeed();
     }
 
     private void FixedUpdate()
     {
-        speed = transform.InverseTransformDirection(rb.velocity).z;
 
-        if (speed < maxSpeed && !disableMovement)
+        if (!disableMovement)
         {
-            rb.AddForce(transform.forward * 10000);
+            rb.AddForce(transform.forward * forwardForce);
         }
 
         if (disableMovement && speed > 0.0f)
         {
             rb.drag += 0.05f;
         }
-
     }
+
+
 
     // handles the increase in the minimum speed and kills the player if the fall below it
     void handleMinSpeed()
@@ -148,23 +173,84 @@ public class LaneSwitcher : MonoBehaviour
             sinceInc = 0f;
         }
 
-        PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
-        BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
+        // Get the minimum speed for the current gear
+        float gearMinSpeed = gearMinSpeeds[currentGear - 1];
 
-        if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
+        BombDefusal bombInfo = GameObject.Find("DefusalHandler")?.GetComponent<BombDefusal>();
+
+        if (healthInfo == null)
+        {
+            Debug.LogError("PlayerHealth component is missing on the game object.");
+            return;
+        }
+
+        if (bombInfo == null)
+        {
+            Debug.LogError("BombDefusal component is missing on the DefusalHandler game object.");
+            return;
+        }
+
+        if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
             healthInfo.killPlayer();
     }
-    void GearUp()
+
+    void AdjustSpeed()
     {
-        maxSpeed += 20;
+        // Get the max speed for the current gear
+        float gearMaxSpeed = gearMaxSpeeds[currentGear - 1];
+
+        // Check if the current speed is greater than the gear's max speed
+        if (speed > gearMaxSpeed)
+        {
+            // Use Mathf.Lerp to smoothly adjust the speed to the gear's max speed
+            // The third parameter (0.05f) controls the interpolation speed; adjust this value to change how quickly the car's speed adjusts to the maxSpeed for the current gear
+            float newSpeed = Mathf.Lerp(speed, gearMaxSpeed, interpolationSpeed);
+            Vector3 newVelocity = rb.velocity;
+            newVelocity.z = newSpeed;
+            rb.velocity = newVelocity;
+        }
     }
 
-    void GearDown()
+
+    void ChangeGear()
     {
-        maxSpeed -= 20;
+        // Initialize a variable to determine the direction of the gear change
+        int gearChangeDirection = 0;
+
+        // Check if the player is trying to upshift
+        if (Input.GetAxisRaw("Change Gear") > 0)
+        {
+            gearChangeDirection = 1;
+        }
+        // Check if the player is trying to downshift
+        else if (Input.GetAxisRaw("Change Gear") < 0)
+        {
+            gearChangeDirection = -1;
+        }
+
+        // Calculate the new gear based on the gear change direction
+        int newGear = currentGear + gearChangeDirection;
+
+        // Clamp the new gear value between the minimum and maximum gears
+        newGear = Mathf.Clamp(newGear, 1, maxGears);
+
+        // Check if the speed is within the acceptable range for upshifting gears
+        if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
+        {
+            // Set the current gear to the new gear
+            currentGear = newGear;
+        }
+        // Allow downshifting gears without checking the speed
+        else if (gearChangeDirection == -1)
+        {
+            // Set the current gear to the new gear
+            currentGear = newGear;
+        }
+
+        // Set the new minSpeed based on the current gear
+        minSpeed = gearMinSpeeds[currentGear - 1];
     }
-
-
 
 
 
