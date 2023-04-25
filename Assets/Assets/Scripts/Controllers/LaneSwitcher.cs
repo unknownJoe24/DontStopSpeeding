@@ -5,6 +5,7 @@ public class LaneSwitcher : MonoBehaviour
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
     private Vector3 rayPos;                 // where does the ray that checks beneatht the car come from
+    public float forwardForce = 10000f; 
     public float interpolationSpeed = 0.05f;
 
     public Transform[] twoLaneTransforms;
@@ -69,7 +70,6 @@ public class LaneSwitcher : MonoBehaviour
     {
         alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
-        rb.velocity = new Vector3(0f, 0f, moveSpeed);       // Set initial movement velocity of RB
 
         ampStart = -1f;
         baseMaxSpeed = maxSpeed;
@@ -93,7 +93,11 @@ public class LaneSwitcher : MonoBehaviour
 
     void Update()
     {
-        speed = transform.InverseTransformDirection(rb.velocity).z; //this was added to avoid a conflict merge with main (originally did not exist in the cows liquids length branch)
+
+
+        speed = transform.InverseTransformDirection(rb.velocity).z;
+
+        //this was added to avoid a conflict merge with main (originally did not exist in the cows liquids length branch)
 
         rayPos = gameObject.transform.position; //these do not exist in main (used for ground check)
         rayPos.z = GameObject.Find("FLWheel").transform.position.z; //this also does not exist in main
@@ -156,7 +160,6 @@ public class LaneSwitcher : MonoBehaviour
 
     private void FixedUpdate()
     {
-        speed = transform.InverseTransformDirection(rb.velocity).z;
 
         if (speed < maxSpeed && !disableMovement)
         {
@@ -181,10 +184,12 @@ public class LaneSwitcher : MonoBehaviour
             sinceInc = 0f;
         }
 
+        float gearMinSpeed = gearMinSpeeds[currentGear - 1];
+
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
         BombDefusal bombInfo = GameObject.Find("DefusalHandler")?.GetComponent<BombDefusal>(); //change to avoid conflict with main (added '?')
 
-        float gearMinSpeed = gearMinSpeeds[currentGear - 1];
+        
 
         if(healthInfo == null)
         {
