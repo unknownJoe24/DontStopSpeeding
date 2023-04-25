@@ -81,7 +81,9 @@ public class PlayerHealth : MonoBehaviour
         if(!dead && health <= 0)
             killPlayer();
 
-        
+        // debugging
+        //if(Input.GetKeyDown("k"))       // this is temporary
+          //  killPlayer();
     }
 
     // Recover player health over time
