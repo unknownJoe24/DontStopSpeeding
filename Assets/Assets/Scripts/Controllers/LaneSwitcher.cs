@@ -5,7 +5,6 @@ public class LaneSwitcher : MonoBehaviour
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
     private Vector3 rayPos;                 // where does the ray that checks beneatht the car come from
-    public float interpolationSpeed = 0.05f;
 
     public Transform[] twoLaneTransforms;
     public Transform[] threeLaneTransforms;
@@ -44,13 +43,6 @@ public class LaneSwitcher : MonoBehaviour
     private float baseMaxSpeed;
     public float speedInc;
     private float sinceInc;
-
-    [Header("Gear Settings")]
-    public int currentGear = 1;
-    public int maxGears = 3;
-    public float[] gearMinSpeeds = { 50f, 70f, 100f };
-    public float[] gearMaxSpeeds = { 70f, 100f, 120f };
-
     private float minSpeed;
     [Range(0f, 1f)]
     [SerializeField] private float volume = 1f;
@@ -75,28 +67,13 @@ public class LaneSwitcher : MonoBehaviour
         baseMaxSpeed = maxSpeed;
 
         sinceInc = 0f;
-
-        
-        //minSpeed = baseMaxSpeed - 30f; this was commented out to avoid a merge conflict with main
-
-
-        //Added from main
-        // Set the initial minimum speed based on the current gear
-        minSpeed = gearMinSpeeds[currentGear - 1];
-
-        // Set the initial speed to be equal to the initial minimum speed
-        speed = minSpeed;
-
-        // Set the initial movement velocity of RB
-        rb.velocity = new Vector3(0f, 0f, speed);
+        minSpeed = baseMaxSpeed - 30f;
     }
 
     void Update()
     {
-        speed = transform.InverseTransformDirection(rb.velocity).z; //this was added to avoid a conflict merge with main (originally did not exist in the cows liquids length branch)
-
-        rayPos = gameObject.transform.position; //these do not exist in main (used for ground check)
-        rayPos.z = GameObject.Find("FLWheel").transform.position.z; //this also does not exist in main
+        rayPos = gameObject.transform.position;
+        rayPos.z = GameObject.Find("FLWheel").transform.position.z;
 
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
@@ -133,12 +110,7 @@ public class LaneSwitcher : MonoBehaviour
             isChangingLane = false;
         }
     
-        //Gear change
-        //This was added to the cows liquid lengths branch from main (via david's branch from Pause)
-        if(gearChange)
-        {
-            ChangeGear(); 
-        }
+
 
         // handle Better Call Al's sponsorship segment
         if(sponsored && Time.time - alTimer > alTime)
@@ -148,10 +120,9 @@ public class LaneSwitcher : MonoBehaviour
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
 
-        handleMinSpeed();
         handleLiquids();
 
-        
+        handleMinSpeed();
     }
 
     private void FixedUpdate()
@@ -182,97 +153,15 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
-        BombDefusal bombInfo = GameObject.Find("DefusalHandler")?.GetComponent<BombDefusal>(); //change to avoid conflict with main (added '?')
-
-        float gearMinSpeed = gearMinSpeeds[currentGear - 1];
-
-        if(healthInfo == null)
-        {
-            Debug.LogError("PlayerHealth component is missing on the game object");
-            return; 
-        }
-
-        if(bombInfo == null)
-        {
-            Debug.LogError("BombDefusal Component is missing on the DefusalHandler game object");
-            return; 
-        }
-
-        //this version was from main (aka david's branch pause menu)
-        if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
-        {
-            healthInfo.killPlayer();
-        }
+        BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>();
         
-        //this version was from the cows liquids length branch
-        /*
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
         {
             healthInfo.killPlayer();
             Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
         }
-        */
     }
 
-
-    //this adjustSpeed function was added from main (Pause Branch) 
-    void AdjustSpeed()
-    {
-        // Get the max speed for the current gear
-        float gearMaxSpeed = gearMaxSpeeds[currentGear - 1];
-
-        // Check if the current speed is greater than the gear's max speed
-        if (speed > gearMaxSpeed)
-        {
-            // Use Mathf.Lerp to smoothly adjust the speed to the gear's max speed
-            // The third parameter (0.05f) controls the interpolation speed; adjust this value to change how quickly the car's speed adjusts to the maxSpeed for the current gear
-            float newSpeed = Mathf.Lerp(speed, gearMaxSpeed, interpolationSpeed);
-            Vector3 newVelocity = rb.velocity;
-            newVelocity.z = newSpeed;
-            rb.velocity = newVelocity;
-        }
-    }
-
-    void ChangeGear()
-    {
-        // Initialize a variable to determine the direction of the gear change
-        int gearChangeDirection = 0;
-
-        // Check if the player is trying to upshift
-        if (Input.GetAxisRaw("Change Gear") > 0)
-        {
-            gearChangeDirection = 1;
-        }
-        // Check if the player is trying to downshift
-        else if (Input.GetAxisRaw("Change Gear") < 0)
-        {
-            gearChangeDirection = -1;
-        }
-
-        // Calculate the new gear based on the gear change direction
-        int newGear = currentGear + gearChangeDirection;
-
-        // Clamp the new gear value between the minimum and maximum gears
-        newGear = Mathf.Clamp(newGear, 1, maxGears);
-
-        // Check if the speed is within the acceptable range for upshifting gears
-        if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
-        {
-            // Set the current gear to the new gear
-            currentGear = newGear;
-        }
-        // Allow downshifting gears without checking the speed
-        else if (gearChangeDirection == -1)
-        {
-            // Set the current gear to the new gear
-            currentGear = newGear;
-        }
-
-        // Set the new minSpeed based on the current gear
-        minSpeed = gearMinSpeeds[currentGear - 1];
-    } //this was added from main and is the new GearChange system
-
-    /* this was commented out to avoid a conflict with main
     void GearUp()
     {
         maxSpeed += 20;
@@ -282,7 +171,6 @@ public class LaneSwitcher : MonoBehaviour
     {
         maxSpeed -= 20;
     }
-    */
 
     // this prevents things from arising when the maxSpeed is temporarily altered and needs increased
     void increaseMaxSpeed(float _diff)
@@ -295,14 +183,12 @@ public class LaneSwitcher : MonoBehaviour
     private void handleLiquids()
     {
         // handle amphibious
-
         if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
         {
             ampActive = false;
             speed /= 1.2f;
             maxSpeed = baseMaxSpeed;
         }
-        
 
         if (checkBelow(LayerMask.GetMask("Liquid")))
         {
