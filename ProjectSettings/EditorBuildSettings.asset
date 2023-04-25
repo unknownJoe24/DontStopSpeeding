@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestingScene.unity
+    path: Assets/Scenes/TestingScene_CowsLiquidsLength.unity
     guid: 829db33ddcc24e746810414b15c567e9
   m_configObjects: {}
