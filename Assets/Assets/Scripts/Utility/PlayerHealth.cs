@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -18,27 +19,34 @@ public class PlayerHealth : MonoBehaviour
 
     float currentSpeed;                                 // current speed player is going
 
+
     private float invulnerableTime;                     // the time since invulnerability began
     private float second;                               // the time since health was regenerated
-    private LaneSwitcher playerInfo;                    // Reference to the WheelVehicle script
-    private Rigidbody playerRigidBody;                  // the rigid body of the player
-    private TMP_Text healthText;                        // the UI to display the player's health
+    private LaneSwitcher playerInfo;                    
+    //private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
+    private Rigidbody playerRigidBody;
+    public TMP_Text healthText;
+    public Image healthBar;
+
 
     GameObject[] colliderObjects;                       // the individual colliders of the player
 
     // Start is called before the first frame update
     void Start()
     {
+
         // member initialization
         invulnerableDur = 2f;
         regenRate = 1f;
         invulnerableTime = 0f;
         second = 0.0f;
 
-        // get components
+        //health = 100;                                    // sets player health at start
+
+
         playerInfo = gameObject.GetComponent<LaneSwitcher>();
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
-        healthText = GameObject.FindGameObjectWithTag("Health").GetComponent<TMP_Text>();
+        //healthText = GameObject.FindGameObjectWithTag("Health").GetComponent<TMP_Text>();
 
         // get all objects under gameObject that have a collider
         // this is used to swap the player's layer
@@ -51,13 +59,13 @@ public class PlayerHealth : MonoBehaviour
         {
             colliderObjects[i] = allColliders[i].gameObject;
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // get the player's current speed
-        currentSpeed = playerInfo.Speed;
+        currentSpeed = playerInfo.Speed; //-- THIS LINE DOESN'T WORK(?)
 
         // redisplay the health HUD
         redisplayInfo();
@@ -67,21 +75,24 @@ public class PlayerHealth : MonoBehaviour
         {
             invulnerableTime += Time.deltaTime;
             // make the player vulnerable again
-            if(invulnerableTime >= invulnerableDur)
+            if (invulnerableTime >= invulnerableDur)
             {
                 handleInvulnerability(false);
             }
         }
 
         // recover health if the player has taken damage
-        if(regen && health > 0)
+        if (regen && health > 0)
             recoverHealth();
 
-        // kill the player if they ran out of health
-        if(!dead && health <= 0)
-            killPlayer();
+        if (health > 0)
+        {
+                recoverHealth();
+        }
 
-        
+        // kill the player if they ran out of health
+        if (!dead && health <= 0)
+            killPlayer();
     }
 
     // Recover player health over time
@@ -89,14 +100,14 @@ public class PlayerHealth : MonoBehaviour
     {
         // recover 5 health every regenRate seconds
         // get time and then check every regenRate seconds
-        if(health < 100 && regen)
+        if (health < 100 && regen)
         {
             second += Time.deltaTime;
-            if(second >= regenRate)
+            if (second >= regenRate)
             {
                 health += 5;
                 second = 0;
-                if(health > 100)
+                if (health > 100)
                 {
                     health = 100;
                 }
@@ -107,7 +118,7 @@ public class PlayerHealth : MonoBehaviour
     // Remove health from player when damage is dealt
     void takeDamage()
     {
-        if(currentSpeed > 0)
+        if (currentSpeed > 0)
         {
             health -= currentSpeed / 10;
             if (health > 0)
@@ -128,15 +139,14 @@ public class PlayerHealth : MonoBehaviour
                 //Current Speed before impact / 10 = damage dealt
                 health -= currentSpeed / 10;
             }
-
         
         }*/
     }
 
-    // updates the health UI
     void redisplayInfo()
     {
-        healthText.text = "Health: " + health.ToString();
+        healthText.text = "HP: " + health.ToString();
+        healthBar.fillAmount = health / 100;
     }
 
     // kills the player, prevents movement, and plays the death animation
@@ -217,5 +227,3 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 }
-
-// stack overflow

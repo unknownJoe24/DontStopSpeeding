@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: BetterCallAl
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 8f833bf81df6e64439a98f0c7b00faf6, type: 3}
   desc: Health regenerates at the cost of ads
   basePrice: 1500
   priceMult: 100
