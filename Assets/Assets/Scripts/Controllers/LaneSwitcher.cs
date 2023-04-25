@@ -4,6 +4,7 @@ public class LaneSwitcher : MonoBehaviour
 {
     public float moveSpeed = 5f;            // Speed at which player moves forward
     private Rigidbody rb;
+    private Vector3 rayPos;   // where does the ray that checks beneatht the car come from
     public float forwardForce = 10000f;
     public float interpolationSpeed = 0.05f;
 
@@ -27,6 +28,7 @@ public class LaneSwitcher : MonoBehaviour
     [SerializeField]
     public bool armored = false;
     [SerializeField]
+    private bool prevLiquid = false;
     public bool amphibious = false;
     private bool ampActive;
     public float ampTime = 3f;
@@ -41,6 +43,7 @@ public class LaneSwitcher : MonoBehaviour
     [Header("Car Settings")]
     public float speedIncrement = 10f;
     public float maxSpeed = 50f;
+    private float baseMaxSpeed;
     public float speedInc;
     private float sinceInc;
 
@@ -69,7 +72,12 @@ public class LaneSwitcher : MonoBehaviour
         alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
 
+        ampStart = -1f;
+        baseMaxSpeed = maxSpeed;
+
         sinceInc = 0f;
+
+        //minSpeed = baseMaxSpeed - 30f; this was commented out to avoid a merge conflict with main
 
         // Set the initial minimum speed based on the current gear
         minSpeed = gearMinSpeeds[currentGear - 1];
@@ -84,6 +92,10 @@ public class LaneSwitcher : MonoBehaviour
     void Update()
     {
         speed = transform.InverseTransformDirection(rb.velocity).z;
+
+        rayPos = gameObject.transform.position; //these do not exist in main (used for ground check)
+        rayPos.z = GameObject.Find("FLWheel").transform.position.z; //this also does not exist in main
+
         gearChange = Input.GetButtonDown("Change Gear");
         defuseBomb = Input.GetButtonDown("Defuse Bomb");
         repairCar = Input.GetButtonDown("Repair Car");
@@ -125,17 +137,6 @@ public class LaneSwitcher : MonoBehaviour
             ChangeGear();
         }
 
-        /* Commented out to avoid conflict with Cows liquids length
-        // handle amphibiousness
-        if (ampActive && Time.time - ampStart > ampTime)
-        {
-            ampActive = false;
-            Debug.Log("Deactivating amphibious");
-            speed /= 1.2f;
-            maxSpeed /= 1.2f;
-        }
-        */
-
         // handle Better Call Al's sponsorship segment
         if(sponsored && Time.time - alTimer > alTime)
         {
@@ -145,6 +146,7 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         handleMinSpeed();
+        handleLiquids();
         AdjustSpeed();
     }
 
@@ -194,7 +196,18 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        {
             healthInfo.killPlayer();
+        }
+            
+        //this version was from the cows liquids length branch
+        /*
+        if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        {
+            healthInfo.killPlayer();
+            Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
+        }
+        */
     }
 
     void AdjustSpeed()
@@ -254,7 +267,86 @@ public class LaneSwitcher : MonoBehaviour
         minSpeed = gearMinSpeeds[currentGear - 1];
     }
 
+    /* this was commented out to avoid a conflict with main
+void GearUp()
+{
+    maxSpeed += 20;
+}
+void GearDown()
+{
+    maxSpeed -= 20;
+}
+*/
 
+    // this prevents things from arising when the maxSpeed is temporarily altered and needs increased
+    //this was added from cows liquids and lengths
+    void increaseMaxSpeed(float _diff)
+    {
+        maxSpeed = (maxSpeed / baseMaxSpeed) * (baseMaxSpeed + _diff);
+        baseMaxSpeed += _diff;
+    }
+
+    // handle how the player interacts with liquids
+    //this was added from cows liquids and length
+    private void handleLiquids()
+    {
+        // handle amphibious
+
+        if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
+        {
+            ampActive = false;
+            speed /= 1.2f;
+            maxSpeed = baseMaxSpeed;
+        }
+
+
+        if (checkBelow(LayerMask.GetMask("Liquid")))
+        {
+            if (!prevLiquid)
+            {
+                if (!amphibious)
+                {
+                    maxSpeed *= .8f;     //BIND????
+                    speed -= 10;       // slow down faster
+                    prevLiquid = true;
+                }
+                else if (!ampActive)
+                {
+                    maxSpeed *= 1.2f;
+                    speed *= 1.2f;
+                    ampActive = true;
+                    prevLiquid = true;
+                }
+                else if (ampActive)
+                {
+                    // deactivates timer
+                    prevLiquid = true;
+                    ampStart = -1;
+                }
+            }
+        }
+        else
+        {
+            if (prevLiquid)
+            {
+                if (!amphibious)
+                {
+                    maxSpeed = baseMaxSpeed;
+                    prevLiquid = false;
+                }
+                else
+                {
+                    ampStart = Time.time;
+                    prevLiquid = false;
+                }
+            }
+        }
+
+        if (prevLiquid)
+        {
+            speed = Mathf.Max(maxSpeed, speed - (1000 * Time.deltaTime)); // slow down faster than friction
+        }
+    }
 
     // upgrade implementation
 
@@ -326,6 +418,7 @@ public class LaneSwitcher : MonoBehaviour
     }
 
     // upgrade effects
+    //these might need to be commented out
     private void OnCollisionEnter(Collision collision)
     {
         // if amphibious, get speed boost
@@ -355,4 +448,10 @@ public class LaneSwitcher : MonoBehaviour
         }
     }
 
+
+    private bool checkBelow(LayerMask _layer)
+    {
+        bool rlt = Physics.Raycast(rayPos, Vector3.down, 20f, _layer);
+        return rlt;
+    }
 }
