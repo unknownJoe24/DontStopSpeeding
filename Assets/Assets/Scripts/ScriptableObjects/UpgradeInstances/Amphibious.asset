@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: Amphibious
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 6291b903412c37247844e59798560e74, type: 3}
-  desc: Speed boost traversing over liquids, lowers overall speed slightly
+  icon: {fileID: 0}
+  desc: Grants a speed boost when going over liquids, but lowers overall speed slightly
   basePrice: 750
   priceMult: 500
   multTime: 60

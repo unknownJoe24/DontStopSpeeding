@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: IncreaseMultiplier
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 04682af088333074694977fcd94f8986, type: 3}
+  icon: {fileID: 0}
   desc: Increase the rate of score accumulation
   basePrice: 5000
   priceMult: 1500

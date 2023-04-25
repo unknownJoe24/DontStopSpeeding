@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: GreaseMonkey
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 1298ad484865d1949a872d542bd4a50d, type: 3}
+  icon: {fileID: 0}
   desc: Reduces the cost of repairs
   basePrice: 750
   priceMult: 500
