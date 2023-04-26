@@ -28,19 +28,22 @@ public class EngineSound : MonoBehaviour
 
     private void Update()
     {
-        float speed = rb.velocity.magnitude;
-        float pitch = Mathf.Clamp(speed * pitchMultiplier, 0, maxPitch);
-        float volume = Mathf.Lerp(minVolume, maxVolume, speed / rb.maxAngularVelocity);
-
-        engineAudioSource.pitch = pitch;
-        engineAudioSource.volume = volume;
-        /*
-        if (!hasPlayedStartingSound)
+        if(engineAudioSource != null)
         {
-            SoundManager.Instance.Play(startingSound, volume);
-            hasPlayedStartingSound = true;
+            float speed = rb.velocity.magnitude;
+            float pitch = Mathf.Clamp(speed * pitchMultiplier, 0, maxPitch);
+            float volume = Mathf.Lerp(minVolume, maxVolume, speed / rb.maxAngularVelocity);
+
+            engineAudioSource.pitch = pitch;
+            engineAudioSource.volume = volume;
+            /*
+            if (!hasPlayedStartingSound)
+            {
+                SoundManager.Instance.Play(startingSound, volume);
+                hasPlayedStartingSound = true;
+            }
+            */
         }
-        */
     }
 
     private void OnDisable()

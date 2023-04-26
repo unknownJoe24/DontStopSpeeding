@@ -15,4 +15,4 @@ MonoBehaviour:
   isObstacle: 1
   begLanes: 2
   endLanes: 2
-  length: 68
+  length: 160
