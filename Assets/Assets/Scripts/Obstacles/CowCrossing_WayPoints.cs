@@ -5,12 +5,12 @@ using UnityEngine;
 public class CowCrossing_WayPoints : MonoBehaviour
 {
 
+    public AudioClip[] cowMoos;
+
     [SerializeField] private Transform point1, point2;
 
     //public GameObject group; 
     //private float _speed = 1.0f;
-    [SerializeField]
-    private bool move = true;
     private bool _switch = false;
     public float speed = 1.0f; 
 
@@ -22,13 +22,7 @@ public class CowCrossing_WayPoints : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (move)
-            handleMove();
-    }
-
-    void handleMove()
-    {
-        if (_switch == false)
+        if(_switch == false)
         {
             //print("Moving Towards point2");
             gameObject.transform.position = Vector3.MoveTowards(transform.position, point2.position, speed * Time.deltaTime);
@@ -40,7 +34,7 @@ public class CowCrossing_WayPoints : MonoBehaviour
             gameObject.transform.position = Vector3.MoveTowards(transform.position, point1.position, speed * Time.deltaTime);
         }
 
-        if (transform.position == point2.position)
+        if(transform.position == point2.position)
         {
             //moving towards position 1
             _switch = true;
@@ -50,13 +44,17 @@ public class CowCrossing_WayPoints : MonoBehaviour
         {
 
             //moving towards position 2
-            // group.transform.localScale = new Vector3(-1, 1, 1);
-            _switch = false;
+           // group.transform.localScale = new Vector3(-1, 1, 1);
+            _switch = false; 
         }
     }
 
-    public void setMove(bool _move)
+    private void OnCollisionEnter(Collision collision)
     {
-        move = _move;
+        // the cow goes moo
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            SoundManager.Instance.RandomSoundEffect(cowMoos, 1);
+        }
     }
 }
