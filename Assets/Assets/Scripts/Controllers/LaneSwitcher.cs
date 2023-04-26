@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class LaneSwitcher : MonoBehaviour
 {
@@ -25,6 +27,7 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    // Upgrade-Handling Variables
     [SerializeField]
     public bool armored = false;
     [SerializeField]
@@ -38,6 +41,7 @@ public class LaneSwitcher : MonoBehaviour
     private float alTimer;
     private float alTime;
     [SerializeField]
+    private VideoPlayer vPlayer;
     static public bool rampedUp = false; //this is being set to static for Ramp Controller script
 
     [Header("Car Settings")]
@@ -69,7 +73,8 @@ public class LaneSwitcher : MonoBehaviour
 
     void Start()
     {
-        alTime = 200f + (Random.Range(0f, 1f) * 300f);
+        alTime = 5f;
+        //alTime = 200f + (Random.Range(0f, 1f) * 300f);
         rb = GetComponent<Rigidbody>();
 
         ampStart = -1f;
@@ -138,9 +143,10 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         // handle Better Call Al's sponsorship segment
-        if(sponsored && Time.time - alTimer > alTime)
+        if (sponsored && Time.time - alTimer > alTime)
         {
             // Better Call Al!
+            StartCoroutine(vPlayer.GetComponent<StreamVideo>().PlayVideo());
             alTimer = Time.time;
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
@@ -199,7 +205,7 @@ public class LaneSwitcher : MonoBehaviour
         {
             healthInfo.killPlayer();
         }
-            
+
         //this version was from the cows liquids length branch
         /*
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
@@ -422,14 +428,14 @@ void GearDown()
     private void OnCollisionEnter(Collision collision)
     {
         // if amphibious, get speed boost
-        if(collision.gameObject.CompareTag("Liquid") && amphibious)
+        if (collision.gameObject.CompareTag("Liquid") && amphibious)
         {
             maxSpeed *= 1.2f;
             speed *= 1.2f;
             ampActive = true;
             Debug.Log("Look at that boost!");
         }
-        
+
         /*
         // if Ramped Up, jump
         if (collision.gameObject.CompareTag("Ramp") && rampedUp)

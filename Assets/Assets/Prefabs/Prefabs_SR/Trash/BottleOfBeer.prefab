@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3954160182789565436}
   - component: {fileID: 9215242411100668331}
   - component: {fileID: 5309247051793484626}
+  - component: {fileID: 6729999903075912289}
   m_Layer: 8
   m_Name: BottleOfBeer
   m_TagString: Untagged
@@ -149,3 +150,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13426441, y: 0.13417804, z: 0.52577996}
   m_Center: {x: -0.0012090392, y: -0.030375857, z: 0.2641803}
+--- !u!114 &6729999903075912289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703956201556524875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 522b16c3485556445ab5b7cb3c4e28a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 2
