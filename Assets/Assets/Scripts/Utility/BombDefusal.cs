@@ -23,6 +23,10 @@ public class BombDefusal : MonoBehaviour
     public Sprite successSprite;
     public Sprite failureSprite;
 
+
+    //Added due to error "Object reference not set to an instance of an object BombDefusal.Update()" line 67
+    public GameObject player; 
+
     // A timer so the outcome is not always present
     private float outcomeFor;
     private float outcomeSince;
@@ -60,7 +64,7 @@ public class BombDefusal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool deadCurr = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().dead;
+        bool deadCurr = player.GetComponent<PlayerHealth>().dead;
 
         // start defusal if the correct key is pressed and the bomb is/has not being/been defused
         if (!deadCurr && Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)

@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8269502127839853463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8269502127839853482}
+  - component: {fileID: 8269502127839853481}
+  m_Layer: 0
+  m_Name: StoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8269502127839853482
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8269502127839853463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5623436, y: -3.8431551, z: 11.804986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8269502127839853481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8269502127839853463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297b7672a913aab4f875c4e97263e784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restockInterval: 5
+  stockSize: 3
+  riskyItems:
+  - {fileID: 11400000, guid: cde43178c7664044bae840d0c0c531a1, type: 2}
+  - {fileID: 11400000, guid: 1c6693387ae78cc41a83ac8a9876348f, type: 2}
+  - {fileID: 11400000, guid: 7ae1250a41e3ea949abb58fb37f5891e, type: 2}
+  - {fileID: 11400000, guid: b75f53be3565df54e8fab0eceb92c255, type: 2}
+  - {fileID: 11400000, guid: 6e314fa703d4bcb449208f5bc5df3309, type: 2}
+  safeItems:
+  - {fileID: 11400000, guid: d4bf7f173862aa74aabeed58f96fc794, type: 2}
+  - {fileID: 11400000, guid: 40a663b08885ff5409e19fd56167fb28, type: 2}
+  - {fileID: 11400000, guid: da096c046a8655f4fa30238e6629e73f, type: 2}
+  - {fileID: 11400000, guid: 3be6f73116e4eb84ea35a5adcf539886, type: 2}
+  - {fileID: 11400000, guid: a099a354eb2e82e4e95d6f5125b1bfe0, type: 2}
+  stock: []

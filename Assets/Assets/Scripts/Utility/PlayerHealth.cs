@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
 {
 
     public float health;                                // current player health
-    public bool dead;                                   // is the player dead
+    public bool dead;                                   // is the player dead 
     public float invulnerableDur;                       // how long the player becomes invulnerable
     public bool defense = false;                        // defense - redundant?
     public bool regen = false;                          // does the car regenerate
@@ -34,7 +34,7 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        dead = false; 
         // member initialization
         invulnerableDur = 2f;
         regenRate = 1f;
