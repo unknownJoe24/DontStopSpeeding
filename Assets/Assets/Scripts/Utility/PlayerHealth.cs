@@ -162,6 +162,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // stop movement
         playerInfo.DisableMovement = true;
+        print("Player health, playerInfo.DisableMovment");
         playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
 
         // create a new object at the location of the car to hold the car animation

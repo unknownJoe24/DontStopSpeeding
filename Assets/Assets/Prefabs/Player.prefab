@@ -10180,7 +10180,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637335803908784}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d7b6d32d7e27f0c42a79bb2801e05d28, type: 2}
   m_CullingMode: 0
@@ -10217,9 +10217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 100
   dead: 0
-  invulnerableDur: 0
+  invulnerableDur: 2
   defense: 0
   regen: 0
   regenRate: 0

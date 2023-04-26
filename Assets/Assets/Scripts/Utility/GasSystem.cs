@@ -24,6 +24,7 @@ public class GasSystem : MonoBehaviour
     {
         if (inputDisabled)
         {
+            print("inputDisabled - Gas System");
             laneSwitcher.DisableMovement= inputDisabled;
             return;
         }

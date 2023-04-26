@@ -201,12 +201,14 @@ public class LaneSwitcher : MonoBehaviour
             return;
         }
 
+        /*
         if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
         {
             healthInfo.killPlayer();
         }
-
+        */
         //this version was from the cows liquids length branch
+
         /*
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
         {

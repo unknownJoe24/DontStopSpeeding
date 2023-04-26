@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6362699950116342242}
   - component: {fileID: 6362699950116342253}
   m_Layer: 0
-  m_Name: DifusalHandler
+  m_Name: DefusalHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,3 +52,4 @@ MonoBehaviour:
   outcomeSprite: {fileID: 0}
   successSprite: {fileID: 21300000, guid: e171366852b6df5458146c71dc1f8c4b, type: 3}
   failureSprite: {fileID: 21300000, guid: 52d661ca07da4454d8811c33ca14e417, type: 3}
+  player: {fileID: 0}
