@@ -98,6 +98,7 @@ public class Generation : MonoBehaviour
     {
         // time since the game has started
         float timeSince = Time.time - startTime;
+        timeSince = 200;
 
         // calculates the minimum amount of safe roads between obstacles corresponding to timeSince
         int calcMinSafe = 1 + (int)Mathf.Floor(timeSince / 120f);
