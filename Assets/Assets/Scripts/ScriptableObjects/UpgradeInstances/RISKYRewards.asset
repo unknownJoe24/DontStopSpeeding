@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65804cb990651e74aa303c5b220b623e, type: 3}
   m_Name: RISKYRewards
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5475bad1d0723d94e981829e51b9370d, type: 3}
   desc: Risky upgrades are cheaper but safe upgrades are rarer
   basePrice: 1000
   priceMult: 500
