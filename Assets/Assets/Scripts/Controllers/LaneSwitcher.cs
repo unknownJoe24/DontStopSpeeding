@@ -41,10 +41,8 @@ public class LaneSwitcher : MonoBehaviour
     private float alTimer;
     private float alTime;
     [SerializeField]
-
     private VideoPlayer vPlayer;
-    [SerializeField]
-    static public bool rampedUp = false;
+    static public bool rampedUp = false; //this is being set to static for Ramp Controller script
 
     [Header("Car Settings")]
     public float speedIncrement = 10f;
@@ -138,23 +136,16 @@ public class LaneSwitcher : MonoBehaviour
             isChangingLane = false;
         }
 
+        // Gear change
         if (gearChange)
         {
             ChangeGear();
         }
 
-        // handle amphibious
-        if (ampActive && Time.time - ampStart > ampTime)
-        {
-            ampActive = false;
-            Debug.Log("Deactivating amphibious");
-            speed /= 1.2f;
-            maxSpeed /= 1.2f;
-        }
-
         // handle Better Call Al's sponsorship segment
         if (sponsored && Time.time - alTimer > alTime)
         {
+            // Better Call Al!
             StartCoroutine(vPlayer.GetComponent<StreamVideo>().PlayVideo());
             alTimer = Time.time;
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
@@ -224,7 +215,6 @@ public class LaneSwitcher : MonoBehaviour
         }
         */
     }
-
 
     void AdjustSpeed()
     {
