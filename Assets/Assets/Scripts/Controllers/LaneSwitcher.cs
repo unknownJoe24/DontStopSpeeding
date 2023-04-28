@@ -58,6 +58,7 @@ public class LaneSwitcher : MonoBehaviour
     public float[] gearMaxSpeeds = { 70f, 100f, 120f };
 
     private float minSpeed;
+    private float sinceStart, startMinSpeed;
     [Range(0f, 1f)]
     [SerializeField] private float volume = 1f;
 
@@ -86,6 +87,10 @@ public class LaneSwitcher : MonoBehaviour
 
         // Set the initial minimum speed based on the current gear
         minSpeed = gearMinSpeeds[currentGear - 1];
+
+        // don't start checking for the min seed at the beginning
+        sinceStart = 0;
+        startMinSpeed = (maxSpeed / 100f) * 30f;
 
         // Set the initial speed to be equal to the initial minimum speed
         speed = minSpeed;
@@ -151,7 +156,10 @@ public class LaneSwitcher : MonoBehaviour
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
 
-        handleMinSpeed();
+        // give the player time to go above the min speed at the beginning
+        if((sinceStart += Time.deltaTime) >= startMinSpeed)
+            //handleMinSpeed();
+
         handleLiquids();
         AdjustSpeed();
     }
@@ -178,16 +186,16 @@ public class LaneSwitcher : MonoBehaviour
         sinceInc += Time.deltaTime;
         if (sinceInc >= speedInc)
         {
-            maxSpeed += 10;
+            increaseMaxSpeed(10f);
             minSpeed += 10;
             sinceInc = 0f;
         }
 
         // Get the minimum speed for the current gear
-        float gearMinSpeed = gearMinSpeeds[currentGear - 1];
+        //float gearMinSpeed = gearMinSpeeds[currentGear - 1];
 
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
-        BombDefusal bombInfo = GameObject.Find("DefusalHandler")?.GetComponent<BombDefusal>();
+        BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>(); // had ?
 
         if (healthInfo == null)
         {
@@ -209,13 +217,13 @@ public class LaneSwitcher : MonoBehaviour
         */
         //this version was from the cows liquids length branch
 
-        /*
+        
         if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
         {
             healthInfo.killPlayer();
             Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
         }
-        */
+        
     }
 
     void AdjustSpeed()
@@ -459,7 +467,8 @@ void GearDown()
 
     private bool checkBelow(LayerMask _layer)
     {
-        bool rlt = Physics.Raycast(rayPos, Vector3.down, 20f, _layer);
+        // adjust the length here
+        bool rlt = Physics.Raycast(rayPos, Vector3.down, 2f, _layer);
         return rlt;
     }
 }

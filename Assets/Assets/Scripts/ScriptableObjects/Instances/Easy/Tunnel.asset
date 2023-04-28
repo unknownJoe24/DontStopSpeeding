@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tunnel
   m_EditorClassIdentifier: 
   isObstacle: 1
-  begLanes: 3
-  endLanes: 3
+  begLanes: 2
+  endLanes: 2
   length: 240

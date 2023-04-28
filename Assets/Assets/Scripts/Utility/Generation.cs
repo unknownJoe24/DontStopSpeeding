@@ -36,6 +36,9 @@ public class Generation : MonoBehaviour
     // array to hold the roads to delete
     private GameObject[] del;
 
+    // the player's laneSwitcher script
+    LaneSwitcher playerMovement;
+
     // what is the minimum amount of safe roads between each obstacle
     private int minSafe;
 
@@ -86,6 +89,9 @@ public class Generation : MonoBehaviour
                 prev[i] = startRoads[startIndex];
         }
 
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
+        playerMovement.hasThreeLanes = (getRoad(prev[0]).getLanes()[0] == 3);
+        
         // intialize the minimum amount of safe roads to be spawned between obstacles
         minSafe = 1;
 
@@ -96,6 +102,7 @@ public class Generation : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log(prev.Length);
         // time since the game has started
         float timeSince = Time.time - startTime;
 
@@ -215,6 +222,7 @@ public class Generation : MonoBehaviour
         int safeProb = Random.Range(numSafe, minSafe + 5);
         int obstProb = Random.Range(minVal, maxVal);
 
+        
         // what was the ending amount of lanes for the last road spawned
         int prevLanes = getRoad(prev[0]).getLanes()[1];
 
@@ -241,6 +249,9 @@ public class Generation : MonoBehaviour
         // spawn the road and get the instance spawned
         float spawnLength = (getRoad(toSpawn).getLength()) / 2 + (getRoad(prev[0]).getLength() / 2);
         GameObject instance = Instantiate(toSpawn, prev[0].transform.position + new Vector3(0f, 0f, spawnLength), toSpawn.transform.rotation);
+
+        // let the lane switcher know how many lanes there are
+        playerMovement.hasThreeLanes = (getRoad(prev[prev.Length - 2]).getLanes()[0] == 3);
 
         //delete the last road in delete if it exists
         if (del[del.Length - 1] != null)
