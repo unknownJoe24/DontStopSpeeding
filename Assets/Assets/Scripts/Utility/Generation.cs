@@ -97,7 +97,7 @@ public class Generation : MonoBehaviour
 
         // initialize chances for what difficulty of road we can spawn
         minVal = 0;
-        maxVal = 100;
+        maxVal = 300;
     }
 
     private void Update()
@@ -109,7 +109,7 @@ public class Generation : MonoBehaviour
         // calculates the minimum amount of safe roads between obstacles corresponding to timeSince
         int calcMinSafe = 1 + (int)Mathf.Floor(timeSince / 120f);
         minSafe = calcMinSafe > minSafe ? calcMinSafe : minSafe;
-
+        /*
         // adjusts the difficulty
         if(timeSince > 60 && timeSince <= 120)
         {
@@ -121,6 +121,7 @@ public class Generation : MonoBehaviour
             minVal = 0;
             maxVal = 300;
         }
+        */
     }
 
     // simple private accessor for simplicity of code
