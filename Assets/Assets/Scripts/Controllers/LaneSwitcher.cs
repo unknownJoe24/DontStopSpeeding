@@ -83,7 +83,7 @@ public class LaneSwitcher : MonoBehaviour
 
         sinceInc = 0f;
 
-        //minSpeed = baseMaxSpeed - 30f; this was commented out to avoid a merge conflict with main
+        minSpeed = baseMaxSpeed - 30f; //this was commented out to avoid a merge conflict with main
 
         // Set the initial minimum speed based on the current gear
         minSpeed = gearMinSpeeds[currentGear - 1];
@@ -158,7 +158,7 @@ public class LaneSwitcher : MonoBehaviour
 
         // give the player time to go above the min speed at the beginning
         if((sinceStart += Time.deltaTime) >= startMinSpeed)
-            //handleMinSpeed();
+            handleMinSpeed();
 
         handleLiquids();
         AdjustSpeed();
@@ -186,7 +186,7 @@ public class LaneSwitcher : MonoBehaviour
         sinceInc += Time.deltaTime;
         if (sinceInc >= speedInc)
         {
-            increaseMaxSpeed(10f);
+            increaseMaxSpeed(10f);  // needs changed
             minSpeed += 10;
             sinceInc = 0f;
         }
@@ -298,8 +298,11 @@ void GearDown()
     //this was added from cows liquids and lengths
     void increaseMaxSpeed(float _diff)
     {
+        /*
         maxSpeed = (maxSpeed / baseMaxSpeed) * (baseMaxSpeed + _diff);
         baseMaxSpeed += _diff;
+        */
+
     }
 
     // handle how the player interacts with liquids
@@ -468,7 +471,8 @@ void GearDown()
     private bool checkBelow(LayerMask _layer)
     {
         // adjust the length here
-        bool rlt = Physics.Raycast(rayPos, Vector3.down, 2f, _layer);
+        bool rlt = Physics.Raycast(rayPos, Vector3.down, .51f, _layer);
+
         return rlt;
     }
 }
