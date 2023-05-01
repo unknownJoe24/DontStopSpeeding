@@ -54,8 +54,15 @@ public class LaneSwitcher : MonoBehaviour
     [Header("Gear Settings")]
     public int currentGear = 1;
     public int maxGears = 3;
-    public float[] gearMinSpeeds = { 50f, 70f, 100f };
-    public float[] gearMaxSpeeds = { 70f, 100f, 120f };
+
+    public float[] baseMinSpeeds = { 50f, 70f, 100f };
+    public float[] baseMaxSpeeds = { 70f, 100f, 120f };
+
+    [SerializeField]
+    private float[] gearMinSpeeds;
+    [SerializeField]
+    private float[] gearMaxSpeeds;
+
 
     private float minSpeed;
     private float sinceStart, startMinSpeed;
@@ -83,17 +90,25 @@ public class LaneSwitcher : MonoBehaviour
 
         sinceInc = 0f;
 
-        minSpeed = baseMaxSpeed - 30f; //this was commented out to avoid a merge conflict with main
+        for(int i = 0; i < maxGears; ++i)
+        {
+            gearMinSpeeds[i] = baseMinSpeeds[i];
+            gearMaxSpeeds[i] = baseMaxSpeeds[i];
+        }
+
+        //minSpeed = baseMaxSpeed - 30f; //this was commented out to avoid a merge conflict with main
+        minSpeed = baseMinSpeeds[0] - 30f;
 
         // Set the initial minimum speed based on the current gear
-        minSpeed = gearMinSpeeds[currentGear - 1];
+        //minSpeed = gearMinSpeeds[currentGear - 1];
 
         // don't start checking for the min seed at the beginning
         sinceStart = 0;
-        startMinSpeed = (maxSpeed / 100f) * 30f;
+        startMinSpeed = (gearMinSpeeds[0] / 100f) * 30f;
 
         // Set the initial speed to be equal to the initial minimum speed
-        speed = minSpeed;
+        //speed = minSpeed;
+        speed = gearMinSpeeds[0];
 
         // Set the initial movement velocity of RB
         rb.velocity = new Vector3(0f, 0f, speed);
@@ -116,6 +131,7 @@ public class LaneSwitcher : MonoBehaviour
 
         // Check if the player is moving horizontally and change the target lane accordingly
 
+        // note: getButtonDown
         if (Input.GetAxisRaw("Horizontal") < 0 && currentLane > 0 && !isChangingLane)
         {
             targetLane = currentLane - 1;
@@ -157,8 +173,8 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         // give the player time to go above the min speed at the beginning
-        if((sinceStart += Time.deltaTime) >= startMinSpeed)
-            handleMinSpeed();
+        //if((sinceStart += Time.deltaTime) >= startMinSpeed)
+        handleMinSpeed();
 
         handleLiquids();
         AdjustSpeed();
@@ -186,7 +202,7 @@ public class LaneSwitcher : MonoBehaviour
         sinceInc += Time.deltaTime;
         if (sinceInc >= speedInc)
         {
-            increaseMaxSpeed(10f);  // needs changed
+            increaseBaseMaxSpeed(10f);  // needs changed
             minSpeed += 10;
             sinceInc = 0f;
         }
@@ -217,13 +233,13 @@ public class LaneSwitcher : MonoBehaviour
         */
         //this version was from the cows liquids length branch
 
-        
-        if (speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        sinceStart += Time.deltaTime;
+
+        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
         {
             healthInfo.killPlayer();
             Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
         }
-        
     }
 
     void AdjustSpeed()
@@ -280,7 +296,7 @@ public class LaneSwitcher : MonoBehaviour
         }
 
         // Set the new minSpeed based on the current gear
-        minSpeed = gearMinSpeeds[currentGear - 1];
+        //minSpeed = gearMinSpeeds[currentGear - 1];
     }
 
     /* this was commented out to avoid a conflict with main
@@ -296,13 +312,51 @@ void GearDown()
 
     // this prevents things from arising when the maxSpeed is temporarily altered and needs increased
     //this was added from cows liquids and lengths
-    void increaseMaxSpeed(float _diff)
+    void increaseBaseMaxSpeed(float _diff)
     {
         /*
         maxSpeed = (maxSpeed / baseMaxSpeed) * (baseMaxSpeed + _diff);
         baseMaxSpeed += _diff;
         */
 
+        // adjust each gear appropriately
+        for(int i = 0; i < maxGears; ++i)
+        {
+            float gearDiff = baseMaxSpeeds[i] - baseMinSpeeds[i];
+
+            gearMaxSpeeds[i] = (gearMaxSpeeds[i] / baseMaxSpeeds[i]) * (baseMaxSpeeds[i] + _diff);
+            baseMaxSpeeds[i] += _diff;
+            baseMinSpeeds[i] = baseMaxSpeeds[i] - _diff;
+            gearMinSpeeds[i] = baseMinSpeeds[i];
+        }
+
+    }
+
+    // reset max speeds to their default
+    void resetMaxSpeeds()
+    {
+        for(int i = 0; i < maxGears; ++i)
+        {
+            gearMaxSpeeds[i] = baseMaxSpeeds[i];
+        }
+    }
+
+    // temporary increase to spped
+    void multMaxSpeed(float _factor)
+    {
+        for(int i = 0; i < maxGears;++i)
+        {
+            gearMaxSpeeds[i] = Mathf.Max(gearMinSpeeds[i] + 1, gearMaxSpeeds[i] * _factor);
+        }
+    }
+
+    // temporary increase to speed
+    void addMaxSpeed(float _diff)
+    {
+        for(int i = 0; i < maxGears; ++i)
+        {
+            gearMaxSpeeds[i] = Mathf.Max(gearMinSpeeds[i] + 1, gearMaxSpeeds[i] += _diff);
+        }
     }
 
     // handle how the player interacts with liquids
@@ -310,12 +364,13 @@ void GearDown()
     private void handleLiquids()
     {
         // handle amphibious
-
         if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
         {
             ampActive = false;
+            ampStart = -1;
             speed /= 1.2f;
-            maxSpeed = baseMaxSpeed;
+            //maxSpeed = baseMaxSpeed;
+            resetMaxSpeeds();
         }
 
 
@@ -325,13 +380,15 @@ void GearDown()
             {
                 if (!amphibious)
                 {
-                    maxSpeed *= .8f;     //BIND????
+                    //maxSpeed *= .8f;     //BIND????
+                    multMaxSpeed(.8f);
                     speed -= 10;       // slow down faster
                     prevLiquid = true;
                 }
                 else if (!ampActive)
                 {
-                    maxSpeed *= 1.2f;
+                    //maxSpeed *= 1.2f;
+                    multMaxSpeed(1.2f);
                     speed *= 1.2f;
                     ampActive = true;
                     prevLiquid = true;
@@ -350,7 +407,8 @@ void GearDown()
             {
                 if (!amphibious)
                 {
-                    maxSpeed = baseMaxSpeed;
+                    //maxSpeed = baseMaxSpeed;
+                    resetMaxSpeeds();
                     prevLiquid = false;
                 }
                 else
@@ -363,7 +421,7 @@ void GearDown()
 
         if (prevLiquid)
         {
-            speed = Mathf.Max(maxSpeed, speed - (1000 * Time.deltaTime)); // slow down faster than friction
+            speed = Mathf.Max(gearMaxSpeeds[currentGear - 1], speed - (1000 * Time.deltaTime)); // slow down faster than friction
         }
     }
 
@@ -372,7 +430,8 @@ void GearDown()
     // increases max speed
     public void upgradeEngine(int inc)
     {
-        maxSpeed += inc;
+        //maxSpeed += inc;
+        addMaxSpeed(inc);
     }
 
     // reduces gas prices
@@ -397,7 +456,8 @@ void GearDown()
     public void upgradeArmor()
     {
         armored = true;
-        maxSpeed -= 30f;
+        //maxSpeed -= 30f;
+        addMaxSpeed(-30f);
     }
 
     public bool getAmphibious()
@@ -409,7 +469,8 @@ void GearDown()
     public void upgradeAmphibious()
     {
         amphibious = true;
-        maxSpeed -= 5f;
+        //maxSpeed -= 5f;
+        addMaxSpeed(-5f);
     }
 
     public bool getSponsor()
@@ -471,7 +532,7 @@ void GearDown()
     private bool checkBelow(LayerMask _layer)
     {
         // adjust the length here
-        bool rlt = Physics.Raycast(rayPos, Vector3.down, .51f, _layer);
+        bool rlt = Physics.Raycast(rayPos, Vector3.down, .52f, _layer); //.52 may be too strict
 
         return rlt;
     }

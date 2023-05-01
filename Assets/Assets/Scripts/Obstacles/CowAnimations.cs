@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class CowAnimations : MonoBehaviour
 {
-    
-
-
     private Animator _animtor;
     private AudioSource _audioS; 
     private float randomWalkStart; 
@@ -25,8 +22,11 @@ public class CowAnimations : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.CompareTag("Player"))
         {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            GetComponentInParent<CowCrossing_WayPoints>().move = false;
+            
             _animtor.enabled = false;
             _audioS.Play();
         }

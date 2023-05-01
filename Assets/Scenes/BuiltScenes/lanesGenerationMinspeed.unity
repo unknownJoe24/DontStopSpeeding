@@ -178,6 +178,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: -- LANE TRANSFORMS
       objectReference: {fileID: 0}
+    - target: {fileID: 7967383884661463435, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967383884752670543, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967383884931723789, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967383884961278602, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967383885062145643, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967383885439417079, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967383885671367690, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ad5add3b017351478fc9b8dc4152c51, type: 3}
 --- !u!4 &18860332 stripped
@@ -349,6 +377,10 @@ PrefabInstance:
       propertyPath: startRoads.Array.size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1220105267581280261, guid: 3615417054043a8408de65007a5a65c3, type: 3}
+      propertyPath: transTo2.Array.data[0]
+      value: 
+      objectReference: {fileID: 5888240300672614191, guid: 0cae73c7dd4605947b51e17d4bdd5a62, type: 3}
     - target: {fileID: 1220105267581280261, guid: 3615417054043a8408de65007a5a65c3, type: 3}
       propertyPath: startRoads.Array.data[0]
       value: 
@@ -817,6 +849,18 @@ PrefabInstance:
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: moveSpeed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: amphibious
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: baseMaxSpeeds.Array.data[0]
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: baseMinSpeeds.Array.data[0]
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: gearMaxSpeeds.Array.data[0]
