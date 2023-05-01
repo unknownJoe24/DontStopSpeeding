@@ -151,6 +151,30 @@ public class PlayerHealth : MonoBehaviour
         }*/
     }
 
+    public void damagePlayer(int amount)
+    {
+        health -= amount;
+        if (health < 0)
+            health = 0;
+
+        if (health > 0)
+            SoundManager.Instance.Play(hurtSound, 1f);
+
+        handleInvulnerability(true);
+    }
+
+    public void setHealth(int amount)
+    {
+
+        float prevHealth = health;
+        health = amount;
+
+        if (prevHealth > health)
+            SoundManager.Instance.Play(hurtSound, 1f);
+
+        handleInvulnerability(true);
+    }
+
     void redisplayInfo()
     {
         healthText.text = "HP: " + health.ToString();

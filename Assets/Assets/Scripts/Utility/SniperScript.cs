@@ -6,12 +6,18 @@ public class SniperScript : MonoBehaviour
     public Transform sniper;
     public Transform player;
     public LineRenderer lineRenderer;
+    public PlayerHealth playerHealth;
+    private LaneSwitcher carInfo;  // get the script that has the car information
 
     private bool hasFired = false;
     private float time;
 
     void Start()
     {
+        // initialize the variables storing the car(player) and score info
+        carInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+
         lineRenderer.positionCount = 2;
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
@@ -29,7 +35,7 @@ public class SniperScript : MonoBehaviour
         }
         // Wait for 1 second
         time += Time.deltaTime;
-        //Debug.Log("Time: " + time);
+
         if ((time % 1) == 0 && time >= 3.0f)
         {
             lineRenderer.startColor = Color.white;
@@ -57,7 +63,13 @@ public class SniperScript : MonoBehaviour
 
     void Fire()
     {
-        // TODO: Add code to fire the sniper
+        if (!carInfo.armored)
+        {
+            playerHealth.setHealth(1);
+        }
+        else 
+            playerHealth.damagePlayer(1);
+
         hasFired = true;
     }
 }
