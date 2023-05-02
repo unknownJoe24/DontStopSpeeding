@@ -67,23 +67,6 @@ public class RampController : MonoBehaviour
         //print(testTrigger);
     }
 
-
-    private void SpawnRamps()
-    {
-        if(_rampedUp || testTrigger)
-        {
-            //print("Ramp Should Spawn");
-            transform.GetChild(0).gameObject.SetActive(true);
-        }
-
-        //testing
-        else
-        {
-            transform.GetChild(0).gameObject.SetActive(false);
-        }
-
-    }
-
     private void LerpToPoints()
     {
 
