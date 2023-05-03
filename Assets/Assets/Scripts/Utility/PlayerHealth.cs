@@ -6,18 +6,21 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-
+    [Header("Health Settings")]
     public float health;                                // current player health
     public bool dead;                                   // is the player dead 
     public float invulnerableDur;                       // how long the player becomes invulnerable
     public bool defense = false;                        // defense - redundant?
     public bool regen = false;                          // does the car regenerate
     public float regenRate;
-
     public GameObject player_explosion;                 //this was added in the ToDoListSarah branch as a reimplementation of the car death sequence
 
+
+    [Header ("Sound Settings")]
     public AudioClip hurtSound;                         // sound when the player is hurt
     public AudioClip deathSound;                        // sound when the player dies
+
+
 
     float currentSpeed;                                 // current speed player is going
 
@@ -27,6 +30,8 @@ public class PlayerHealth : MonoBehaviour
     private LaneSwitcher playerInfo;                    
     //private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
     private Rigidbody playerRigidBody;
+
+    [Header("UI Settings")]
     public TMP_Text healthText;
     public Image healthBar;
 
@@ -194,6 +199,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 colliderObjects[i].layer = LayerMask.NameToLayer("Invincibility");
             }
+            StartCoroutine(FlashingDamage()); //creates a flashing effect to indicate that the player has taken damage
         }
         else
         {
@@ -205,6 +211,28 @@ public class PlayerHealth : MonoBehaviour
             }
             invulnerableTime = 0f;
         }
+    }
+
+
+    IEnumerator FlashingDamage()
+    {
+        //coroutine that gets all the Meshrenderer's of the player and flickers them on and off for aprx. 2 seconds
+        MeshRenderer[] rs = GetComponentsInChildren<MeshRenderer>();
+        for(int i = 0; i < 7; i++)
+        {
+            foreach (MeshRenderer r in rs)
+            {
+                r.enabled = false;
+            }
+            SoundManager.Instance.Play(hurtSound, 0.5f);
+            yield return new WaitForSeconds(.1f);
+            foreach (MeshRenderer r in rs)
+            {
+                r.enabled = true;
+            }
+            yield return new WaitForSeconds(.1f);
+        }
+
     }
 
     // checks for collisions with the player (only the collider for the super object (I believe))

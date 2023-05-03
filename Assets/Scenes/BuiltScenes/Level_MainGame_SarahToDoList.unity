@@ -460,13 +460,53 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1003818438190776, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019865406441478, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1249457045589676, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1268253799892292, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1300346439549158, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1398208134900576, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637335803908784, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1672480277976696, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1833165821557742, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958784462827370, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4704918474422382, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: m_RootOrder
@@ -596,6 +636,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 2018250245}
+    - target: {fileID: 6757756296226866587, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: hurtSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a7fec449914ac17418da24123bc95657, type: 3}
     - target: {fileID: 6757756296226866587, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: healthText
       value: 
