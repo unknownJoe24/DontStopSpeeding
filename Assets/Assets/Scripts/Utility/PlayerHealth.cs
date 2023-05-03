@@ -160,19 +160,19 @@ public class PlayerHealth : MonoBehaviour
     // kills the player, prevents movement, and plays the death animation
     public void killPlayer()
     {
+        dead = true;
+
         // stop movement
         playerInfo.DisableMovement = true;
         print("Player health, playerInfo.DisableMovment");
         playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
-
+        /*
         // create a new object at the location of the car to hold the car animation
         GameObject emptyObj = new GameObject();
         GameObject emptyInst = Instantiate(emptyObj);
 
         emptyInst.transform.position = transform.position;
         gameObject.SetActive(false);
-
-        dead = true;
 
         // create a new car to be animated
         GameObject newCar = Instantiate(gameObject);
@@ -198,7 +198,7 @@ public class PlayerHealth : MonoBehaviour
         playerAnimator.rootPosition = transform.position;
         playerAnimator.applyRootMotion = true;
         playerAnimator.SetBool("Dead", true);
-
+        */
         SoundManager.Instance.Play(deathSound, 1f);
     }
 
