@@ -177,42 +177,9 @@ public class PlayerHealth : MonoBehaviour
         {
             r.enabled = false; 
         }
+
         var sn = GameObject.FindObjectOfType<CamController>();
-        sn.updateTarget(player_explosion);
-
-        /*
-        // create a new object at the location of the car to hold the car animation
-        GameObject emptyObj = new GameObject();
-        GameObject emptyInst = Instantiate(emptyObj);
-
-        emptyInst.transform.position = transform.position;
-        gameObject.SetActive(false);
-
-        // create a new car to be animated
-        GameObject newCar = Instantiate(gameObject);
-        //newCar.gameObject.GetComponent<PlayerHealth>().dead = true;
-        newCar.transform.parent = emptyInst.transform;
-        Camera.main.gameObject.GetComponent<CamController>().updateTarget(newCar);
-        newCar.SetActive(true);
-
-        // set the position and launch upwards
-        newCar.transform.position = emptyInst.transform.position;
-        Rigidbody newBody = newCar.GetComponent<Rigidbody>();
-
-        //newBody.constraints = RigidbodyConstraints.FreezeRotation;
-        newBody.constraints = RigidbodyConstraints.FreezePositionX;
-        //newBody.constraints = RigidbodyConstraints.FreezePosition;
-        //newBody.AddForce(Vector3.up * 50f);
-
-        // enable the animator and play the animation
-        Animator playerAnimator = newCar.GetComponent<Animator>();
-        playerAnimator.updateMode = AnimatorUpdateMode.AnimatePhysics;
-        playerAnimator.enabled = true;
-        playerAnimator.bodyPosition = transform.position;
-        playerAnimator.rootPosition = transform.position;
-        playerAnimator.applyRootMotion = true;
-        playerAnimator.SetBool("Dead", true);
-        */
+        sn.updateOffset(new Vector3(0, 0, -10f));
         SoundManager.Instance.Play(deathSound, 1f);
     }
 
