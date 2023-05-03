@@ -172,6 +172,13 @@ public class PlayerHealth : MonoBehaviour
         //The code below was added in the ToDoListSarah branch as a reimplementation of the car death sequence
 
         Instantiate(player_explosion, transform.position, Quaternion.identity);
+        MeshRenderer[] rs = GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer r in rs)
+        {
+            r.enabled = false; 
+        }
+        var sn = GameObject.FindObjectOfType<CamController>();
+        sn.updateTarget(player_explosion);
 
         /*
         // create a new object at the location of the car to hold the car animation

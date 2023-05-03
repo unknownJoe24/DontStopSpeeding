@@ -61,5 +61,8 @@ public class CamController : MonoBehaviour
     public void updateTarget(GameObject _target)
     {
         target = _target;
+        carSpeed = carInfo.Speed; 
+        transform.position = target.transform.position + offset;
+        transform.rotation = Quaternion.Euler(baseRotation);
     }
 }
