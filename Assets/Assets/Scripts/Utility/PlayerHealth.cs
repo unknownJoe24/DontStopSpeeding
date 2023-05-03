@@ -14,6 +14,8 @@ public class PlayerHealth : MonoBehaviour
     public bool regen = false;                          // does the car regenerate
     public float regenRate;
 
+    public GameObject player_explosion;                 //this was added in the ToDoListSarah branch as a reimplementation of the car death sequence
+
     public AudioClip hurtSound;                         // sound when the player is hurt
     public AudioClip deathSound;                        // sound when the player dies
 
@@ -166,6 +168,11 @@ public class PlayerHealth : MonoBehaviour
         playerInfo.DisableMovement = true;
         print("Player health, playerInfo.DisableMovment");
         playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
+
+        //The code below was added in the ToDoListSarah branch as a reimplementation of the car death sequence
+
+        Instantiate(player_explosion, transform.position, Quaternion.identity);
+
         /*
         // create a new object at the location of the car to hold the car animation
         GameObject emptyObj = new GameObject();
