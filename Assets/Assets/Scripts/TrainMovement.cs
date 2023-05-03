@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrainMovement : MonoBehaviour
 {
 
-    private Rigidbody _rigidbody;
+    public Rigidbody _rigidbody;
     public float _speed;
 
     static public bool _trainTrigger; 
@@ -13,7 +13,8 @@ public class TrainMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _trainTrigger = false; 
+        _trainTrigger = false;
+        
         _rigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
