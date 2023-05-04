@@ -24,7 +24,8 @@ public class PauseGame : MonoBehaviour {
                 pauseMenu.SetActive(false);
                 Cursor.visible = false;
                 gamePaused = false;
-                Time.timeScale = 1;
+                //Time.timeScale = 1;
+                GameObject.Find("Countdown").GetComponent<StartCountdown>().requestCountdown();
             }
         }
 	}
@@ -35,7 +36,8 @@ public class PauseGame : MonoBehaviour {
         pauseMenu.SetActive(false);
         Cursor.visible = false;
         gamePaused = false;
-        Time.timeScale = 1;
+        GameObject.Find("Countdown").GetComponent<StartCountdown>().requestCountdown();
+        //Time.timeScale = 1;
     }
 
     public void RestartLevel()
@@ -44,7 +46,7 @@ public class PauseGame : MonoBehaviour {
         Cursor.visible = false;
         gamePaused = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(0); // Currently goes to TestingScene - Only scene in build settings
+        SceneManager.LoadScene(1);
     }
 
     public void QuitToMenu()
@@ -53,6 +55,6 @@ public class PauseGame : MonoBehaviour {
         Cursor.visible = false;
         gamePaused = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(0); // Currently goes to TestingScene - Only scene in build settings
+        SceneManager.LoadScene(0);
     }
 }

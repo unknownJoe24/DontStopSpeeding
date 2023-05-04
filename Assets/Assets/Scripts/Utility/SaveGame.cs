@@ -45,3 +45,4 @@ public class SaveGame
 // Other course materials such as CS3 slides
 // https://stackoverflow.com/questions/31254387/how-do-i-use-an-array-in-a-switch-statement-in-c
 // https://www.youtube.com/watch?v=lq0RGtwmvmc - scrolling
+// https://gamedevbeginner.com/the-right-way-to-pause-the-game-in-unity/#:~:text=The%20most%20convenient%20method%20for,game%20to%20its%20normal%20speed - time
