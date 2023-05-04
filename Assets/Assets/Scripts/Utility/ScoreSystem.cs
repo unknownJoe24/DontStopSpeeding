@@ -30,7 +30,7 @@ public class ScoreSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        username = "Player2";
+        username = "Player9";
         score = 0;
         moneySpent = 0;
         money = score - moneySpent;
