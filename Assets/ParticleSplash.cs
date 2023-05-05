@@ -6,13 +6,13 @@ public class ParticleSplash : MonoBehaviour
 {
 
     public GameObject particleSym;
-    public AudioClip splashSound; 
+    public AudioSource particleSound; 
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            SoundManager.Instance.Play(splashSound, 0.5f);
+            particleSound.Play();
             particleSym.SetActive(true);
         }
     }

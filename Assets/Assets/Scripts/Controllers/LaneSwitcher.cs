@@ -18,6 +18,9 @@ public class LaneSwitcher : MonoBehaviour
     private int targetLane = 1;
     public bool hasThreeLanes = true;
 
+    [Header("Audio")]
+    public AudioClip speedBoost;
+
     [Header("State Checks")]
     public bool gearChange = false;
     public bool defuseBomb = false;
@@ -404,6 +407,8 @@ void GearDown()
                     speed *= 1.2f;
                     ampActive = true;
                     prevLiquid = true;
+                    
+                    //SoundManager.Instance.Play(speedBoost, 3f);
                 }
                 else if (ampActive)
                 {

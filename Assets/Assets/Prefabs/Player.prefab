@@ -10126,6 +10126,7 @@ MonoBehaviour:
   twoLaneTransforms: []
   threeLaneTransforms: []
   hasThreeLanes: 1
+  speedBoost: {fileID: 8300000, guid: 00052ec572b986c46b8b49491985f547, type: 3}
   gearChange: 0
   defuseBomb: 0
   repairCar: 0
