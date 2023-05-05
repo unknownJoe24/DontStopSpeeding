@@ -366,6 +366,11 @@ void GearDown()
         // handle amphibious
         if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
         {
+            GameObject boostPart = transform.Find("SpeedEffect_ParticleSystem").gameObject;
+            if (boostPart != null)
+                boostPart.SetActive(false);
+            else
+                print("Particle not found");
             ampActive = false;
             ampStart = -1;
             speed /= 1.2f;
@@ -380,6 +385,7 @@ void GearDown()
             {
                 if (!amphibious)
                 {
+                    print("Slow Down");
                     //maxSpeed *= .8f;     //BIND????
                     multMaxSpeed(.8f);
                     speed -= 10;       // slow down faster
@@ -387,6 +393,12 @@ void GearDown()
                 }
                 else if (!ampActive)
                 {
+                    print("boost!");
+                    GameObject boostPart = transform.Find("SpeedEffect_ParticleSystem").gameObject;
+                    if (boostPart != null)
+                        boostPart.SetActive(true);
+                    else
+                        print("Particle not found");
                     //maxSpeed *= 1.2f;
                     multMaxSpeed(1.2f);
                     speed *= 1.2f;
@@ -395,6 +407,7 @@ void GearDown()
                 }
                 else if (ampActive)
                 {
+
                     // deactivates timer
                     prevLiquid = true;
                     ampStart = -1;
@@ -407,6 +420,7 @@ void GearDown()
             {
                 if (!amphibious)
                 {
+                    print("Slow Down");
                     //maxSpeed = baseMaxSpeed;
                     resetMaxSpeeds();
                     prevLiquid = false;
@@ -496,38 +510,6 @@ void GearDown()
         rampedUp = true;
         // Damage & Health system not fully implemented yet
     }
-
-    // upgrade effects
-    //these might need to be commented out
-    private void OnCollisionEnter(Collision collision)
-    {
-        // if amphibious, get speed boost
-        if (collision.gameObject.CompareTag("Liquid") && amphibious)
-        {
-            maxSpeed *= 1.2f;
-            speed *= 1.2f;
-            ampActive = true;
-            Debug.Log("Look at that boost!");
-        }
-
-        /*
-        // if Ramped Up, jump
-        if (collision.gameObject.CompareTag("Ramp") && rampedUp)
-        {
-            // Ramp movement & animation
-        }
-        */
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        // take note of leaving liquid
-        if (collision.gameObject.CompareTag("Liquid") && amphibious)
-        {
-            ampStart = Time.time;
-        }
-    }
-
 
     private bool checkBelow(LayerMask _layer)
     {

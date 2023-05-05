@@ -526,7 +526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: amphibious
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: baseMaxSpeeds.Array.data[0]
@@ -592,6 +592,10 @@ PrefabInstance:
       propertyPath: invulnerableDur
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6757756296226866587, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: player_explosion
+      value: 
+      objectReference: {fileID: 2825535728075312249, guid: 3caede774442e9748afb35f86613503a, type: 3}
     - target: {fileID: 8802359914006753312, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: generatorObject
       value: 
