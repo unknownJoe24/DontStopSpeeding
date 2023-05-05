@@ -29,7 +29,6 @@ public class SniperScript : MonoBehaviour
         }
         // Wait for 1 second
         time += Time.deltaTime;
-        //Debug.Log("Time: " + time);
         if ((time % 1) == 0 && time >= 3.0f)
         {
             lineRenderer.startColor = Color.white;

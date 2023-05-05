@@ -10,12 +10,6 @@ public class GameOver : MonoBehaviour
     public BombDefusal defusal;
     [SerializeField]
     TMP_Text screenText;
-    
-
-    void Start()
-    {
-        //screenText = gameObject.GetComponent<TextMeshProUGUI>();
-    }
 
     void Update()
     {

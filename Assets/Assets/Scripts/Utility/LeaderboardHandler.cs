@@ -20,7 +20,6 @@ public class LeaderboardHandler : MonoBehaviour
         // load the save data, and initialize data
         SaveGame.Load();
 
-        //initOffset = 100f;
         centerx = LeaderboardCanvas.GetComponent<RectTransform>().rect.width / 2f;
         templateHeight = 50f;
 
@@ -30,7 +29,6 @@ public class LeaderboardHandler : MonoBehaviour
         string[] allRanks = SaveGame.Instance.ranks;
 
         RectTransform contentWindowTrans = contentWindow.GetComponent<RectTransform>();
-        //contentWindowTrans. //= numAllPlayers * templateHeight;
         initOffset = contentWindowTrans.rect.height / 2f - templateHeight;
 
         sortPlayers(ref allPlayers, ref allScores, ref allRanks);
@@ -41,7 +39,6 @@ public class LeaderboardHandler : MonoBehaviour
             // create a new entry
             RectTransform newTrans;
             GameObject curr = Instantiate(entryTemplate);
-            //curr.transform.SetParent(LeaderboardCanvas.transform);
             curr.transform.SetParent(contentWindow.transform);
             newTrans = curr.GetComponent<RectTransform>();
             newTrans.anchoredPosition = new Vector2(0, initOffset - templateHeight * i);

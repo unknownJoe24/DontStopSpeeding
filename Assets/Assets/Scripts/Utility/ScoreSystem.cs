@@ -251,7 +251,6 @@ public class ScoreSystem : MonoBehaviour
         saved = true;
 
         // disable player input
-        print("Score system -- playerInfo");
         playerInfo.DisableMovement = true;
     }
 }

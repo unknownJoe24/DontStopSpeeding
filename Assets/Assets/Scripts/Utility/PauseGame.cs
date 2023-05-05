@@ -7,13 +7,14 @@ public class PauseGame : MonoBehaviour {
 
     public bool gamePaused = false;
     public GameObject pauseMenu;
+    [SerializeField]
+    StartCountdown sceneCountdown;
 
 	void Update () {
 		if (Input.GetButtonDown("Cancel"))
         {
-            if(gamePaused == false)
+            if(gamePaused == false && !sceneCountdown.startCount)
             {
-                print("Game Paused");
                 Time.timeScale = 0;
                 gamePaused = true;
                 Cursor.visible = true;
@@ -24,8 +25,7 @@ public class PauseGame : MonoBehaviour {
                 pauseMenu.SetActive(false);
                 Cursor.visible = false;
                 gamePaused = false;
-                //Time.timeScale = 1;
-                GameObject.Find("Countdown").GetComponent<StartCountdown>().requestCountdown();
+                sceneCountdown.requestCountdown();
             }
         }
 	}
@@ -36,8 +36,7 @@ public class PauseGame : MonoBehaviour {
         pauseMenu.SetActive(false);
         Cursor.visible = false;
         gamePaused = false;
-        GameObject.Find("Countdown").GetComponent<StartCountdown>().requestCountdown();
-        //Time.timeScale = 1;
+        sceneCountdown.requestCountdown();
     }
 
     public void RestartLevel()

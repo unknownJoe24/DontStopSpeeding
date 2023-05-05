@@ -6,18 +6,19 @@ using TMPro;
 public class StartCountdown : MonoBehaviour
 {
     public bool startCount = true;  // tells the script to count down or not
-    public int countLength = 5;     // how long does the countdown last
+    public int firstCountLength = 5;     // how long does the countdown last the first time
+    public int generalCountLength = 3;   // how long does the countdown last after the first time
     private bool firstCount;        // is this the countodwn for the beginning of the game
     private float timeSince;        // how long has it been since the countdown started
 
-    private TMP_Text text;          // text itself
-
+    private TextMeshProUGUI text;   // text itself
+    
     // Start is called before the first frame update
     void Start()
     {
         firstCount = true;
         timeSince = 0;
-        text = gameObject.GetComponent<TMP_Text>();
+        text = gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -29,6 +30,12 @@ public class StartCountdown : MonoBehaviour
 
     private void countdown()
     {
+        int countLength;
+        if (firstCount)
+            countLength = firstCountLength;
+        else
+            countLength = generalCountLength;
+
         // get the remaining time
         int remaining = countLength - Mathf.FloorToInt(timeSince);
 
@@ -57,14 +64,22 @@ public class StartCountdown : MonoBehaviour
             // make the timer disappear
             text.text = "";
             startCount = false;
+            firstCount = false;
         }
 
     }
 
     private void changeColor(int _secondsSince)
     {
+        int countLength;
+        if (firstCount)
+            countLength = firstCountLength;
+        else
+            countLength = generalCountLength;
+
         float diff = 255f / (float)countLength;
         text.color = new Color(255f - (diff * _secondsSince), diff * _secondsSince, 0f);
+        Debug.Log(text.color.ToString());
     }
 
     public void requestCountdown()

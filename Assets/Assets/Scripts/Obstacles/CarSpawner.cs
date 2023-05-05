@@ -22,7 +22,6 @@ public class CarSpawner : MonoBehaviour
         if(transform.childCount < carCount)
         {
             SpawnCar();
-            
         }
     }
 
