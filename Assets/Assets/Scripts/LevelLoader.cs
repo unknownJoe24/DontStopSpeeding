@@ -26,11 +26,6 @@ public class LevelLoader : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
-    public void Settings()
-    {
-        Debug.LogWarning("Settings Scene needed");
-    }
-
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
