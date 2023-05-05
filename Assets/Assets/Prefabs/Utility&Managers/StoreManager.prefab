@@ -59,3 +59,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3be6f73116e4eb84ea35a5adcf539886, type: 2}
   - {fileID: 11400000, guid: a099a354eb2e82e4e95d6f5125b1bfe0, type: 2}
   stock: []
+  errorClip: {fileID: 8300000, guid: 971118089d27f56409652e20a8aeedab, type: 3}
+  successClip: {fileID: 8300000, guid: d8b281cc4761e3944bc12cfb76c2f53c, type: 3}

@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 4676184942714716}
   - component: {fileID: 33336818471578942}
   - component: {fileID: 23446189038778586}
-  - component: {fileID: 64982121123418654}
+  - component: {fileID: 1975288016094147148}
   m_Layer: 0
   m_Name: Building_Z
   m_TagString: Untagged
@@ -126,8 +126,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64982121123418654
-MeshCollider:
+--- !u!65 &1975288016094147148
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -136,7 +136,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: f435b20fb549cd2488c72b3a5253aeae, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.20633592, y: 0.11099011, z: 0.110284224}
+  m_Center: {x: -0.106001265, y: -0.002336809, z: 0.045142118}
