@@ -19,20 +19,25 @@ public class RampController : MonoBehaviour
 
     public static int pointCounter;
     public static int pointLength;
-    public static bool carAttach; 
+    public static bool carAttach;
+    private LaneSwitcher carInfo; 
 
     private void Start()
     {
+
         pointCounter = 0;
         pointLength = points.Length;
         carAttach = false; 
         _player = GameObject.FindGameObjectWithTag("Player");
+        carInfo = _player.GetComponent<LaneSwitcher>();
+        speed = carInfo.Speed;
     }
 
     private void Awake()
     {
         _rampedUp = LaneSwitcher.rampedUp;
         testTrigger = false; 
+        
     }
 
     private void Update()
@@ -45,6 +50,7 @@ public class RampController : MonoBehaviour
         {
             transform.GetChild(0).gameObject.SetActive(true);
             currentLerpTime = 0f;
+
             if(pointCounter <= points.Length - 1)
             {
                 LerpToPoints();
@@ -82,6 +88,7 @@ public class RampController : MonoBehaviour
             _playerRB.MovePosition(Vector3.MoveTowards(_player.transform.position, points[pointCounter].transform.position, step));
             var rotation = Quaternion.LookRotation(points[pointCounter].transform.position - _player.transform.position);
             _player.transform.rotation = Quaternion.Slerp(_player.transform.rotation, rotation, speed * Time.deltaTime);
+
             //_player.transform.LookAt(points[pointCounter].transform.position);
         }
 

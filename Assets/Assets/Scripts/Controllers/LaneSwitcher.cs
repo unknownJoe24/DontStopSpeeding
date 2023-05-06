@@ -67,6 +67,8 @@ public class LaneSwitcher : MonoBehaviour
     private float[] gearMaxSpeeds;
 
 
+     
+
     private float minSpeed;
     private float sinceStart, startMinSpeed;
     [Range(0f, 1f)]
@@ -74,6 +76,9 @@ public class LaneSwitcher : MonoBehaviour
 
     [SerializeField] float speed = 0.0f;    // Use this to read the current car speed (you'll need this to make a speedometer)
     public float Speed => speed;
+
+    private float tempSpeed;
+    private bool landing = false;
 
     [SerializeField] bool disableMovement;
     public bool DisableMovement
@@ -178,14 +183,14 @@ public class LaneSwitcher : MonoBehaviour
         // give the player time to go above the min speed at the beginning
         //if((sinceStart += Time.deltaTime) >= startMinSpeed)
         handleMinSpeed();
-
+        controlLanding();
         handleLiquids();
         AdjustSpeed();
     }
 
     private void FixedUpdate()
     {
-
+        
         if (!disableMovement)
         {
             rb.AddForce(transform.forward * forwardForce);
@@ -195,6 +200,7 @@ public class LaneSwitcher : MonoBehaviour
         {
             rb.drag += 0.05f;
         }
+
     }
 
 
@@ -238,7 +244,8 @@ public class LaneSwitcher : MonoBehaviour
 
         sinceStart += Time.deltaTime;
 
-        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && RampController.carAttach == false && groundCheck(LayerMask.GetMask("Default")))
+                                                                                                               //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
         {
             healthInfo.killPlayer();
             Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
@@ -522,5 +529,59 @@ void GearDown()
         bool rlt = Physics.Raycast(rayPos, Vector3.down, .52f, _layer); //.52 may be too strict
 
         return rlt;
+    }
+
+    private bool groundCheck(LayerMask _layer)
+    {
+        RaycastHit hit;
+        bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _layer);
+        return rlt; 
+    }
+
+    public void controlLanding()
+    {
+         
+        if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
+        {
+            tempSpeed = speed;
+            rb.useGravity = true;
+            if (landing)
+            {
+                if (speed < tempSpeed)
+                    speed = speed + 10f;
+                landing = false; 
+            }
+            //print("speed = " + speed);
+            rb.drag = 0.02f;
+            rb.angularDrag = 0.05f;
+            tempSpeed = speed;
+            rb.constraints = RigidbodyConstraints.None;
+            rb.constraints = RigidbodyConstraints.FreezeRotationY;
+        }
+        else
+        {
+            rb.useGravity = false;
+            rb.AddForce(Physics.gravity * rb.mass);
+            print(speed);
+            /*
+
+            print("speed = " + speed);
+           
+            
+            rb.drag = 1.5f;
+            rb.angularDrag = 1.5f;
+            rb.AddForce(transform.up * -150f);
+            */
+            // print("In the air");
+            RaycastHit hit;
+            if(Physics.SphereCast(transform.position, 0.5f, -transform.up, out hit, 5))
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime * 5.0f);
+            }
+           // bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
+            //rb.constraints = RigidbodyConstraints.FreezeRotation;
+            landing = true; 
+            //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; //trying to keep the car parallel to the ground when in the air
+        }
     }
 }
