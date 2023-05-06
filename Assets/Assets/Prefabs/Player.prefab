@@ -10034,7 +10034,6 @@ GameObject:
   - component: {fileID: 630484822351609293}
   - component: {fileID: 1530498019705823391}
   - component: {fileID: 4413831334381972873}
-  - component: {fileID: 2791200557568430364}
   - component: {fileID: 8802359914006753312}
   - component: {fileID: 6757756296226866587}
   m_Layer: 9
@@ -10182,26 +10181,6 @@ MonoBehaviour:
   minVolume: 0.2
   maxVolume: 0.5
   volume: 0.436
---- !u!95 &2791200557568430364
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1637335803908784}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d7b6d32d7e27f0c42a79bb2801e05d28, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &8802359914006753312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20056,6 +20035,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2534866581884222612, guid: 2bdb67dd109374a0cb46d1c3f285d23d, type: 3}
+      propertyPath: m_Name
+      value: BodyRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 2bdb67dd109374a0cb46d1c3f285d23d, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -20211,6 +20194,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
+      propertyPath: m_Name
+      value: BLWheelRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -20284,6 +20271,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
+      propertyPath: m_Name
+      value: BRWheelRenderer
       objectReference: {fileID: 0}
     - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
       propertyPath: m_TagString
@@ -20361,6 +20352,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
+      propertyPath: m_Name
+      value: FRWheelRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -20434,6 +20429,10 @@ PrefabInstance:
     - target: {fileID: 400000, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
+      propertyPath: m_Name
+      value: FLWheelRenderer
       objectReference: {fileID: 0}
     - target: {fileID: 2534866581884222612, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
       propertyPath: m_TagString

@@ -177,15 +177,23 @@ public class PlayerHealth : MonoBehaviour
         //The code below was added in the ToDoListSarah branch as a reimplementation of the car death sequence
 
         Instantiate(player_explosion, transform.position, Quaternion.identity);
+        
+        /*
         MeshRenderer[] rs = GetComponentsInChildren<MeshRenderer>();
         foreach(MeshRenderer r in rs)
         {
-            r.enabled = false; 
-        }
+            
+            r.enabled = false;
+            print(r + " " + r.enabled);
 
+        }
+        */
+        
         var sn = GameObject.FindObjectOfType<CamController>();
         sn.updateOffset(new Vector3(0, 0, -10f));
         SoundManager.Instance.Play(deathSound, 1f);
+
+        gameObject.SetActive(false); //for some reason, the meshrenderer turning off stopped working. This also works as far as I am aware on this branch (no errors), but might need to be changed when merged with rest of branches
     }
 
     // change the player's vulnerability
