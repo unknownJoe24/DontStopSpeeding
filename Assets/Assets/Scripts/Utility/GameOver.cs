@@ -22,7 +22,9 @@ public class GameOver : MonoBehaviour
             screenText.color = Color.red;
             screenText.enabled = true;
             UI.SetActive(true);
-        } else if (defusal.GetCompletion() && !defusal.HasFailed())
+        } 
+        
+        else if (defusal.GetCompletion() && !defusal.HasFailed())
         {
             Cursor.visible = true;
 
