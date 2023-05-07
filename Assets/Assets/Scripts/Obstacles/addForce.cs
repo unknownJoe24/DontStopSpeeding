@@ -11,7 +11,6 @@ public class addForce : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //force = 5;
         GetComponent<Rigidbody>().AddForce(transform.forward * force, ForceMode.Impulse);
     }
 

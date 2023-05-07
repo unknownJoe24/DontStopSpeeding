@@ -24,7 +24,6 @@ public class GasSystem : MonoBehaviour
     {
         if (inputDisabled)
         {
-            print("inputDisabled - Gas System");
             laneSwitcher.DisableMovement= inputDisabled;
             return;
         }
@@ -40,19 +39,17 @@ public class GasSystem : MonoBehaviour
             {
                 gasLevel = 0.0f;
                 SetGasValue(gasLevel);
-                inputDisabled = true;               
-                Debug.Log("You lose");
+                inputDisabled = true;
             }
         }
 
-        if (Input.GetButtonDown("Fuel Car"))
+        if (Input.GetButtonDown("Fuel Car") && Time.timeScale != 0)
         {
             if (currScoreHandler.GetComponent<ScoreSystem>().spendMoney(purchasePrice))
             {
                 gasLevel += purchaseAmount;
                 gasLevel = Mathf.Clamp(gasLevel, 0.0f, maxGasLevel);
                 SetGasValue(gasLevel);
-                Debug.Log("Purchased gas. Gas level: " + gasLevel);
             }
         }
     }

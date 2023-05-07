@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4057991681805692}
   - component: {fileID: 33627243355340706}
   - component: {fileID: 23236167989306042}
+  - component: {fileID: 1040283476254404631}
   m_Layer: 0
   m_Name: Building_N
   m_TagString: Untagged
@@ -94,6 +95,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1040283476254404631
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059702496391702}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.07581985, y: 0.114975244, z: 0.0822128}
+  m_Center: {x: 0.025495373, y: 0.02227818, z: 0.032106403}
 --- !u!1 &1681277682126416
 GameObject:
   m_ObjectHideFlags: 0
