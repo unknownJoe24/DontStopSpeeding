@@ -14,7 +14,6 @@ public class PlayerHealth : MonoBehaviour
     public bool defense = false;                        // defense - redundant?
     public bool regen = false;                          // does the car regenerate
 
-    public float regenRate;
     public GameObject player_explosion;                 //this was added in the ToDoListSarah branch as a reimplementation of the car death sequence
 
     public float repairCost = 200;                      // the cost of repairing the car
