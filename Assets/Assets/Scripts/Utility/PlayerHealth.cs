@@ -146,7 +146,10 @@ public class PlayerHealth : MonoBehaviour
             }
 
             if (health > 0)
+            {
                 SoundManager.Instance.Play(hurtSound, 1f);
+            }
+                
 
             handleInvulnerability(true);
         }
@@ -243,6 +246,9 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator FlashingDamage()
     {
+        GameObject hitPart = transform.Find("Hit_ParticleSystem").gameObject;
+        if (hitPart != null)
+            hitPart.SetActive(true);
         //coroutine that gets all the Meshrenderer's of the player and flickers them on and off for aprx. 2 seconds
         MeshRenderer[] rs = GetComponentsInChildren<MeshRenderer>();
         for(int i = 0; i < 7; i++)
@@ -260,6 +266,7 @@ public class PlayerHealth : MonoBehaviour
             yield return new WaitForSeconds(.1f);
         }
 
+        hitPart.SetActive(false);
     }
 
     // checks for collisions with the player (only the collider for the super object (I believe))

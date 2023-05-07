@@ -166,8 +166,7 @@ public class LaneSwitcher : MonoBehaviour
             alTimer = Time.time;
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
-        //makes sure the player lands without dying by falling below the minimum speed
-        controlLanding();
+
 
         // make sure the player does not drop below the minimum speed, also increases base speeds over time
         handleMinSpeed();
@@ -192,6 +191,9 @@ public class LaneSwitcher : MonoBehaviour
         {
             rb.drag += 0.05f;
         }
+
+        //makes sure the player lands without dying by falling below the minimum speed
+        controlLanding();
 
     }
 
@@ -283,6 +285,7 @@ public class LaneSwitcher : MonoBehaviour
         // Check if the speed is within the acceptable range for upshifting gears
         if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
         {
+            print("Testing");
             // Set the current gear to the new gear
             currentGear = newGear;
         }
@@ -490,7 +493,7 @@ public class LaneSwitcher : MonoBehaviour
     public void upgradeRamp()
     {
         rampedUp = true;
-        // Damage & Health system not fully implemented yet
+      
     }
 
     private bool checkBelow(LayerMask _layer)
@@ -539,9 +542,9 @@ public class LaneSwitcher : MonoBehaviour
             else
             {
                 rb.useGravity = false;
-                rb.drag = 1.05f;
-                rb.angularDrag = 1f;
-                rb.AddForce(Physics.gravity * rb.mass);
+                rb.drag = 1.2f;
+                rb.angularDrag = 1.2f;
+                rb.AddForce(-transform.up * rb.mass);
                 speed = gearMinSpeeds[0];
                 RaycastHit hit;
                 bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
@@ -557,7 +560,7 @@ public class LaneSwitcher : MonoBehaviour
     {
         landing = true;
         while (speed < gearMinSpeeds[0] + 10)
-            speed += 1f;
+            speed += 0.01f;
         yield return new WaitForSeconds(1f);
     }
 }
