@@ -19,6 +19,7 @@ public class GasSystem : MonoBehaviour
     {
         laneSwitcher = GetComponent<LaneSwitcher>();
         slider.maxValue = maxGasLevel;
+        SetGasValue(gasLevel);
     }
     private void Update()
     {
