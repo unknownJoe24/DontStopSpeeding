@@ -39,7 +39,6 @@ public class FileManager
 
         string dataAsJson = JsonUtility.ToJson(content);
         File.WriteAllText(filePath, dataAsJson);
-
     }
 
 }

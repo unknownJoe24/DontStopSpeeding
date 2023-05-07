@@ -7,13 +7,14 @@ public class PauseGame : MonoBehaviour {
 
     public bool gamePaused = false;
     public GameObject pauseMenu;
+    [SerializeField]
+    StartCountdown sceneCountdown;
 
 	void Update () {
 		if (Input.GetButtonDown("Cancel"))
         {
-            if(gamePaused == false)
+            if(gamePaused == false && !sceneCountdown.startCount)
             {
-                print("Game Paused");
                 Time.timeScale = 0;
                 gamePaused = true;
                 Cursor.visible = true;
@@ -24,7 +25,7 @@ public class PauseGame : MonoBehaviour {
                 pauseMenu.SetActive(false);
                 Cursor.visible = false;
                 gamePaused = false;
-                Time.timeScale = 1;
+                sceneCountdown.requestCountdown();
             }
         }
 	}
@@ -35,7 +36,7 @@ public class PauseGame : MonoBehaviour {
         pauseMenu.SetActive(false);
         Cursor.visible = false;
         gamePaused = false;
-        Time.timeScale = 1;
+        sceneCountdown.requestCountdown();
     }
 
     public void RestartLevel()
@@ -44,7 +45,7 @@ public class PauseGame : MonoBehaviour {
         Cursor.visible = false;
         gamePaused = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(0); // Currently goes to TestingScene - Only scene in build settings
+        SceneManager.LoadScene(1);
     }
 
     public void QuitToMenu()
@@ -53,6 +54,6 @@ public class PauseGame : MonoBehaviour {
         Cursor.visible = false;
         gamePaused = false;
         Time.timeScale = 1;
-        SceneManager.LoadScene(0); // Currently goes to TestingScene - Only scene in build settings
+        SceneManager.LoadScene(0);
     }
 }

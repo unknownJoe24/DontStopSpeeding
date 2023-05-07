@@ -11,9 +11,7 @@ public class CarLaneMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         _rigidbody = gameObject.GetComponent<Rigidbody>();
-
     }
 
     // Update is called once per frame
