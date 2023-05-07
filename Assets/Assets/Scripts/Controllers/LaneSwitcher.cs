@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -55,7 +56,7 @@ public class LaneSwitcher : MonoBehaviour
     private float sinceInc;
 
     [Header("Gear Settings")]
-    public int currentGear = 1;
+    public int currentGear = 0;
     public int maxGears = 3;
 
     public float[] baseMinSpeeds = { 50f, 70f, 100f };
@@ -186,6 +187,7 @@ public class LaneSwitcher : MonoBehaviour
         controlLanding();
         handleLiquids();
         AdjustSpeed();
+        
     }
 
     private void FixedUpdate()
@@ -242,14 +244,20 @@ public class LaneSwitcher : MonoBehaviour
         */
         //this version was from the cows liquids length branch
 
+        if (carFlipped())
+        {
+            healthInfo.killPlayer();
+        }
+
         sinceStart += Time.deltaTime;
 
-        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && RampController.carAttach == false && groundCheck(LayerMask.GetMask("Default")))
+        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && (groundCheck(LayerMask.GetMask("Default")) || (Vector3.Dot(transform.up, Vector3.down) > 0)) && landing == false)
                                                                                                                //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
         {
             healthInfo.killPlayer();
             Debug.Log("The player's speed: " + speed.ToString() + "\nThe Min Speed: " + minSpeed.ToString());
         }
+
     }
 
     void AdjustSpeed()
@@ -395,7 +403,6 @@ void GearDown()
             {
                 if (!amphibious)
                 {
-                    print("Slow Down");
                     //maxSpeed *= .8f;     //BIND????
                     multMaxSpeed(.8f);
                     speed -= 10;       // slow down faster
@@ -403,7 +410,6 @@ void GearDown()
                 }
                 else if (!ampActive)
                 {
-                    print("boost!");
                     GameObject boostPart = transform.Find("SpeedEffect_ParticleSystem").gameObject;
                     if (boostPart != null)
                         boostPart.SetActive(true);
@@ -432,7 +438,6 @@ void GearDown()
             {
                 if (!amphibious)
                 {
-                    print("Slow Down");
                     //maxSpeed = baseMaxSpeed;
                     resetMaxSpeeds();
                     prevLiquid = false;
@@ -538,50 +543,54 @@ void GearDown()
         return rlt; 
     }
 
+    private bool carFlipped()
+    {
+        if((Vector3.Dot(transform.up, Vector3.down) > .8))
+        { return true; }
+        else
+        { return false; }
+    }
+
+
     public void controlLanding()
     {
-         
         if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
         {
-            tempSpeed = speed;
             rb.useGravity = true;
             if (landing)
             {
-                if (speed < tempSpeed)
-                    speed = speed + 10f;
-                landing = false; 
+                if (speed <= gearMinSpeeds[0] + 10f)
+                {
+                    StartCoroutine(LandingCar());
+                    landing = false; 
+                }
             }
             //print("speed = " + speed);
             rb.drag = 0.02f;
             rb.angularDrag = 0.05f;
-            tempSpeed = speed;
-            rb.constraints = RigidbodyConstraints.None;
-            rb.constraints = RigidbodyConstraints.FreezeRotationY;
         }
         else
         {
             rb.useGravity = false;
+            rb.drag = 1.05f;
+            rb.angularDrag = 1f;
             rb.AddForce(Physics.gravity * rb.mass);
-            print(speed);
-            /*
-
-            print("speed = " + speed);
-           
-            
-            rb.drag = 1.5f;
-            rb.angularDrag = 1.5f;
-            rb.AddForce(transform.up * -150f);
-            */
-            // print("In the air");
+            speed = gearMinSpeeds[0];
             RaycastHit hit;
-            if(Physics.SphereCast(transform.position, 0.5f, -transform.up, out hit, 5))
-            {
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.Cross(transform.right, hit.normal), hit.normal), Time.deltaTime * 5.0f);
-            }
-           // bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
-            //rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
+            var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
             landing = true; 
-            //transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation; //trying to keep the car parallel to the ground when in the air
         }
+
+    }
+
+    IEnumerator LandingCar()
+    {
+        landing = true;
+        while (speed < gearMinSpeeds[0] + 10)
+            speed += 1f;
+        yield return new WaitForSeconds(1f);
     }
 }

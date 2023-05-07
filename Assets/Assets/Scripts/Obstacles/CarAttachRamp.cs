@@ -5,28 +5,14 @@ using UnityEngine;
 public class CarAttachRamp : MonoBehaviour
 {
 
+    public static bool carAttach;
 
-    private Rigidbody _playerRB;
-    private GameObject _player; 
-
-    private void Start()
-    {
-        _player = GameObject.FindGameObjectWithTag("Player");
-        _playerRB = _player.GetComponent<Rigidbody>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player" && RampController.carAttach == false)
+        if(other.tag == "Player" && carAttach == false)
         {
-            
-            RampController.carAttach = true;
-            //_playerRB.drag = 1; 
-        }
-
-        else if(other.tag == "Player" && RampController.carAttach == true)
-        {
-            RampController.carAttach = false; 
+            carAttach = true;
         }
     }
 
