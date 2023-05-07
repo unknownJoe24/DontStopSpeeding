@@ -5,7 +5,8 @@ using UnityEngine;
 public class CamController : MonoBehaviour
 {
     private GameObject target;                      // What will the camera focus on
-    private Vector3 offset;                         // Where is the camera's offset from `target`
+
+    [SerializeField] private Vector3 offset;                         // Where is the camera's offset from `target`
     private Vector3 baseRotation;                   // What is the rotation of the camera
     private LaneSwitcher carInfo;                   // Where to get the information of the car
     private float carSpeed;                         // How fast is the player moving
@@ -42,5 +43,13 @@ public class CamController : MonoBehaviour
     public void updateTarget(GameObject _target)
     {
         target = _target;
+        carSpeed = carInfo.Speed; 
+        transform.position = target.transform.position + offset;
+        transform.rotation = Quaternion.Euler(baseRotation);
+    }
+
+    public void updateOffset(Vector3 newOffset)
+    {
+        offset = offset += newOffset; 
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -18,9 +19,13 @@ public class LaneSwitcher : MonoBehaviour
     private int targetLane = 1;                             // which lane is the player moving to
     public bool hasThreeLanes = true;                       // does the road the player is "on" have three lanes
 
+    [Header("Audio")]
+    public AudioClip speedBoost;
+
     [Header("State Checks")]
     public bool gearChange = false;                         // did the player change their gear
 
+    [Header("Upgrade-Handling Variables")]
     // Upgrade-Handling Variables
     public bool armored = false;                            // does the player have the armor upgrade
 
@@ -68,7 +73,11 @@ public class LaneSwitcher : MonoBehaviour
     [SerializeField] float speed = 0.0f;                    // the speed the player is moving
     public float Speed => speed;                            // used to access and modify speed
 
+
+    private bool landing = false;
+
     [SerializeField] bool disableMovement;                  // can the player move
+
     public bool DisableMovement
     {
         get => disableMovement;
@@ -157,6 +166,8 @@ public class LaneSwitcher : MonoBehaviour
             alTimer = Time.time;
             alTime = 200f + (Random.Range(0f, 1f) * 300f);
         }
+        //makes sure the player lands without dying by falling below the minimum speed
+        controlLanding();
 
         // make sure the player does not drop below the minimum speed, also increases base speeds over time
         handleMinSpeed();
@@ -181,6 +192,7 @@ public class LaneSwitcher : MonoBehaviour
         {
             rb.drag += 0.05f;
         }
+
     }
 
 
@@ -200,12 +212,32 @@ public class LaneSwitcher : MonoBehaviour
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
         BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>(); // had ?
 
-        // make sure the player is going fast enough if startMinSpeed has elapsed since the start of the game
-        sinceStart += Time.deltaTime;
-        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+        if (healthInfo == null)
+        {
+            Debug.LogError("PlayerHealth component is missing on the game object.");
+            return;
+        }
+
+        if (bombInfo == null)
+        {
+            Debug.LogError("BombDefusal component is missing on the DefusalHandler game object.");
+            return;
+        }
+
+        if (carFlipped())
         {
             healthInfo.killPlayer();
         }
+
+        // make sure the player is going fast enough if startMinSpeed has elapsed since the start of the game
+        sinceStart += Time.deltaTime;
+
+        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && groundCheck(LayerMask.GetMask("Default")) && landing == false)
+                                                                                                               //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
+        {
+            healthInfo.killPlayer();
+        }
+
     }
 
     void AdjustSpeed()
@@ -318,6 +350,11 @@ public class LaneSwitcher : MonoBehaviour
         // deactivate amphibious effect if enough time has elapsed
         if (ampActive && ampStart >= 0 && Time.time - ampStart > ampTime)
         {
+            GameObject boostPart = transform.Find("SpeedEffect_ParticleSystem").gameObject;
+            if (boostPart != null)
+                boostPart.SetActive(false);
+            else
+                print("Particle not found");
             ampActive = false;
             ampStart = -1;
             speed /= 1.2f;
@@ -337,13 +374,22 @@ public class LaneSwitcher : MonoBehaviour
                 }
                 else if (!ampActive)    // player has amphibious and it has not been activated
                 {
+                    GameObject boostPart = transform.Find("SpeedEffect_ParticleSystem").gameObject;
+                    if (boostPart != null)
+                        boostPart.SetActive(true);
+                    else
+                        print("Particle not found");
+                    //maxSpeed *= 1.2f;
+
                     multMaxSpeed(1.2f);
                     speed *= 1.2f;
                     ampActive = true;
                     prevLiquid = true;
+
                 }
                 else if (ampActive)     // player has amphibious and it is active
                 {
+
                     // deactivates timer
                     prevLiquid = true;
                     ampStart = -1;
@@ -447,12 +493,71 @@ public class LaneSwitcher : MonoBehaviour
         // Damage & Health system not fully implemented yet
     }
 
-
     private bool checkBelow(LayerMask _layer)
     {
         // see if there is liquid below the player
         bool rlt = Physics.Raycast(rayPos, Vector3.down, .52f, _layer); //.52 may be too strict
 
         return rlt;
+    }
+
+    private bool groundCheck(LayerMask _layer)
+    {
+        RaycastHit hit;
+        bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _layer);
+        return rlt; 
+    }
+
+    private bool carFlipped()
+    {
+        if((Vector3.Dot(transform.up, Vector3.down) > .8))
+        { return true; }
+        else
+        { return false; }
+    }
+
+
+    public void controlLanding()
+    {
+        if(CarAttachRamp.carAttach)
+        {
+            if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
+            {
+                rb.useGravity = true;
+                if (landing)
+                {
+                    if (speed <= gearMinSpeeds[0] + 10f)
+                    {
+                        StartCoroutine(LandingCar());
+                        CarAttachRamp.carAttach = false;
+                        landing = false;
+                    }
+                }
+                rb.drag = 0.02f;
+                rb.angularDrag = 0.05f;
+            }
+            else
+            {
+                rb.useGravity = false;
+                rb.drag = 1.05f;
+                rb.angularDrag = 1f;
+                rb.AddForce(Physics.gravity * rb.mass);
+                speed = gearMinSpeeds[0];
+                RaycastHit hit;
+                bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
+                var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+                landing = true;
+            }
+            
+        }
+    }
+
+    IEnumerator LandingCar()
+    {
+        landing = true;
+        while (speed < gearMinSpeeds[0] + 10)
+            speed += 1f;
+        yield return new WaitForSeconds(1f);
     }
 }

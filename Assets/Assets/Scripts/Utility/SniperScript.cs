@@ -4,14 +4,20 @@ using UnityEngine;
 public class SniperScript : MonoBehaviour
 {
     public Transform sniper;
-    public Transform player;
+    private Transform player;
     public LineRenderer lineRenderer;
+    public PlayerHealth playerHealth;
+    private LaneSwitcher carInfo;  // get the script that has the car information
 
     private bool hasFired = false;
     private float time;
 
     void Start()
     {
+        // initialize the variables storing the car(player) and score info
+        carInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         lineRenderer.positionCount = 2;
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
@@ -22,6 +28,7 @@ public class SniperScript : MonoBehaviour
 
     void Update()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         if (hasFired)
         {
             lineRenderer.enabled = false;
@@ -29,6 +36,7 @@ public class SniperScript : MonoBehaviour
         }
         // Wait for 1 second
         time += Time.deltaTime;
+
         if ((time % 1) == 0 && time >= 3.0f)
         {
             lineRenderer.startColor = Color.white;
@@ -56,7 +64,19 @@ public class SniperScript : MonoBehaviour
 
     void Fire()
     {
-        // TODO: Add code to fire the sniper
+        print("Fire!");
+        if (!carInfo.armored)
+        {
+            print("Set health to 1");
+            playerHealth.setHealth(1);
+        }
+        else
+        {
+            playerHealth.damagePlayer(1);
+            print("damage player by 1");
+        }
+            
+
         hasFired = true;
     }
 }

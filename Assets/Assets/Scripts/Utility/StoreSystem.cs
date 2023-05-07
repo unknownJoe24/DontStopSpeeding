@@ -12,6 +12,9 @@ public class StoreSystem : MonoBehaviour
     public Upgrade[] safeItems;
     public Upgrade[] stock;        // what items are in the store
 
+    public AudioClip errorClip;
+    public AudioClip successClip; 
+
     private float safeProb;        // probability of a safe item being stocked, intrinsically linked to risky probability
 
     private float safePriceMult;   // multiplier of the price for safe prices
@@ -104,9 +107,14 @@ public class StoreSystem : MonoBehaviour
                     float speedCost = toBuy.getPrice() * safePriceMult;
                     if (scoreInfo.getMoney() >= speedCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(speedCost);
                         carInfo.upgradeEngine(10);
                         stock[toBuyIndex] = null;
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -115,10 +123,15 @@ public class StoreSystem : MonoBehaviour
                     float armorCost = toBuy.getPrice() * riskyPriceMult;
                     if (scoreInfo.getMoney() >= armorCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(armorCost);
                         carInfo.upgradeArmor();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -127,9 +140,14 @@ public class StoreSystem : MonoBehaviour
                     float tankCost = toBuy.getPrice() * safePriceMult;
                     if(scoreInfo.getMoney() >= tankCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(tankCost);
                         carInfo.upgradeTank(.95f);
                         stock[toBuyIndex] = null;
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -138,10 +156,15 @@ public class StoreSystem : MonoBehaviour
                     float amphibiousCost = toBuy.getPrice() * riskyPriceMult;
                     if(scoreInfo.getMoney() >= amphibiousCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(amphibiousCost);
                         carInfo.upgradeAmphibious();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -150,10 +173,15 @@ public class StoreSystem : MonoBehaviour
                     float SAFECost = toBuy.getPrice() * riskyPriceMult;
                     if(scoreInfo.getMoney() >= SAFECost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(SAFECost);
                         SAFERewards();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -162,10 +190,15 @@ public class StoreSystem : MonoBehaviour
                     float RISKYCost = toBuy.getPrice() * riskyPriceMult;
                     if (scoreInfo.getMoney() >= RISKYCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(RISKYCost);
                         RISKYRewards();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -174,9 +207,14 @@ public class StoreSystem : MonoBehaviour
                     float GreaseMonkeyCost = toBuy.getPrice() * safePriceMult;
                     if(scoreInfo.getMoney() >= GreaseMonkeyCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(GreaseMonkeyCost);
                         carInfo.upgradeGreaseMonkey(.95f);
                         stock[toBuyIndex] = null;
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -185,9 +223,14 @@ public class StoreSystem : MonoBehaviour
                     float multiplierCost = toBuy.getPrice() * safePriceMult;
                     if(scoreInfo.getMoney() >= multiplierCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(multiplierCost);
                         upgradeScoreMult();
                         stock[toBuyIndex] = null;
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -196,10 +239,15 @@ public class StoreSystem : MonoBehaviour
                     float rampCost = toBuy.getPrice() * riskyPriceMult;
                     if(scoreInfo.getMoney() >= rampCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(rampCost);
                         carInfo.upgradeRamp();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 
@@ -208,10 +256,15 @@ public class StoreSystem : MonoBehaviour
                     float AlCost = toBuy.getPrice() * riskyPriceMult;
                     if(scoreInfo.getMoney() >= AlCost)
                     {
+                        SoundManager.Instance.Play(successClip, 0.5f);
                         scoreInfo.spendMoney(AlCost);
                         carInfo.upgradeAl();
                         removeFromRiskyItems(toBuy);
                         removeFromStock(toBuy);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.Play(errorClip, 0.5f);
                     }
                     break;
 

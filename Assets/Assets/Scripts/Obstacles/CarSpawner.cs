@@ -29,7 +29,7 @@ public class CarSpawner : MonoBehaviour
     {
         int randIndex = Random.Range(0, carPrefab.Length);
 
-        var newCar = Instantiate(carPrefab[randIndex], new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z), Quaternion.Euler(0, 90, 0));
+        var newCar = Instantiate(carPrefab[randIndex], new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(0, 90, 0));
         newCar.transform.parent = gameObject.transform; 
     }
 }

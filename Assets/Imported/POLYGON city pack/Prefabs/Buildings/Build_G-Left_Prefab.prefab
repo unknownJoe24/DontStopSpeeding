@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4241790563283246}
   - component: {fileID: 33547678986336062}
   - component: {fileID: 23925021958840178}
+  - component: {fileID: 3337425406817247861}
   m_Layer: 0
   m_Name: Build_G-Left
   m_TagString: Untagged
@@ -126,3 +127,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3337425406817247861
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681268036702202}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.1393247, y: 0.067649946, z: 0.11920903}
+  m_Center: {x: 0.039443664, y: 0.023654612, z: 0.059604514}
