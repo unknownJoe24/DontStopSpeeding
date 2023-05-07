@@ -30,7 +30,7 @@ public class ScoreSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        username = "Player2";
+        username = "Player9";
         score = 0;
         moneySpent = 0;
         money = score - moneySpent;
@@ -251,7 +251,6 @@ public class ScoreSystem : MonoBehaviour
         saved = true;
 
         // disable player input
-        print("Score system -- playerInfo");
         playerInfo.DisableMovement = true;
     }
 }

@@ -21,6 +21,11 @@ public class LevelLoader : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void Upgrades()
     {
         SceneManager.LoadScene(3);
