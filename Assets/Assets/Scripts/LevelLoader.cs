@@ -30,9 +30,4 @@ public class LevelLoader : MonoBehaviour
     {
         SceneManager.LoadScene(3);
     }
-
-    public void MainMenu()
-    {
-        SceneManager.LoadScene(0);
-    }
 }
