@@ -10,7 +10,6 @@ public class PointTrigger : MonoBehaviour
         if (other.tag == "Player")
         {
             print("Player has reached point");
-            RampController.pointCounter += 1;
             
         }
         else

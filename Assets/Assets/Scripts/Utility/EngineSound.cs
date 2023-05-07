@@ -36,13 +36,12 @@ public class EngineSound : MonoBehaviour
 
             engineAudioSource.pitch = pitch;
             engineAudioSource.volume = volume;
-            /*
+
             if (!hasPlayedStartingSound)
             {
                 SoundManager.Instance.Play(startingSound, volume);
                 hasPlayedStartingSound = true;
             }
-            */
         }
     }
 

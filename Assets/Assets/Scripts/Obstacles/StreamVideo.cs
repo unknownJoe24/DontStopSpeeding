@@ -20,7 +20,7 @@ public class StreamVideo : MonoBehaviour
 
     public IEnumerator PlayVideo()
     {
-        videoPlayer.Prepare();
+        videoPlayer.Prepare();   
         WaitForSeconds waitForSeconds = new WaitForSeconds(1);
         while(!videoPlayer.isPrepared)
         {
@@ -38,5 +38,6 @@ public class StreamVideo : MonoBehaviour
     void CheckOver(UnityEngine.Video.VideoPlayer vp)
     {
         RawImage.SetActive(false);
+        vp.Stop();
     }
 }

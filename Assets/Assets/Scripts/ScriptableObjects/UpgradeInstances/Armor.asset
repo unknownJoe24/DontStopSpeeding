@@ -16,5 +16,5 @@ MonoBehaviour:
   desc: Provides Immunity to snipers
   basePrice: 1
   priceMult: 1
-  multTime: 3000000
+  multTime: 45
   key: 1

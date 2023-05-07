@@ -35,7 +35,7 @@ public class Speedometer : MonoBehaviour
         carInfo = GameObject.FindGameObjectWithTag("Player").GetComponent<LaneSwitcher>();
 
         CURRENT_SPEED = carInfo.Speed;
-        MAX_SPEED = carInfo.maxSpeed;
+        MAX_SPEED = carInfo.getGearMax();
 
         quarterSpeedText = GameObject.Find("quarterSpeedText").GetComponent<TMP_Text>();
         halfSpeedText = GameObject.Find("halfSpeedText").GetComponent<TMP_Text>();
@@ -64,7 +64,7 @@ public class Speedometer : MonoBehaviour
     */
     private void Update()
     {
-        MAX_SPEED = carInfo.maxSpeed;
+        MAX_SPEED = carInfo.getGearMax();
         CURRENT_SPEED = carInfo.Speed;
 
         QUARTER_SPEED = Mathf.RoundToInt(MAX_SPEED / 4);

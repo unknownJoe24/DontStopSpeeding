@@ -42,7 +42,7 @@ public class SpeedBar : MonoBehaviour
 
         
         CURRENT_SPEED = carInfo.Speed;
-        MAX_SPEED = carInfo.maxSpeed;
+        MAX_SPEED = carInfo.getGearMax();
 
         maxSpeedText = GameObject.Find("MaxSpeedBar").GetComponent<TMP_Text>();
         currentSpeedText = GameObject.Find("CurrentSpeedBar").GetComponent<TMP_Text>();
@@ -75,7 +75,7 @@ public class SpeedBar : MonoBehaviour
     */
     private void Update()
     {
-        MAX_SPEED = carInfo.maxSpeed;
+        MAX_SPEED = carInfo.getGearMax();
         CURRENT_SPEED = carInfo.Speed;
         speedFillBar.fillAmount = CURRENT_SPEED / MAX_SPEED;
         maxSpeedText.text = GameObject.Find("MaxSpeedBar").GetComponent<TMP_Text>().text = Mathf.RoundToInt(MAX_SPEED).ToString();
