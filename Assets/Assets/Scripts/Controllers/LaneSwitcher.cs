@@ -187,7 +187,6 @@ public class LaneSwitcher : MonoBehaviour
         controlLanding();
         handleLiquids();
         AdjustSpeed();
-        
     }
 
     private void FixedUpdate()
@@ -213,13 +212,10 @@ public class LaneSwitcher : MonoBehaviour
         sinceInc += Time.deltaTime;
         if (sinceInc >= speedInc)
         {
-            increaseBaseMaxSpeed(10f);  // needs changed
+            increaseBaseMaxSpeed(10f);
             minSpeed += 10;
             sinceInc = 0f;
         }
-
-        // Get the minimum speed for the current gear
-        //float gearMinSpeed = gearMinSpeeds[currentGear - 1];
 
         PlayerHealth healthInfo = gameObject.GetComponent<PlayerHealth>();
         BombDefusal bombInfo = GameObject.Find("DefusalHandler").GetComponent<BombDefusal>(); // had ?
@@ -236,14 +232,6 @@ public class LaneSwitcher : MonoBehaviour
             return;
         }
 
-        /*
-        if (speed < gearMinSpeed && !healthInfo.dead && !bombInfo.getCompleted())
-        {
-            healthInfo.killPlayer();
-        }
-        */
-        //this version was from the cows liquids length branch
-
         if (carFlipped())
         {
             healthInfo.killPlayer();
@@ -251,7 +239,7 @@ public class LaneSwitcher : MonoBehaviour
 
         sinceStart += Time.deltaTime;
 
-        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && (groundCheck(LayerMask.GetMask("Default")) || (Vector3.Dot(transform.up, Vector3.down) > 0)) && landing == false)
+        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && groundCheck(LayerMask.GetMask("Default")) && landing == false)
                                                                                                                //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
         {
             healthInfo.killPlayer();
@@ -554,36 +542,38 @@ void GearDown()
 
     public void controlLanding()
     {
-        if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
+        if(CarAttachRamp.carAttach)
         {
-            rb.useGravity = true;
-            if (landing)
+            if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
             {
-                if (speed <= gearMinSpeeds[0] + 10f)
+                rb.useGravity = true;
+                if (landing)
                 {
-                    StartCoroutine(LandingCar());
-                    landing = false; 
+                    if (speed <= gearMinSpeeds[0] + 10f)
+                    {
+                        StartCoroutine(LandingCar());
+                        CarAttachRamp.carAttach = false;
+                        landing = false;
+                    }
                 }
+                rb.drag = 0.02f;
+                rb.angularDrag = 0.05f;
             }
-            //print("speed = " + speed);
-            rb.drag = 0.02f;
-            rb.angularDrag = 0.05f;
+            else
+            {
+                rb.useGravity = false;
+                rb.drag = 1.05f;
+                rb.angularDrag = 1f;
+                rb.AddForce(Physics.gravity * rb.mass);
+                speed = gearMinSpeeds[0];
+                RaycastHit hit;
+                bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
+                var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+                landing = true;
+            }
+            
         }
-        else
-        {
-            rb.useGravity = false;
-            rb.drag = 1.05f;
-            rb.angularDrag = 1f;
-            rb.AddForce(Physics.gravity * rb.mass);
-            speed = gearMinSpeeds[0];
-            RaycastHit hit;
-
-            bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
-            var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-            landing = true; 
-        }
-
     }
 
     IEnumerator LandingCar()

@@ -30,7 +30,7 @@ Transform:
   m_Children:
   - {fileID: 6837334029555077031}
   m_Father: {fileID: 6837334028842329988}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6837334028770319407
 GameObject:
@@ -63,7 +63,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6837334028842329988}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &6837334028770319409
 BoxCollider:
@@ -105,7 +105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6837334028842329988
 Transform:
   m_ObjectHideFlags: 0
@@ -118,9 +118,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6837334028770319408}
   - {fileID: 6837334027507987311}
   - {fileID: 6837334029497394863}
-  - {fileID: 6837334028770319408}
   m_Father: {fileID: 5906326152230439782}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -154,7 +154,7 @@ Transform:
   m_Children:
   - {fileID: 6837334027958929334}
   m_Father: {fileID: 6837334028842329988}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!1 &8543037947210029784
 GameObject:
@@ -165,6 +165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5906326152230439782}
+  - component: {fileID: 1372975471552256023}
   m_Layer: 0
   m_Name: RampUpgrade_GRP
   m_TagString: Untagged
@@ -188,6 +189,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1372975471552256023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8543037947210029784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8077a5cf2a28849a1404901b09196d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6837334027958541622
 PrefabInstance:
   m_ObjectHideFlags: 0
