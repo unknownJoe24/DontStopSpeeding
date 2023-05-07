@@ -149,4 +149,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startCount: 1
-  countLength: 5
+  firstCountLength: 5
+  generalCountLength: 3
