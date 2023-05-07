@@ -7,13 +7,21 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
+    public float maxHealth;                             // max health the player can have
     public float health;                                // current player health
     public bool dead;                                   // is the player dead 
     public float invulnerableDur;                       // how long the player becomes invulnerable
     public bool defense = false;                        // defense - redundant?
     public bool regen = false;                          // does the car regenerate
+
     public float regenRate;
     public GameObject player_explosion;                 //this was added in the ToDoListSarah branch as a reimplementation of the car death sequence
+
+    public float repairCost = 200;                      // the cost of repairing the car
+    public float repairPercent;                         // how much does it repair (percentage)
+    public float regenPercent;                          // how much health is regenerated
+    public float regenRate;                             // how often is health regenerated
+
 
 
     [Header ("Sound Settings")]
@@ -27,13 +35,14 @@ public class PlayerHealth : MonoBehaviour
 
     private float invulnerableTime;                     // the time since invulnerability began
     private float second;                               // the time since health was regenerated
-    private LaneSwitcher playerInfo;                    
-    //private VehicleBehaviour.WheelVehicle playerInfo;   // Reference to the WheelVehicle script
-    private Rigidbody playerRigidBody;
 
+    private LaneSwitcher playerInfo;                    // the player information
+    [SerializeField]
+    private ScoreSystem playerScore;                    // the score system used by the player
+    private Rigidbody playerRigidBody;                  // the rigidbody of the player
     [Header("UI Settings")]
-    public TMP_Text healthText;
-    public Image healthBar;
+    public TMP_Text healthText;                         // the text displaying the health
+    public Image healthBar;                             // the bar displaying the health
 
 
     GameObject[] colliderObjects;                       // the individual colliders of the player
@@ -42,26 +51,18 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         dead = false; 
-        // member initialization
         invulnerableDur = 2f;
         regenRate = 1f;
         invulnerableTime = 0f;
         second = 0.0f;
 
-        //health = 100;                                    // sets player health at start
-
-
         playerInfo = gameObject.GetComponent<LaneSwitcher>();
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
-        //healthText = GameObject.FindGameObjectWithTag("Health").GetComponent<TMP_Text>();
 
         // get all objects under gameObject that have a collider
         // this is used to swap the player's layer
         Collider[] allColliders = GetComponentsInChildren<Collider>();
         colliderObjects = new GameObject[allColliders.Length];
-        if (allColliders.Length == 0)
-            Debug.LogError("The colliders were not achieved properly");
-
         for (int i = 0; i < allColliders.Length; ++i)
         {
             colliderObjects[i] = allColliders[i].gameObject;
@@ -72,7 +73,7 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentSpeed = playerInfo.Speed; //-- THIS LINE DOESN'T WORK(?)
+        currentSpeed = playerInfo.Speed;
 
         // redisplay the health HUD
         redisplayInfo();
@@ -88,26 +89,22 @@ public class PlayerHealth : MonoBehaviour
             }
         }
 
-        // recover health if the player has taken damage
-        if (regen && health > 0)
-            recoverHealth();
+        // recover health if applicable
+        recoverHealth();
 
-        if (health > 0)
+        // allow the player to repair the car
+        if(Input.GetButtonDown("Repair Car") && Time.timeScale != 0)
         {
-                recoverHealth();
+            if(playerScore.spendMoney(repairCost))
+            {
+                health += (maxHealth * repairPercent / 100f);
+                health = Mathf.Min(health, maxHealth);
+            }
         }
 
         // kill the player if they ran out of health
         if (!dead && health <= 0)
             killPlayer();
-
-        //This was commented out to avoid a Merge Conflict for cows liquids lengths
-       /* if (Input.GetKeyDown("k"))       // this is temporary
-        {
-            takeDamage();
-            //print("taking damage");
-        }
-       */
     }
 
     // Recover player health over time
@@ -120,7 +117,7 @@ public class PlayerHealth : MonoBehaviour
             second += Time.deltaTime;
             if (second >= regenRate)
             {
-                health += 5;
+                health += maxHealth * regenPercent;
                 second = 0;
                 if (health > 100)
                 {
@@ -132,30 +129,28 @@ public class PlayerHealth : MonoBehaviour
 
     // Remove health from player when damage is dealt
     void takeDamage()
-    {
-        if (currentSpeed > 0)
+    {   
+        if(currentSpeed > 0)
         {
-            health -= currentSpeed / 10;
+
+            if(defense)
+            {
+                float tmpDamage = currentSpeed / 10f;
+                health -= tmpDamage / 2f;
+                health = Mathf.Max(0f, health);
+            }
+            else
+            {
+                //Current Speed before impact / 10 = damage dealt
+                health -= currentSpeed / 10f;
+                health = Mathf.Max(0f, health);
+            }
+
             if (health > 0)
                 SoundManager.Instance.Play(hurtSound, 1f);
 
             handleInvulnerability(true);
         }
-        /*
-            if(currentSpeed > 0)
-            {
-            if(defense)
-            {
-                float tmpDamage = currentSpeed / 10;
-                health -= tmpDamage / 2;
-            }
-            if(!defense)
-            {
-                //Current Speed before impact / 10 = damage dealt
-                health -= currentSpeed / 10;
-            }
-        
-        }*/
     }
 
 
@@ -196,7 +191,6 @@ public class PlayerHealth : MonoBehaviour
 
         // stop movement
         playerInfo.DisableMovement = true;
-        print("Player health, playerInfo.DisableMovment");
         playerRigidBody.velocity = new Vector3(0f, 0f, 0f);
 
         //The code below was added in the ToDoListSarah branch as a reimplementation of the car death sequence
@@ -216,6 +210,7 @@ public class PlayerHealth : MonoBehaviour
         
         var sn = GameObject.FindObjectOfType<CamController>();
         sn.updateOffset(new Vector3(0, 0, -10f));
+
         SoundManager.Instance.Play(deathSound, 1f);
 
         gameObject.SetActive(false); //for some reason, the meshrenderer turning off stopped working. This also works as far as I am aware on this branch (no errors), but might need to be changed when merged with rest of branches

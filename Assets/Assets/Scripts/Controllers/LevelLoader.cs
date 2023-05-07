@@ -21,14 +21,13 @@ public class LevelLoader : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void Upgrades()
     {
-        Debug.LogWarning("Upgrade Scene needed");
+        SceneManager.LoadScene(3);
     }
-
-    public void Settings()
-    {
-        Debug.LogWarning("Settings Scene needed");
-    }
-
 }
