@@ -889,6 +889,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 704300971}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: vPlayer
+      value: 
+      objectReference: {fileID: 1131780851}
+    - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: maxSpeed
       value: 10
       objectReference: {fileID: 0}
@@ -902,7 +906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: amphibious
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1530498019705823391, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: baseMaxSpeeds.Array.data[0]
@@ -1177,6 +1181,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d15c65eef9ceb44faa806daa23be26e, type: 3}
+--- !u!1001 &1131780850
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -50.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188361, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3084837938214188374, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+      propertyPath: m_Name
+      value: Better Call Al
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+--- !u!328 &1131780851 stripped
+VideoPlayer:
+  m_CorrespondingSourceObject: {fileID: 3084837938826044500, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+  m_PrefabInstance: {fileID: 1131780850}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1247246351 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 247180008435091882, guid: 3a77fd89c026c0141893bf87573ebcde, type: 3}
