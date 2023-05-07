@@ -11,8 +11,8 @@ public class RandomObstaclePropSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        objPos = (Random.Range(0, objGroups.Length - 1));
-        //print(objPos);
+        objPos = (Random.Range(0, objGroups.Length));
+        print(objPos);
         objGroups[objPos].SetActive(true);
     }
 }

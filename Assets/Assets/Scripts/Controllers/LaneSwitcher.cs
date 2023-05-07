@@ -31,6 +31,7 @@ public class LaneSwitcher : MonoBehaviour
     public bool upgradeTwo = false;
     public bool upgradeThree = false;
 
+    [Header("Upgrade-Handling Variables")]
     // Upgrade-Handling Variables
     [SerializeField]
     public bool armored = false;
