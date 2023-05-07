@@ -67,7 +67,7 @@ public class BombDefusal : MonoBehaviour
         bool deadCurr = player.GetComponent<PlayerHealth>().dead;
 
         // start defusal if the correct key is pressed and the bomb is/has not being/been defused
-        if (!deadCurr && Input.GetButtonDown("Defuse Bomb") && !defusing && !completed)
+        if (!deadCurr && Input.GetButtonDown("Defuse Bomb") && !defusing && !completed && Time.timeScale != 0)
         {
             defusing = true;
             currKey = getNewKey();
@@ -157,7 +157,7 @@ public class BombDefusal : MonoBehaviour
     void Defusal()
     {
         // check the input if the bomb is being diffused
-        if(defusing)
+        if(defusing && Time.timeScale != 0)
             checkInput();
 
         // the user ran out of time
@@ -178,12 +178,7 @@ public class BombDefusal : MonoBehaviour
 
     // display the key to be pressed
     void DisplayPrompt(KeyCode toPress)
-    {
-        /*
-        if (defusing && !completed)
-            Debug.Log(toPress);
-        */
-        
+    {   
         // make sure the quick time UI is appearing
         quickTimeUI.SetActive(true);
 
