@@ -28,12 +28,6 @@ public class LevelLoader : MonoBehaviour
 
     public void Upgrades()
     {
-        Debug.LogWarning("Upgrade Scene needed");
+        SceneManager.LoadScene(3);
     }
-
-    public void Settings()
-    {
-        Debug.LogWarning("Settings Scene needed");
-    }
-
 }
