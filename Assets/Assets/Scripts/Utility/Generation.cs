@@ -250,7 +250,10 @@ public class Generation : MonoBehaviour
         GameObject instance = Instantiate(toSpawn, prev[0].transform.position + new Vector3(0f, 0f, spawnLength), toSpawn.transform.rotation);
 
         // let the lane switcher know how many lanes there are
-        playerMovement.hasThreeLanes = (getRoad(prev[prev.Length - 2]).getLanes()[0] == 3);
+        Road currRoad = getRoad(prev[prev.Length - 2]); // length -2
+        int[] nextLanes = currRoad.getLanes();
+        int nextNumLanes = Mathf.Min(nextLanes[0], nextLanes[1]);
+        playerMovement.hasThreeLanes = (nextNumLanes == 3);
 
         //delete the last road in delete if it exists
         if (del[del.Length - 1] != null)

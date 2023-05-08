@@ -12,7 +12,7 @@ public class RandomObstaclePropSpawner : MonoBehaviour
     void Start()
     {
         objPos = (Random.Range(0, objGroups.Length));
-        print(objPos);
+        //print(objPos);
         objGroups[objPos].SetActive(true);
     }
 }

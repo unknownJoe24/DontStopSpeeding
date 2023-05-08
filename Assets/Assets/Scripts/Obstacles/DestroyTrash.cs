@@ -11,6 +11,11 @@ public class DestroyTrash : MonoBehaviour
     [SerializeField] float volume;
     [SerializeField] GameObject explosionParticles;
 
+    private void Start()
+    {
+        Destroy(this.gameObject, 30);
+    }
+
 
     void OnCollisionEnter(Collision collision)
     {
