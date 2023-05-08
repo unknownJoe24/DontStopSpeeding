@@ -281,10 +281,19 @@ public class LaneSwitcher : MonoBehaviour
         newGear = Mathf.Clamp(newGear, 1, maxGears);
 
         // Check if the speed is within the acceptable range for upshifting gears
-        if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
+        // use base speeds instead?
+        /*if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
         {
             // Set the current gear to the new gear
             currentGear = newGear;
+        }*/
+
+        if(gearChangeDirection == 1)
+        {
+            if(speed >= gearMinSpeeds[newGear - 1])
+            {
+                currentGear = newGear;
+            }
         }
         // Allow downshifting gears without checking the speed
         else if (gearChangeDirection == -1)
@@ -310,7 +319,7 @@ public class LaneSwitcher : MonoBehaviour
 
             gearMaxSpeeds[i] = (gearMaxSpeeds[i] / baseMaxSpeeds[i]) * (baseMaxSpeeds[i] + _diff);
             baseMaxSpeeds[i] += _diff;
-            baseMinSpeeds[i] = baseMaxSpeeds[i] - _diff;
+            baseMinSpeeds[i] = baseMaxSpeeds[i] - gearDiff;
             gearMinSpeeds[i] = baseMinSpeeds[i];
         }
 
@@ -423,7 +432,8 @@ public class LaneSwitcher : MonoBehaviour
     // increases max speed
     public void upgradeEngine(int inc)
     {
-        addMaxSpeed(inc);
+        //addMaxSpeed(inc);
+        increaseBaseMaxSpeed(inc);
     }
 
     // reduces gas prices
@@ -448,7 +458,8 @@ public class LaneSwitcher : MonoBehaviour
     public void upgradeArmor()
     {
         armored = true;
-        addMaxSpeed(-30f);
+        //addMaxSpeed(-30f);
+        increaseBaseMaxSpeed(-30f);
     }
 
     // amphibius accessor
@@ -461,7 +472,8 @@ public class LaneSwitcher : MonoBehaviour
     public void upgradeAmphibious()
     {
         amphibious = true;
-        addMaxSpeed(-5f);
+        //addMaxSpeed(-5f);
+        increaseBaseMaxSpeed(-5f);
     }
 
     public bool getSponsor()

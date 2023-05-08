@@ -79,7 +79,7 @@ public class StartCountdown : MonoBehaviour
 
         float diff = 255f / (float)countLength;
         text.color = new Color(255f - (diff * _secondsSince), diff * _secondsSince, 0f);
-        Debug.Log(text.color.ToString());
+        //Debug.Log(text.color.ToString());
     }
 
     public void requestCountdown()
