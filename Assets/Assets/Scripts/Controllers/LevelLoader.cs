@@ -18,7 +18,7 @@ public class LevelLoader : MonoBehaviour
 
     public void Leaderboard()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(4);
     }
 
     public void MainMenu()
