@@ -7,6 +7,7 @@ using TMPro;
 public class LeaderboardHandler_Beautified : MonoBehaviour
 {
     public Canvas LeaderboardCanvas;    // the canvas to place things under
+    public GameObject contentWindow;    // the object to place things under
     public GameObject entryTemplate;    // template for leaderboard entries
 
     private float initOffset;           // initial offset for the leaderboard entries
@@ -19,7 +20,6 @@ public class LeaderboardHandler_Beautified : MonoBehaviour
         // load the save data, and initialize data
         SaveGame.Load();
 
-        initOffset = 100f;
         centerx = LeaderboardCanvas.GetComponent<RectTransform>().rect.width / 2f;
         templateHeight = 50f;
 
@@ -27,6 +27,9 @@ public class LeaderboardHandler_Beautified : MonoBehaviour
         string[] allPlayers = SaveGame.Instance.players;
         int[] allScores = SaveGame.Instance.scores;
         string[] allRanks = SaveGame.Instance.ranks;
+
+        RectTransform contentWindowTrans = contentWindow.GetComponent<RectTransform>();
+        initOffset = contentWindowTrans.rect.height / 2f - templateHeight;
 
         sortPlayers(ref allPlayers, ref allScores, ref allRanks);
 
@@ -36,7 +39,7 @@ public class LeaderboardHandler_Beautified : MonoBehaviour
             // create a new entry
             RectTransform newTrans;
             GameObject curr = Instantiate(entryTemplate);
-            curr.transform.SetParent(LeaderboardCanvas.transform);
+            curr.transform.SetParent(contentWindow.transform);
             newTrans = curr.GetComponent<RectTransform>();
             newTrans.anchoredPosition = new Vector2(0, initOffset - templateHeight * i);
 
