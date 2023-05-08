@@ -60,6 +60,16 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PauseMusic()
+    {
+        MusicSource.Pause();
+    }
+
+    public void ResumeMusic()
+    {
+        MusicSource.Play();
+    }
+
     // Play a single clip through the music source with a specified volume.
     public void PlayMusic(AudioClip clip, float volume)
     {
@@ -70,6 +80,8 @@ public class SoundManager : MonoBehaviour
             MusicSource.Play();
         }
     }
+
+
 
     // Stop playing the current music.
     public void StopMusic()

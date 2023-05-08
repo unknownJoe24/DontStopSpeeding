@@ -20,9 +20,9 @@ public class StreamVideo : MonoBehaviour
 
     public IEnumerator PlayVideo()
     {
-        videoPlayer.Prepare();   
+        videoPlayer.Prepare();
         WaitForSeconds waitForSeconds = new WaitForSeconds(1);
-        while(!videoPlayer.isPrepared)
+        while (!videoPlayer.isPrepared)
         {
             yield return waitForSeconds;
             break;

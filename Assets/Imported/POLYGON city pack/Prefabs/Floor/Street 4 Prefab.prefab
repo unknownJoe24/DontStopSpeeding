@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9150447588454104133}
   m_Layer: 0
   m_Name: Street 4 Prefab
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 23910408433680958}
   m_Layer: 0
   m_Name: street
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

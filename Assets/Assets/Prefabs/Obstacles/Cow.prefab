@@ -51,6 +51,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8dc3d9ea55e361144b55280917e84e66, type: 3}
   point1: {fileID: 0}
   point2: {fileID: 0}
+  move: 1
   speed: 1.5
 --- !u!1001 &3871147532592297097
 PrefabInstance:
@@ -131,7 +132,7 @@ AudioSource:
   m_GameObject: {fileID: 559334552830967030}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2373559182224054703, guid: 8c7cfba4373c22f4f835df7c92024cdd, type: 2}
   m_audioClip: {fileID: 8300000, guid: 582f64d25eb5cc54c81c16b2ca88a961, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.668
@@ -143,9 +144,9 @@ AudioSource:
   Priority: 183
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

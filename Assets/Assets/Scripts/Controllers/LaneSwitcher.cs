@@ -36,11 +36,11 @@ public class LaneSwitcher : MonoBehaviour
     private float ampStart;                                 // when did the amphibious effect start
 
     public bool sponsored = false;                          // does the player have the Al upgrade
-    private float alTimer;                                  // when did the last ad play
-    private float alTime;                                   // how often does the ad play
+    public float alTimer;                                  // when did the last ad play
+    public float alProb;                                                       // how often does the ad play
 
     [SerializeField]
-    private VideoPlayer vPlayer;                            // the video player to play the ad
+    GameObject BetterCallAlUI;                            // the video player to play the ad
     
     static public bool rampedUp = false;                    // this is being set to static for Ramp Controller script
 
@@ -74,7 +74,8 @@ public class LaneSwitcher : MonoBehaviour
     public float Speed => speed;                            // used to access and modify speed
 
 
-    private bool landing = false;
+    private bool grounded;
+    private bool landing; 
 
     [SerializeField] bool disableMovement;                  // can the player move
 
@@ -115,6 +116,7 @@ public class LaneSwitcher : MonoBehaviour
 
     void Update()
     {
+        
         // gets the speed of the player?
         speed = transform.InverseTransformDirection(rb.velocity).z;
 
@@ -157,17 +159,35 @@ public class LaneSwitcher : MonoBehaviour
         {
             ChangeGear();
         }
-
+        
         // handle Better Call Al's sponsorship segment
-        if (sponsored && Time.time - alTimer > alTime)
+        if (sponsored)
         {
-            // Better Call Al!
-            StartCoroutine(vPlayer.GetComponent<StreamVideo>().PlayVideo());
-            alTimer = Time.time;
-            alTime = 200f + (Random.Range(0f, 1f) * 300f);
+
+            VideoPlayer AlVideo = BetterCallAlUI.GetComponentInChildren<VideoPlayer>();
+
+            //print("timer " + timer);
+            alTimer += Time.deltaTime;
+            if (alTimer >= 5.0f)
+            {
+                BetterCallAlUI.transform.localPosition = new Vector3(Random.Range(-Screen.width, Screen.width), Random.Range(-Screen.height, Screen.height), 0);
+                alTimer = 0;
+                if (!AlVideo.isPlaying)
+                {
+                    alProb = Random.Range(0.0f, 1.0f);
+                }
+
+                print("tmpProb" + alProb);
+                if (alProb <= 0.3 && !AlVideo.isPlaying)
+                {
+                    StartCoroutine(AlVideo.GetComponent<StreamVideo>().PlayVideo());
+
+                }
+
+            }
+
         }
-        //makes sure the player lands without dying by falling below the minimum speed
-        controlLanding();
+
 
         // make sure the player does not drop below the minimum speed, also increases base speeds over time
         handleMinSpeed();
@@ -192,7 +212,6 @@ public class LaneSwitcher : MonoBehaviour
         {
             rb.drag += 0.05f;
         }
-
     }
 
 
@@ -232,13 +251,38 @@ public class LaneSwitcher : MonoBehaviour
         // make sure the player is going fast enough if startMinSpeed has elapsed since the start of the game
         sinceStart += Time.deltaTime;
 
-        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && groundCheck(LayerMask.GetMask("Default")) && landing == false)
-                                                                                                               //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
-        {
-            healthInfo.killPlayer();
-        }
+        grounded = groundCheck(LayerMask.GetMask("Default"));
 
+        if (grounded)
+        {
+            if (!CarAttachRamp.carAttach)
+            {
+
+                if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+                //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
+                {
+                    //print(CarAttachRamp.carAttach);
+                   // print("minSpeed" + minSpeed + " speed" + speed);
+                    healthInfo.killPlayer();
+                }
+            }
+            else
+            {
+
+                multMaxSpeed(1.2f);
+                speed *= 1.2f;
+                CarAttachRamp.carAttach = false; 
+                landing = false; 
+            }
+        }
+        else
+        {
+            speed = Mathf.Min(gearMaxSpeeds[currentGear - 1], gearMaxSpeeds[currentGear - 1] + 10);
+
+        }
     }
+
+
 
     void AdjustSpeed()
     {
@@ -284,6 +328,7 @@ public class LaneSwitcher : MonoBehaviour
         // use base speeds instead?
         /*if (gearChangeDirection == 1 && speed >= gearMinSpeeds[newGear - 1] && (newGear == maxGears || speed <= gearMaxSpeeds[newGear - 1]))
         {
+            print("Testing");
             // Set the current gear to the new gear
             currentGear = newGear;
         }*/
@@ -489,8 +534,8 @@ public class LaneSwitcher : MonoBehaviour
         healthInfo.regenRate = 5f;
         healthInfo.regenPercent = healthInfo.maxHealth * .05f;
         healthInfo.regen = true;
-        alTimer = Time.time;
-        alTime = 200f + (Random.Range(0f, 1f) * 300f);
+        
+        
     }
 
     public bool getRamp()
@@ -502,7 +547,7 @@ public class LaneSwitcher : MonoBehaviour
     public void upgradeRamp()
     {
         rampedUp = true;
-        // Damage & Health system not fully implemented yet
+      
     }
 
     private bool checkBelow(LayerMask _layer)
@@ -516,8 +561,9 @@ public class LaneSwitcher : MonoBehaviour
     private bool groundCheck(LayerMask _layer)
     {
         RaycastHit hit;
-        bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _layer);
-        return rlt; 
+        grounded = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _layer);
+        //print("Grounded" + grounded);
+        return grounded; 
     }
 
     private bool carFlipped()
@@ -528,48 +574,4 @@ public class LaneSwitcher : MonoBehaviour
         { return false; }
     }
 
-
-    public void controlLanding()
-    {
-        if(CarAttachRamp.carAttach)
-        {
-            if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
-            {
-                rb.useGravity = true;
-                if (landing)
-                {
-                    if (speed <= gearMinSpeeds[0] + 10f)
-                    {
-                        StartCoroutine(LandingCar());
-                        CarAttachRamp.carAttach = false;
-                        landing = false;
-                    }
-                }
-                rb.drag = 0.02f;
-                rb.angularDrag = 0.05f;
-            }
-            else
-            {
-                rb.useGravity = false;
-                rb.drag = 1.05f;
-                rb.angularDrag = 1f;
-                rb.AddForce(Physics.gravity * rb.mass);
-                speed = gearMinSpeeds[0];
-                RaycastHit hit;
-                bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
-                var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-                landing = true;
-            }
-            
-        }
-    }
-
-    IEnumerator LandingCar()
-    {
-        landing = true;
-        while (speed < gearMinSpeeds[0] + 10)
-            speed += 1f;
-        yield return new WaitForSeconds(1f);
-    }
 }

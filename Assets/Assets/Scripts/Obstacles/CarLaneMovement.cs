@@ -15,9 +15,9 @@ public class CarLaneMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
+        _rigidbody.velocity = transform.forward * _speed * Time.fixedDeltaTime;
     }
 
     private void OnTriggerEnter(Collider other)

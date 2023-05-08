@@ -10066,6 +10066,7 @@ Transform:
   - {fileID: 4949822519101120}
   - {fileID: 4782141027330822}
   - {fileID: 3597805321719640473}
+  - {fileID: 6743436169816006086}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10127,19 +10128,14 @@ MonoBehaviour:
   hasThreeLanes: 1
   speedBoost: {fileID: 8300000, guid: 00052ec572b986c46b8b49491985f547, type: 3}
   gearChange: 0
-  defuseBomb: 0
-  repairCar: 0
-  upgradeOne: 0
-  upgradeTwo: 0
-  upgradeThree: 0
   armored: 0
-  prevLiquid: 0
   amphibious: 0
   ampTime: 3
   sponsored: 0
-  vPlayer: {fileID: 0}
+  alTimer: 0
+  alProb: 0
+  BetterCallAlUI: {fileID: 3084837938214188374, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
   speedIncrement: 10
-  maxSpeed: 50
   speedInc: 0
   currentGear: 1
   maxGears: 3
@@ -10206,15 +10202,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85acfa2c222c948b1b852d0dcafd79f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
   health: 100
   dead: 0
   invulnerableDur: 2
   defense: 0
   regen: 0
-  regenRate: 0
   player_explosion: {fileID: 2825535728075312249, guid: 3caede774442e9748afb35f86613503a, type: 3}
+  repairCost: 200
+  repairPercent: 0
+  regenPercent: 0
+  regenRate: 0
   hurtSound: {fileID: 8300000, guid: a7fec449914ac17418da24123bc95657, type: 3}
   deathSound: {fileID: 0}
+  playerScore: {fileID: 0}
   healthText: {fileID: 0}
   healthBar: {fileID: 0}
 --- !u!1 &1672480277976696
@@ -20212,6 +20213,68 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: f41f23c0bd8904f16962311e0064c059, type: 3}
   m_PrefabInstance: {fileID: 2255186364966579178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6704522266584363382
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4704918474422382}
+    m_Modifications:
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.035
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 135410141979026032, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+      propertyPath: m_Name
+      value: Hit_ParticleSystem
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+--- !u!4 &6743436169816006086 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 44543472561188016, guid: a54edfe85ccfefa4bb7e1e8901e74da3, type: 3}
+  m_PrefabInstance: {fileID: 6704522266584363382}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7644527375715480423
 PrefabInstance:
