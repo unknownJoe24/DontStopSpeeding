@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3510982640296665782}
   m_Layer: 0
   m_Name: StoneWay_03
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 4262486089465782}
   m_Layer: 0
   m_Name: stoneway 3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

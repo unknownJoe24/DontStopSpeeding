@@ -87,6 +87,7 @@ public class ScoreSystem : MonoBehaviour
         }
 
         aSpeed /= speeds.Length;
+        //print("aSpeed" + aSpeed);
     }
 
     // Returns a speed multiplier determined by an average speed
@@ -94,14 +95,15 @@ public class ScoreSystem : MonoBehaviour
     {
         if (_aSpeed > 100f && _aSpeed <= 1000f)
         {
-            return (float)(1 + _aSpeed / 100f) * storeScoreMult;
+            return (float)(1 + _aSpeed / 10f) * storeScoreMult;
+            
             // Is this what we wanted for this upgrade^^^?
         }
         else if (_aSpeed > 1000f)
         {
-            return (float)(1 + _aSpeed / 1000f) * storeScoreMult;
+            
+            return (float)(1 + _aSpeed / 100f) * storeScoreMult;
         }
-        
 
         // base case - aSpeed < 100f
         return (float)(1 + _aSpeed / 10f) * storeScoreMult;
@@ -112,11 +114,14 @@ public class ScoreSystem : MonoBehaviour
     {
         // calculates the score, getSpeedMult(aSpeed) is only called if 30 seconds have passed
         int tempScore = (int)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
+        print("Mathf.Pow(eTime, 2f) = " + Mathf.Pow(eTime, 2f) + "getSpeedMult( " + aSpeed + " ) =" + getSpeedMult(aSpeed));
 
         // only increase the score
         score = tempScore > score ? tempScore : score;
-
+        if (tempScore < score) print("tempScore" + tempScore + " score: " + score); ;
+        //print("Score: " + score + " tempScore: " + tempScore);
         money = score / 4 - moneySpent;
+
     }
 
     // Calculate the rank based on the score of the player

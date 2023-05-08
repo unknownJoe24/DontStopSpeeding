@@ -74,7 +74,8 @@ public class LaneSwitcher : MonoBehaviour
     public float Speed => speed;                            // used to access and modify speed
 
 
-    private bool landing = false;
+    private bool grounded;
+    private bool landing; 
 
     [SerializeField] bool disableMovement;                  // can the player move
 
@@ -192,8 +193,6 @@ public class LaneSwitcher : MonoBehaviour
             rb.drag += 0.05f;
         }
 
-        //makes sure the player lands without dying by falling below the minimum speed
-        controlLanding();
 
     }
 
@@ -234,13 +233,40 @@ public class LaneSwitcher : MonoBehaviour
         // make sure the player is going fast enough if startMinSpeed has elapsed since the start of the game
         sinceStart += Time.deltaTime;
 
-        if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted() && groundCheck(LayerMask.GetMask("Default")) && landing == false)
-                                                                                                               //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
-        {
-            healthInfo.killPlayer();
-        }
+        grounded = groundCheck(LayerMask.GetMask("Default"));
 
+        if (grounded)
+        {
+            if (!landing)
+            {
+
+                if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
+                //^ this was added in the ToDoListSarah Branch as an attempt to solve the dying upon hitting the ramp 
+                {
+                    //print(CarAttachRamp.carAttach);
+                   // print("minSpeed" + minSpeed + " speed" + speed);
+                    healthInfo.killPlayer();
+                }
+            }
+            else
+            {
+                multMaxSpeed(1.2f);
+                speed *= 1.2f;
+                landing = false; 
+            }
+        }
+        else
+        {
+            //RaycastHit hit;
+            //bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
+            //var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
+            speed = Mathf.Min(gearMaxSpeeds[currentGear - 1], gearMaxSpeeds[currentGear - 1] + 10);
+
+        }
     }
+
+
 
     void AdjustSpeed()
     {
@@ -507,8 +533,9 @@ public class LaneSwitcher : MonoBehaviour
     private bool groundCheck(LayerMask _layer)
     {
         RaycastHit hit;
-        bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _layer);
-        return rlt; 
+        grounded = Physics.Raycast(transform.position, -transform.up, out hit, 1f, _layer);
+        //print("Grounded" + grounded);
+        return grounded; 
     }
 
     private bool carFlipped()
@@ -519,48 +546,4 @@ public class LaneSwitcher : MonoBehaviour
         { return false; }
     }
 
-
-    public void controlLanding()
-    {
-        if(CarAttachRamp.carAttach)
-        {
-            if (groundCheck(LayerMask.GetMask("Default")) || checkBelow(LayerMask.GetMask("Liquid")))
-            {
-                rb.useGravity = true;
-                if (landing)
-                {
-                    if (speed <= gearMinSpeeds[0] + 10f)
-                    {
-                        StartCoroutine(LandingCar());
-                        CarAttachRamp.carAttach = false;
-                        landing = false;
-                    }
-                }
-                rb.drag = 0.02f;
-                rb.angularDrag = 0.05f;
-            }
-            else
-            {
-                rb.useGravity = false;
-                rb.drag = 1.2f;
-                rb.angularDrag = 1.2f;
-                rb.AddForce(-transform.up * rb.mass);
-                speed = gearMinSpeeds[0];
-                RaycastHit hit;
-                bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
-                var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-                landing = true;
-            }
-            
-        }
-    }
-
-    IEnumerator LandingCar()
-    {
-        landing = true;
-        while (speed < gearMinSpeeds[0] + 10)
-            speed += 0.01f;
-        yield return new WaitForSeconds(1f);
-    }
 }

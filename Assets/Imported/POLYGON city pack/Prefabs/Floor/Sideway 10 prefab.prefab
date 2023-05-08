@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4119797984719023414}
   m_Layer: 0
   m_Name: Sidewalk_10
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 4278621369827266}
   m_Layer: 0
   m_Name: Sideway 10 prefab
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
