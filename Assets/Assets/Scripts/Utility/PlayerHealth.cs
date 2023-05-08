@@ -43,6 +43,9 @@ public class PlayerHealth : MonoBehaviour
     public TMP_Text healthText;                         // the text displaying the health
     public Image healthBar;                             // the bar displaying the health
 
+    public AudioClip successClip;
+    public AudioClip failureClip;
+
 
     GameObject[] colliderObjects;                       // the individual colliders of the player
 
@@ -96,8 +99,14 @@ public class PlayerHealth : MonoBehaviour
         {
             if(playerScore.spendMoney(repairCost))
             {
+                SoundManager.Instance.Play(successClip, 0.5f);
                 health += (maxHealth * repairPercent / 100f);
+                repairCost = repairCost * 10.5f;
                 health = Mathf.Min(health, maxHealth);
+            }
+            else
+            {
+                SoundManager.Instance.Play(failureClip, 0.5f);
             }
         }
 

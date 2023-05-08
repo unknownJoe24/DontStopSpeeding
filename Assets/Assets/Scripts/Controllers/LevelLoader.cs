@@ -8,7 +8,7 @@ public class LevelLoader : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Level_MainGame_001");
     }
 
     public void Quit()
@@ -18,16 +18,16 @@ public class LevelLoader : MonoBehaviour
 
     public void Leaderboard()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene("Level_Leaderboard");
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Level_MainMenu");
     }
 
     public void Upgrades()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Level_Upgrades");
     }
 }

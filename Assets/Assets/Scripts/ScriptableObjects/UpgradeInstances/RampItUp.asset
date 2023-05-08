@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: e19bb088600a8be4c8e9038b91c54780, type: 3}
   desc: Creates ramps
-  basePrice: 750
+  basePrice: 10000
   priceMult: 500
   multTime: 60
   key: 8

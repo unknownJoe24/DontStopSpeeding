@@ -11,7 +11,7 @@ public class EngineSound : MonoBehaviour
     [SerializeField] private float minVolume = 0.2f;
     [SerializeField] private float maxVolume = 0.5f;
     [Range(0f, 1f)]
-    [SerializeField] public static float volume = 1f;
+    [SerializeField]private float volume = 1f;
 
     private Rigidbody rb;
     private AudioSource engineAudioSource;

@@ -10108,6 +10108,8 @@ MonoBehaviour:
   slider: {fileID: 7118541743479298940, guid: ed800534f2eb68a439e9f3da01aef340, type: 3}
   fillBar: {fileID: 0}
   laneSwitcher: {fileID: 1530498019705823391}
+  successClip: {fileID: 8300000, guid: d8b281cc4761e3944bc12cfb76c2f53c, type: 3}
+  failureClip: {fileID: 8300000, guid: 971118089d27f56409652e20a8aeedab, type: 3}
 --- !u!114 &1530498019705823391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10135,6 +10137,7 @@ MonoBehaviour:
   alTimer: 0
   alProb: 0
   BetterCallAlUI: {fileID: 3084837938214188374, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
+  AlVideo: {fileID: 0}
   speedIncrement: 10
   speedInc: 0
   currentGear: 1
@@ -10214,10 +10217,12 @@ MonoBehaviour:
   regenPercent: 0
   regenRate: 0
   hurtSound: {fileID: 8300000, guid: a7fec449914ac17418da24123bc95657, type: 3}
-  deathSound: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 7edf7fc1f9cad6c4e83e81301bd218c3, type: 3}
   playerScore: {fileID: 0}
   healthText: {fileID: 0}
   healthBar: {fileID: 0}
+  successClip: {fileID: 8300000, guid: d8b281cc4761e3944bc12cfb76c2f53c, type: 3}
+  failureClip: {fileID: 8300000, guid: 971118089d27f56409652e20a8aeedab, type: 3}
 --- !u!1 &1672480277976696
 GameObject:
   m_ObjectHideFlags: 0

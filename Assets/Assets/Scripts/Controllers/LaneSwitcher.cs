@@ -39,8 +39,9 @@ public class LaneSwitcher : MonoBehaviour
     public float alTimer;                                  // when did the last ad play
     public float alProb;                                                       // how often does the ad play
 
-    [SerializeField]
-    GameObject BetterCallAlUI;                            // the video player to play the ad
+    
+    public GameObject BetterCallAlUI;                            // the video player to play the ad
+    public VideoPlayer AlVideo; 
     
     static public bool rampedUp = false;                    // this is being set to static for Ramp Controller script
 
@@ -164,7 +165,7 @@ public class LaneSwitcher : MonoBehaviour
         if (sponsored)
         {
 
-            VideoPlayer AlVideo = BetterCallAlUI.GetComponentInChildren<VideoPlayer>();
+           // VideoPlayer AlVideo = BetterCallAlUI.GetComponentInChildren<VideoPlayer>();
 
             //print("timer " + timer);
             alTimer += Time.deltaTime;

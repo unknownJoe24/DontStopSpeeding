@@ -7,13 +7,15 @@ public class GasSystem : MonoBehaviour
     public float decreaseRate = 20.0f; // 1 gallon per 20 seconds
     public float maxGasLevel = 15.0f;
     public float purchaseAmount = 5.0f;
-    public float purchasePrice = 50.0f;
+    public float purchasePrice = 500.0f;
     public GameObject currScoreHandler; //use private scoreSystem?
     private float lastGasUpdateTime = 0.0f;
     public bool inputDisabled = false;
     public Slider slider;
     public Image fillBar;
     public LaneSwitcher laneSwitcher;
+    public AudioClip successClip;
+    public AudioClip failureClip;
 
     public void Start()
     {
@@ -32,7 +34,7 @@ public class GasSystem : MonoBehaviour
 
         if (Time.time - lastGasUpdateTime >= decreaseRate)
         {
-            gasLevel -= 1.0f;
+            gasLevel -= 10.0f;
             lastGasUpdateTime = Time.time;
             SetGasValue(gasLevel);
 
@@ -48,9 +50,15 @@ public class GasSystem : MonoBehaviour
         {
             if (currScoreHandler.GetComponent<ScoreSystem>().spendMoney(purchasePrice))
             {
+                SoundManager.Instance.Play(successClip, 0.5f);
                 gasLevel += purchaseAmount;
+                purchasePrice = purchasePrice * 10.5f;
                 gasLevel = Mathf.Clamp(gasLevel, 0.0f, maxGasLevel);
                 SetGasValue(gasLevel);
+            }
+            else
+            {
+                SoundManager.Instance.Play(failureClip, 0.5f);
             }
         }
     }

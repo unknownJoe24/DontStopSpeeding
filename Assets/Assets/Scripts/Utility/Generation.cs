@@ -98,12 +98,15 @@ public class Generation : MonoBehaviour
         // initialize chances for what difficulty of road we can spawn
         minVal = 0;
         maxVal = 100;
+        
+        //print("minVal" + minVal + "maxVal" + maxVal);
+        startTime = 0; 
     }
 
     private void Update()
     {
         // time since the game has started
-        float timeSince = Time.time - startTime;
+        float timeSince = Time.timeSinceLevelLoad - startTime; //changed to timeSinceLevelLoaded
 
         // calculates the minimum amount of safe roads between obstacles corresponding to timeSince
         int calcMinSafe = 1 + (int)Mathf.Floor(timeSince / 120f);
@@ -220,7 +223,7 @@ public class Generation : MonoBehaviour
         // get the probabilites for spawning transitions and obstacles, MAY NEED ADJUSTMENT
         int safeProb = Random.Range(numSafe, minSafe + 5);
         int obstProb = Random.Range(minVal, maxVal);
-
+        //print("obstProb" + obstProb);
         
         // what was the ending amount of lanes for the last road spawned
         int prevLanes = getRoad(prev[0]).getLanes()[1];

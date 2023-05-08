@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 6611262d6e62f074d9cb5ba144d602ae, type: 3}
   desc: Provides Immunity to snipers
-  basePrice: 1
-  priceMult: 1
+  basePrice: 10000
+  priceMult: 500
   multTime: 45
   key: 1
