@@ -144,7 +144,7 @@ public class ScoreSystem : MonoBehaviour
     // Updates the score, rank, and money (since money and rank are derived from score) UI elements
     void redisplayInfo()
     {
-        scoreText.text = "Score\n" + score.ToString();
+        scoreText.text = "Score: " + score.ToString();
         moneyText.text = "$" + money.ToString();
         
         if(rank == ranks.POOP.ToString())
@@ -164,7 +164,7 @@ public class ScoreSystem : MonoBehaviour
             rankText.color = Color.yellow;
         }
         
-        rankText.text = "Rank\n" + rank;
+        rankText.text = "Rank: " + rank;
     }
 
 

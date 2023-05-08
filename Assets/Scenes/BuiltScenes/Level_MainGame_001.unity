@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.26773542, g: 0.46380526, b: 0.61436003, a: 1}
+  m_IndirectSpecularColor: {r: 0.2677194, g: 0.46383223, b: 0.6144557, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1318,6 +1318,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4413831334381972873, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6757756296226866587, guid: af384ca59b0f24483b0163f2ae19fe10, type: 3}
       propertyPath: health
       value: 100
@@ -1491,37 +1495,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7021015404393093712, guid: 019877e4f2081cc4583df868b17f428a, type: 3}
   m_PrefabInstance: {fileID: 72534637}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &989979274
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 989979275}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &989979275
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989979274}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 707.1686, y: 273.83624, z: 1.7194824}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 24
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &996811188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1914,6 +1887,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7309975862936760319, guid: 90309b1d453f2e3479789faa25b1736b, type: 3}
+      propertyPath: alVideo
+      value: 
+      objectReference: {fileID: 896326671}
+    - target: {fileID: 7309975862936760319, guid: 90309b1d453f2e3479789faa25b1736b, type: 3}
+      propertyPath: engineS
+      value: 
+      objectReference: {fileID: 1516109007}
     - target: {fileID: 7309975862936760319, guid: 90309b1d453f2e3479789faa25b1736b, type: 3}
       propertyPath: pauseMenu
       value: 

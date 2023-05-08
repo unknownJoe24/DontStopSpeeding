@@ -182,7 +182,7 @@ public class PlayerHealth : MonoBehaviour
 
     void redisplayInfo()
     {
-        healthText.text = "HP: " + health.ToString();
+        healthText.text = "HP: " + (Mathf.Ceil(health).ToString());
         healthBar.fillAmount = health / 100;
     }
 
