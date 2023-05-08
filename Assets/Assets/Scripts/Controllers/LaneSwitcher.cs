@@ -36,11 +36,11 @@ public class LaneSwitcher : MonoBehaviour
     private float ampStart;                                 // when did the amphibious effect start
 
     public bool sponsored = false;                          // does the player have the Al upgrade
-    private float alTimer;                                  // when did the last ad play
-    private float alTime;                                   // how often does the ad play
+    public float alTimer;                                  // when did the last ad play
+    public float alProb;                                                       // how often does the ad play
 
     [SerializeField]
-    private VideoPlayer vPlayer;                            // the video player to play the ad
+    GameObject BetterCallAlUI;                            // the video player to play the ad
     
     static public bool rampedUp = false;                    // this is being set to static for Ramp Controller script
 
@@ -116,6 +116,7 @@ public class LaneSwitcher : MonoBehaviour
 
     void Update()
     {
+        
         // gets the speed of the player?
         speed = transform.InverseTransformDirection(rb.velocity).z;
 
@@ -158,14 +159,33 @@ public class LaneSwitcher : MonoBehaviour
         {
             ChangeGear();
         }
-
+        
         // handle Better Call Al's sponsorship segment
-        if (sponsored && Time.time - alTimer > alTime)
+        if (sponsored)
         {
-            // Better Call Al!
-            StartCoroutine(vPlayer.GetComponent<StreamVideo>().PlayVideo());
-            alTimer = Time.time;
-            alTime = 200f + (Random.Range(0f, 1f) * 300f);
+
+            VideoPlayer AlVideo = BetterCallAlUI.GetComponentInChildren<VideoPlayer>();
+
+            //print("timer " + timer);
+            alTimer += Time.deltaTime;
+            if (alTimer >= 5.0f)
+            {
+                BetterCallAlUI.transform.localPosition = new Vector3(Random.Range(-Screen.width, Screen.width), Random.Range(-Screen.height, Screen.height), 0);
+                alTimer = 0;
+                if (!AlVideo.isPlaying)
+                {
+                    alProb = Random.Range(0.0f, 1.0f);
+                }
+
+                print("tmpProb" + alProb);
+                if (alProb <= 0.3 && !AlVideo.isPlaying)
+                {
+                    StartCoroutine(AlVideo.GetComponent<StreamVideo>().PlayVideo());
+
+                }
+
+            }
+
         }
 
 
@@ -192,8 +212,6 @@ public class LaneSwitcher : MonoBehaviour
         {
             rb.drag += 0.05f;
         }
-
-
     }
 
 
@@ -237,7 +255,7 @@ public class LaneSwitcher : MonoBehaviour
 
         if (grounded)
         {
-            if (!landing)
+            if (!CarAttachRamp.carAttach)
             {
 
                 if (sinceStart >= startMinSpeed && speed < minSpeed && !healthInfo.dead && !bombInfo.getCompleted())
@@ -250,17 +268,15 @@ public class LaneSwitcher : MonoBehaviour
             }
             else
             {
+
                 multMaxSpeed(1.2f);
                 speed *= 1.2f;
+                CarAttachRamp.carAttach = false; 
                 landing = false; 
             }
         }
         else
         {
-            //RaycastHit hit;
-            //bool rlt = Physics.Raycast(transform.position, -transform.up, out hit, LayerMask.GetMask("Default"));
-            //var targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
             speed = Mathf.Min(gearMaxSpeeds[currentGear - 1], gearMaxSpeeds[currentGear - 1] + 10);
 
         }
@@ -506,8 +522,8 @@ public class LaneSwitcher : MonoBehaviour
         healthInfo.regenRate = 5f;
         healthInfo.regenPercent = healthInfo.maxHealth * .05f;
         healthInfo.regen = true;
-        alTimer = Time.time;
-        alTime = 200f + (Random.Range(0f, 1f) * 300f);
+        
+        
     }
 
     public bool getRamp()

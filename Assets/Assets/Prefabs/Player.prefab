@@ -10132,7 +10132,9 @@ MonoBehaviour:
   amphibious: 0
   ampTime: 3
   sponsored: 0
-  vPlayer: {fileID: 0}
+  alTimer: 0
+  alProb: 0
+  BetterCallAlUI: {fileID: 3084837938214188374, guid: 96cd70038c4e6478897686ea28e0318a, type: 3}
   speedIncrement: 10
   speedInc: 0
   currentGear: 1

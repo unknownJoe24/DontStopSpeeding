@@ -114,11 +114,11 @@ public class ScoreSystem : MonoBehaviour
     {
         // calculates the score, getSpeedMult(aSpeed) is only called if 30 seconds have passed
         int tempScore = (int)Mathf.Floor(1.5f * Mathf.Pow(eTime, 2f) * getSpeedMult(aSpeed));
-        print("Mathf.Pow(eTime, 2f) = " + Mathf.Pow(eTime, 2f) + "getSpeedMult( " + aSpeed + " ) =" + getSpeedMult(aSpeed));
+        //print("Mathf.Pow(eTime, 2f) = " + Mathf.Pow(eTime, 2f) + "getSpeedMult( " + aSpeed + " ) =" + getSpeedMult(aSpeed));
 
         // only increase the score
         score = tempScore > score ? tempScore : score;
-        if (tempScore < score) print("tempScore" + tempScore + " score: " + score); ;
+        //if (tempScore < score) print("tempScore" + tempScore + " score: " + score); ;
         //print("Score: " + score + " tempScore: " + tempScore);
         money = score / 4 - moneySpent;
 
