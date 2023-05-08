@@ -190,6 +190,8 @@ public class PlayerHealth : MonoBehaviour
     public void killPlayer()
     {
         dead = true;
+        health = 0;
+        redisplayInfo();
 
         // stop movement
         playerInfo.DisableMovement = true;
