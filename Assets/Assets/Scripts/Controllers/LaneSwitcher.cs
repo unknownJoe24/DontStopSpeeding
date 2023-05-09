@@ -92,6 +92,8 @@ public class LaneSwitcher : MonoBehaviour
 
         ampStart = -1f;
 
+        rampedUp = false;
+
         sinceInc = 0f;
 
         // copy base speeds into real time speeds
