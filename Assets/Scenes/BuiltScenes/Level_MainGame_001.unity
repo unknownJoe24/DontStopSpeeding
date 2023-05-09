@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2670456, g: 0.463324, b: 0.6142878, a: 1}
+  m_IndirectSpecularColor: {r: 0.26643524, g: 0.46271974, b: 0.61383885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1098,6 +1098,10 @@ PrefabInstance:
       propertyPath: healthSys
       value: 
       objectReference: {fileID: 1516109008}
+    - target: {fileID: 8193683810851179460, guid: 3a77fd89c026c0141893bf87573ebcde, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 8193683812453179485, guid: 3a77fd89c026c0141893bf87573ebcde, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2462,7 +2466,7 @@ PrefabInstance:
     - target: {fileID: 8269502127839853481, guid: d5ab184b890cc5740a2a59384db52779, type: 3}
       propertyPath: riskyItems.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 6e314fa703d4bcb449208f5bc5df3309, type: 2}
+      objectReference: {fileID: 11400000, guid: 3be6f73116e4eb84ea35a5adcf539886, type: 2}
     - target: {fileID: 8269502127839853482, guid: d5ab184b890cc5740a2a59384db52779, type: 3}
       propertyPath: m_RootOrder
       value: 5
