@@ -34,7 +34,7 @@ public class GasSystem : MonoBehaviour
 
         if (Time.time - lastGasUpdateTime >= decreaseRate)
         {
-            gasLevel -= 10.0f;
+            gasLevel -= 1.0f;
             lastGasUpdateTime = Time.time;
             SetGasValue(gasLevel);
 
