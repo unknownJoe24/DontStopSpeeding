@@ -19,6 +19,8 @@ public class GasSystem : MonoBehaviour
 
     public void Start()
     {
+        gasLevel = maxGasLevel;
+        lastGasUpdateTime = Time.time;
         laneSwitcher = GetComponent<LaneSwitcher>();
         slider.maxValue = maxGasLevel;
         SetGasValue(gasLevel);
@@ -52,7 +54,6 @@ public class GasSystem : MonoBehaviour
             {
                 SoundManager.Instance.Play(successClip, 0.5f);
                 gasLevel += purchaseAmount;
-                purchasePrice = purchasePrice * 10.5f;
                 gasLevel = Mathf.Clamp(gasLevel, 0.0f, maxGasLevel);
                 SetGasValue(gasLevel);
             }

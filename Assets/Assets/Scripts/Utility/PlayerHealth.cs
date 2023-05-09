@@ -101,7 +101,6 @@ public class PlayerHealth : MonoBehaviour
             {
                 SoundManager.Instance.Play(successClip, 0.5f);
                 health += (maxHealth * repairPercent / 100f);
-                repairCost = repairCost * 10.5f;
                 health = Mathf.Min(health, maxHealth);
             }
             else
